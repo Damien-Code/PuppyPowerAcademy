@@ -7,6 +7,10 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+Route::get('dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware('auth')->name('dashboard');
+
 Route::get('webshop', function () {
     return Inertia::render('webshop/Index');
 })->name('webshop/Index');

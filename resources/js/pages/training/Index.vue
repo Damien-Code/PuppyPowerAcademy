@@ -6,14 +6,14 @@ import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Training',
+        href: '/training',
     },
 ];
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Training" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <section>
