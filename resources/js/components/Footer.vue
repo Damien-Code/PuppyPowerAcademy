@@ -13,7 +13,7 @@ const items: FooterItem[] = [
 ];
 </script>
 <template>
-    <div class="min-w-3xl flex justify-evenly">
+    <div class="flex justify-evenly">
         <div v-for="item in items" :key="item.title" class="p-4">
             <a :href="item.href" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
         </div>
