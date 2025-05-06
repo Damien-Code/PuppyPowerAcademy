@@ -50,7 +50,7 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'dagopvang',
+        title: 'Dagopvang',
         href: '/dagopvang',
         icon: Folder,
     }

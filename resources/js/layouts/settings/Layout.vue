@@ -18,6 +18,26 @@ const sidebarNavItems: NavItem[] = [
         title: 'Appearance',
         href: '/settings/appearance',
     },
+    {
+        title: 'Admin',
+        href: '/settings/admin/webshop',
+    },
+    {
+        title: 'Webshop',
+        href: '/settings/admin/webshop',
+    },
+    {
+        title: 'Training',
+        href: '/settings/admin/training',
+    },
+    {
+        title: 'Dagopvang',
+        href: '/settings/admin/dagopvang',
+    },
+    {
+        title: 'Contact',
+        href: '/settings/admin/contact',
+    },
 ];
 
 const page = usePage();
