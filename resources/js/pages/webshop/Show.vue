@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
-    <Head title="Webshop" />
+    <Head title="Item" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">

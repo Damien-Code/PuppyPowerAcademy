@@ -27,7 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <label>Email</label>
                 <Input />
                 <label>Datum</label>
-                <input type="date" class="rounded-md border-2 border-gray-200 mb-12" />
+
                 <Button>Plan</Button>
             </form>
         </div>
