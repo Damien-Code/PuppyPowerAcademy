@@ -27,7 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     Asperiores consequuntur deleniti eaque est ex hic ipsa neque, quae quia vel.
                 </p>
                 <div class="mb-8 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 lg:mb-16">
-                    <Button>Plan afspraak</Button>
+                    <a :href="route('dagopvang.planning')"><Button>Plan afspraak</Button> </a>
                 </div>
             </div>
         </div>

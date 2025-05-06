@@ -15,6 +15,10 @@ Route::get('webshop', function () {
     return Inertia::render('webshop/Index');
 })->name('webshop/Index');
 
+Route::get('webshop/{id}', function () {
+    return Inertia::render('webshop/Show');
+})->name('webshop.show');
+
 Route::get('training', function () {
     return Inertia::render('training/Index');
 })->name('training/Index');
@@ -22,6 +26,10 @@ Route::get('training', function () {
 Route::get('dagopvang', function () {
     return Inertia::render('dagopvang/Index');
 })->name('dagopvang/Index');
+
+Route::get('dagopvang/planning', function () {
+    return Inertia::render('dagopvang/Planning');
+})->name('dagopvang.planning');
 
 Route::get('home', function () {
     return Inertia::render('Home');

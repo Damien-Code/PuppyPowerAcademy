@@ -45,7 +45,7 @@ const mainNavItems: NavItem[] = [
         icon: Folder,
     },
     {
-        title: 'Training.vue',
+        title: 'Training',
         href: '/training',
         icon: LayoutGrid,
     },
