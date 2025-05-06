@@ -3,10 +3,11 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Training',
+        title: 'Training.vue',
         href: '/training',
     },
 ];
@@ -137,5 +138,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </div>
         </section>
+        <Footer/>
     </AppLayout>
 </template>

@@ -18,4 +18,20 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');
     })->name('appearance');
+
+    Route::get('settings/admin/webshop', function () {
+        return Inertia::render('settings/admin/Webshop');
+    })->name('admin.webshop');
+
+    Route::get('settings/admin/dagopvang', function () {
+        return Inertia::render('settings/admin/Dagopvang');
+    })->name('admin.dagopvang');
+
+    Route::get('settings/admin/training', function () {
+        return Inertia::render('settings/admin/Training');
+    })->name('admin.training');
+
+    Route::get('settings/admin/contact', function () {
+        return Inertia::render('settings/admin/Contact');
+    })->name('admin.contact');
 });
