@@ -12,6 +12,31 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/webshop',
     },
 ];
+// Use this if time is added to planning for daycare
+
+// import { ref } from 'vue';
+// import VueDatePicker from '@vuepic/vue-datepicker';
+// import '@vuepic/vue-datepicker/dist/main.css'
+//
+// const date = ref();
+
+// import { cn } from '@/utils'
+
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+    DateFormatter,
+    type DateValue,
+    getLocalTimeZone,
+} from '@internationalized/date'
+import { CalendarIcon } from 'lucide-vue-next'
+import { ref } from 'vue'
+
+const df = new DateFormatter('en-US', {
+    dateStyle: 'long',
+})
+
+const value = ref<DateValue>()
 </script>
 
 <template>
@@ -27,8 +52,21 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <label>Email</label>
                 <Input />
                 <label>Datum</label>
-
-                <Button>Plan</Button>
+                <Popover>
+                    <PopoverTrigger as-child>
+                        <Button
+                            variant="outline"
+                        >
+                            <CalendarIcon class="mr-2 h-4 w-4" />
+                            {{ value ? df.format(value.toDate(getLocalTimeZone())) : "Pick a date" }}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-auto p-0">
+                        <Calendar v-model="value" initial-focus />
+                    </PopoverContent>
+                </Popover>
+<!--                <VueDatePicker/>-->
+                <Button class="mt-12">Plan</Button>
             </form>
         </div>
         <Footer />
