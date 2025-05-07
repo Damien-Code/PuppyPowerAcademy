@@ -13,12 +13,11 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Award, BookOpen, CalendarDays, Folder, Menu, Search, Store } from 'lucide-vue-next';
+import { Award, BookOpen, CalendarDays, Folder, Menu, Store, ShoppingCart} from 'lucide-vue-next';
 import { computed } from 'vue';
 
 interface Props {
@@ -145,6 +144,12 @@ const rightNavItems: NavItem[] = [
                 </div>
 
                 <div class="ml-auto flex items-center space-x-2">
+                    <div class="relative flex items-center space-x-1">
+                        <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
+                            <a :href="route('webshop.cart')"><ShoppingCart class="size-5 opacity-80 group-hover:opacity-100" /></a>
+                        </Button>
+                    </div>
+
                     <DropdownMenu v-if="$page.props.auth.user">
                         <DropdownMenuTrigger :as-child="true">
                             <Button

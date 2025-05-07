@@ -15,7 +15,11 @@ Route::get('webshop', function () {
     return Inertia::render('webshop/Index');
 })->name('webshop/Index');
 
-Route::get('webshop/{id}', function () {
+Route::get('webshop/cart', function () {
+    return Inertia::render('webshop/Cart');
+})->name('webshop.cart')->middleware('auth');
+
+Route::get('webshop/{id}', function (int $id) {
     return Inertia::render('webshop/Show');
 })->name('webshop.show');
 
@@ -42,6 +46,9 @@ Route::get('about', function () {
 Route::get('contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
+
+
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

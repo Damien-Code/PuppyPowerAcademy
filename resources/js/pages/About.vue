@@ -18,19 +18,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <p>About</p>
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
+            <div class="relative max-h-56 flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min p-8">
+                <PlaceholderPattern/>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <PlaceholderPattern />
+            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min p-8">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut beatae dignissimos eaque et minus numquam obcaecati odit, placeat quaerat ratione saepe voluptas voluptate. Ab corporis incidunt iusto nesciunt pariatur, tenetur.</p>
             </div>
         </div>
         <Footer/>
