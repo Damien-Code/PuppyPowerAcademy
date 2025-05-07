@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+//Route::get('/', function () {
+//    return Inertia::render('Welcome');
+//})->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
@@ -29,9 +29,9 @@ Route::get('dagopvang', function () {
 
 Route::get('dagopvang/planning', function () {
     return Inertia::render('dagopvang/Planning');
-})->name('dagopvang.planning');
+})->name('dagopvang.planning')->middleware('auth');
 
-Route::get('home', function () {
+Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
