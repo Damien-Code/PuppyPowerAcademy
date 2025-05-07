@@ -19,7 +19,7 @@ Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
 })->name('webshop.cart')->middleware('auth');
 
-Route::get('webshop/{id}', function (int $id) {
+Route::get('webshop/{id}', function () {
     return Inertia::render('webshop/Show');
 })->name('webshop.show');
 
