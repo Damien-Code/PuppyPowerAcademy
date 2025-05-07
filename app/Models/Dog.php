@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Dog extends Model
+{
+    /** @use HasFactory<\Database\Factories\OrderFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'race',
+        'user_id',
+        'age', //kan maybe weg
+        'been_to_daycare'
+    ];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function dogTraining(){
+        return $this->hasMany(Dog_Training::class);
+    }
+
+    protected $table = 'dogs';
+}
