@@ -13,8 +13,16 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
+            $table->string('role_name', 45);
             $table->timestamps();
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('role_id')->default(2)->constrained('roles');
+        });
+        DB::table('roles')->insert([
+            ['role_name' => 'admin', 'created_at' => now(), 'updated_at' => now()],
+            ['role_name' => 'user', 'created_at' => now(), 'updated_at' => now()],
+        ]);
     }
 
     /**
@@ -23,5 +31,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('roles');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('role_id');
+            $table->dropColumn('role_name');
+        });
     }
 };

@@ -22,5 +22,5 @@ class Order_Product extends Model
         return $this->belongsTo(Product::class);
     }
 
-    protected $table = 'orderProducts';
+    protected $table = 'order_products';
 }

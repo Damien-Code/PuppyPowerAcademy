@@ -12,7 +12,6 @@ class Daycare extends Model
 
     protected $fillable = [
         'date',
-        'time'
     ];
     public function daycareDog(){
         return $this->hasMany(Daycare_Dog::class);

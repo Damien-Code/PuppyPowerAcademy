@@ -21,5 +21,5 @@ class Daycare_Dog extends Model
         return $this->belongsTo(Daycare::class);
     }
 
-    protected $table = 'daycareDogs';
+    protected $table = 'daycare_dogs';
 }

@@ -9,4 +9,13 @@ class Training extends Model
 {
     /** @use HasFactory<\Database\Factories\TrainingFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'price',
+        'description',
+        'link'
+    ];
+
+    protected $table = 'trainings';
 }

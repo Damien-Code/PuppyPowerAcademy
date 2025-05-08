@@ -22,5 +22,5 @@ class Dog_Training extends Model
         return $this->belongsTo(Training::class);
     }
 
-    protected $table = 'dogTrainings';
+    protected $table = 'dog_trainings';
 }

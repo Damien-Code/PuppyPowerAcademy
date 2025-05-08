@@ -22,5 +22,5 @@ class Cart_Product extends Model
         return $this->belongsTo(Product::class);
     }
 
-    protected $table = 'cartProducts';
+    protected $table = 'cart_products';
 }

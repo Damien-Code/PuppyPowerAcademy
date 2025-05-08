@@ -22,6 +22,7 @@ class DogFactory extends Factory
             'race' => $this->faker->words(1, true),
             'user_id' => User::inRandomOrder()->first(),
             'age' => $this->faker->numberBetween(1, 12),
+            'been_to_daycare' => $this->faker->boolean(0,5)
         ];
     }
 }

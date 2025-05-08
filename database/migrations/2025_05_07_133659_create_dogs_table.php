@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('dogs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('race');
+            $table->foreignId('user_id')->constrained('users');
+            $table->integer('age');
+            $table->boolean('been_to_daycare');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
