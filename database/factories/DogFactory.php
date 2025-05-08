@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class DogFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->firstName($gender = null),
+            'race' => $this->faker->words(1, true),
+            'user_id' => User::inRandomOrder()->first(),
+            'age' => $this->faker->numberBetween(1, 12),
         ];
     }
 }

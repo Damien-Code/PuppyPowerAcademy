@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Dog;
+use App\Models\Training;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class DogTrainingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'dog_id' => Dog::inRandomOrder()->first(),
+            'training_id' => Training::inRandomOrder()->first(),
+            'completed' => $this->faker->boolean(0.5),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Dog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class DaycareFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date' => $this->faker->dateTimeBetween('now', '+7 days')->format('Y-m-d'),
         ];
     }
 }

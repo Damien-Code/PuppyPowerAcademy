@@ -17,7 +17,10 @@ class TrainingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->words(2, true),
+            'price' => $this->faker->numberBetween(2.5,12.5),
+            'description' => $this->faker->paragraph(),
+            'link' => $this->faker->url(),
         ];
     }
 }

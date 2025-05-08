@@ -3,7 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Dog;
+use App\Models\Daycare;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Daycare_Dog>
  */
@@ -17,7 +18,8 @@ class DaycareDogFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'dog_id' => Dog::inRandomOrder()->first(),
+            'daycare_id' => Daycare::inRandomOrder()->first()
         ];
     }
 }
