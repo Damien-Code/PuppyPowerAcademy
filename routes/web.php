@@ -12,9 +12,8 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::resource('webshop', WebshopController::class)
-    ->only(['index', 'show'])->missing(function () {return redirect()->route('webshop.index')->withErrors(['Webshop' => 'Invalid, does not exist.']);});
-
+Route::resource('webshop', WebshopController::class);
+   
 
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');

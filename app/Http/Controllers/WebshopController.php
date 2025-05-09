@@ -39,10 +39,9 @@ class WebshopController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        // $product->load('media', 'taskCategories');
-        // $product->append('mediaFile');
+        $product = Product::find($id);
         return Inertia::render('webshop/Show', [
             'product' => $product,
         ]);
