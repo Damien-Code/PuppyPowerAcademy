@@ -3,6 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Cart;
+use App\Models\Product;
+use App\Models\Cart_Product;
+use App\Models\Contact;
+use App\Models\Dog;
+use App\Models\Daycare;
+use App\Models\Daycare_Dog;
+use App\Models\Training;
+use App\Models\Dog_Training;
+use App\Models\Order;
+use App\Models\Order_Product;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +30,26 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        User::factory()->create([
+            'name' => 'test test',
+            'email' => 'test@test.test',
+            'role_id' => '1'
+        ]);
+
+        User::factory(10)->create(['role_id' => 2]);
+        Cart::factory(10)->create();
+        Product::factory(10)->create();
+        Order::factory(10)->create(); // CHECK THIS FACTORY
+        Dog::factory(10)->create();
+        Training::factory(10)->create();
+        Daycare::factory(10)->create();
+        Contact::factory(10)->create();
+        
+        Daycare_Dog::factory(10)->create();
+        Dog_Training::factory(10)->create();
+        Cart_Product::factory(10)->create();
+        Order_Product::factory(10)->create();
+        
+        
     }
 }
