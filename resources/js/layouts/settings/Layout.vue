@@ -19,6 +19,11 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/appearance',
     },
     {
+        title: 'Bestelgeschiedenis',
+        href: '/settings/order-history',
+        // href: `route('settings/order-history')`,
+    },
+    {
         title: 'Admin',
         href: '/settings/admin/webshop',
     },
