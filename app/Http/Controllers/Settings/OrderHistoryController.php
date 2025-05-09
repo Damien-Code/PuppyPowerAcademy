@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Order_Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +15,11 @@ class OrderHistoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('settings/OrderHistory');
+//        $orders = Order_Product::with('product', 'order')->get();
+//        dd($orders);
+        return Inertia::render('settings/OrderHistory',[
+            'order_products' => Order_Product::with('product', 'order')->get()
+        ]);
     }
 
     /**
