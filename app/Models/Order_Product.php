@@ -16,7 +16,7 @@ class Order_Product extends Model
         'amount'
     ];
     public function order(){
-        return $this->belongsTo(Cart::class);
+        return $this->belongsTo(Order::class);
     }
     public function product(){
         return $this->belongsTo(Product::class);
