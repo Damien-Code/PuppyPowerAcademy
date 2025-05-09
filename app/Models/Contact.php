@@ -15,7 +15,8 @@ class Contact extends Model
         'first_name',
         'last_name',
         'email',
-        'message'
+        'message',
+        'is_completed'
     ];
 
     protected $table = 'contacts';
