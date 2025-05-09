@@ -17,7 +17,8 @@ interface Props {
     order_products: any;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const orders = props.order_products;
 </script>
 
 <template>
@@ -28,14 +29,14 @@ defineProps<Props>();
             <div class="space-y-6">
                 <HeadingSmall title="Bestelgeschiedenis" description="Update your account's appearance settings" />
                 <div v-for="order in order_products" :key="order">
-<!--                    <p>{{ order.product.name }}</p>-->
+                    <p>Product name: {{ order.product.name }}</p>
 <!--                    <p>{{ order.product.description }}</p>-->
 <!--                    <p>{{ order.product.price }}</p>-->
 <!--                    <p> {{ order.amount }} </p>-->
                     <p>Order id: {{order.order_id}}</p>
                     <p>Order by: {{ order.order.user_id}}</p>
                     <p>Total Price: {{ order.amount * order.product.price}}</p>
-
+                    <p>{{ orders}}</p>
                 </div>
             </div>
         </SettingsLayout>
