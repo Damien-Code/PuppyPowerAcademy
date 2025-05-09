@@ -18,7 +18,7 @@ class Order extends Model
         'city',
         'street',
         'houseNumber',
-        'totalPrice',
+        // 'totalPrice',
     ];
     public function user(){
         return $this->belongsTo(User::class);
