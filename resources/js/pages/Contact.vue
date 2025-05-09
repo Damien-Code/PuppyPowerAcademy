@@ -4,7 +4,6 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Heading from '@/components/Heading.vue';
-import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -48,8 +47,7 @@ const submit = () => {
         <Toaster/>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="border-sidebar-border/70 dark:border-sidebar-border flex min-h-[15vh] flex-col items-center justify-center rounded-xl border p-4 mb-12">
-                <Heading title="Contact" />
-                <heading-small title="Mocht u vragen hebben, stel ze gerust via dit contactformulier" />
+                <Heading title="Contact" description="Mocht u vragen hebben, stel ze gerust via dit contactformulier"/>
             </div>
             <div class="border-sidebar-border/70 dark:border-sidebar-border relative mx-auto rounded-xl border md:min-h-min">
                 <form class="flex flex-col justify-between gap-4 p-4 md:w-96 min-h-full" @submit.prevent="submit">
@@ -66,7 +64,7 @@ const submit = () => {
                     <textarea v-model="form.message" class="border-1 border-b-gray-200 rounded-md h-24"></textarea>
                     <InputError :message="form.errors.message"/>
                     <input type="hidden" v-model="form.is_completed" />
-                    <Button type="submit">Versturen</Button>
+                    <Button type="submit" :disabled="form.processing">Versturen</Button>
                 </form>
             </div>
         </div>
