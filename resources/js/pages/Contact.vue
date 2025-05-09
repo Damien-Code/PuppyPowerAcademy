@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'vue-sonner';
 import { Toaster} from '@/components/ui/sonner';
 import InputError from '@/components/InputError.vue';
-import { formatDate } from '@vueuse/core';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,6 +34,9 @@ const submit = () => {
         onSuccess: () => {
             form.reset();
         toast.success('Uw bericht is verstuurd');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan');
         },
     });
 };
