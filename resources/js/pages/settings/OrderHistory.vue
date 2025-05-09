@@ -18,7 +18,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const orders = props.order_products;
 </script>
 
 <template>
@@ -36,7 +35,8 @@ const orders = props.order_products;
                     <p>Order id: {{order.order_id}}</p>
                     <p>Order by: {{ order.order.user_id}}</p>
                     <p>Total Price: {{ order.amount * order.product.price}}</p>
-                    <p>{{ orders}}</p>
+                    <p>{{ order.order.postal_code}}</p>
+                    <p>Amount: {{ order.amount}}</p>
                 </div>
             </div>
         </SettingsLayout>
