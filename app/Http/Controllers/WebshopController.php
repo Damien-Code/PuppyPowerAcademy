@@ -69,4 +69,9 @@ class WebshopController extends Controller
     {
         //
     }
+
+    public function add(Product $product)
+    {
+        dd($product);
+    }
 }

@@ -22,7 +22,7 @@ const product = props.product;
 </script>
 
 <template>
-    <Head title="Item" />
+    <Head :title=" product.name " />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -128,12 +128,13 @@ const product = props.product;
                             </div> -->
                         </div>
 
-                        <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                           <Button>
-                               
-                               
-                               <a
-                               href="#"
+                        <!-- <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8"> -->
+                           <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
+                           >   
+                           <!-- :href="route('webshop.add',product.id)" -->
+
+                           
+                           <a
                                title=""
                                class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
                                role="button"
@@ -159,7 +160,7 @@ const product = props.product;
                             Add to cart
                         </a>
                     </Button>
-                        </div>
+                        <!-- </div> -->
 
                         <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 
