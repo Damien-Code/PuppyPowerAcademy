@@ -41,4 +41,34 @@ export interface User {
     updated_at: string;
 }
 
+export interface OrderProducts {
+    order: Order;
+    product: Product;
+    amount: number;
+}
+
+export interface Order {
+    id: number;
+    user_id: number;
+    postal_code: string;
+    country: string;
+    city: string;
+    street: string;
+    house_number: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
