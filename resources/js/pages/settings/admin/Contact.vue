@@ -7,11 +7,12 @@ import { Switch } from '@/components/ui/switch'
 
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Message, type BreadcrumbItem } from '@/types';
 import { reactive } from 'vue';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+import { useDateFormat } from '@vueuse/core';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -24,16 +25,8 @@ interface Props {
     messages: Message[];
 }
 
-const messages = reactive<Message[]>([
-    {
-        first_name: 'Floris',
-        last_name: 'Hafkenscheid',
-        email: 'floris@hafkenscheid.com',
-        message: 'ewpgohkwsdjkfjwhi4geyfkhjsk wouhfwekfdjewoufyei fhw ifgejwg w',
-        is_completed: true,
-        created_at: '12-03-2025T12:00:23'
-    }
-])
+defineProps<Props>();
+
 </script>
 
 <template>
@@ -55,7 +48,7 @@ const messages = reactive<Message[]>([
                     </TableHeader>
                     <TableBody>
                         <TableRow v-for="message in messages" :key="message.id" class="">
-                            <TableCell>{{ message.created_at }}</TableCell>
+                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
                             <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
                             <TableCell>{{ message.email }}</TableCell>
                             <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
