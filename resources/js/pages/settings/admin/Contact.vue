@@ -19,6 +19,21 @@ const breadcrumbItems: BreadcrumbItem[] = [
         href: '/settings/admin',
     },
 ];
+
+interface Props {
+    messages: Message[];
+}
+
+const messages = reactive<Message[]>([
+    {
+        first_name: 'Floris',
+        last_name: 'Hafkenscheid',
+        email: 'floris@hafkenscheid.com',
+        message: 'ewpgohkwsdjkfjwhi4geyfkhjsk wouhfwekfdjewoufyei fhw ifgejwg w',
+        is_completed: true,
+        created_at: '12-03-2025T12:00:23'
+    }
+])
 </script>
 
 <template>
@@ -31,6 +46,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
                 <Table class="">
                     <TableHeader>
                         <TableRow>
+                            <TableHead>Geplaatst op</TableHead>
                             <TableHead>Naam</TableHead>
                             <TableHead>E-Mail</TableHead>
                             <TableHead class="max-w-1/2">Bericht</TableHead>
@@ -39,7 +55,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
                     </TableHeader>
                     <TableBody>
                         <TableRow v-for="message in messages" :key="message.id" class="">
-                            <TableCell>{{ message.name }}</TableCell>
+                            <TableCell>{{ message.created_at }}</TableCell>
+                            <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
                             <TableCell>{{ message.email }}</TableCell>
                             <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                             <TableCell class="flex">
