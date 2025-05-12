@@ -7,7 +7,7 @@ import Heading from '@/components/Heading.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { toast } from 'vue-sonner';
+import { toast } from 'vue-sonner'
 import { Toaster} from '@/components/ui/sonner';
 import InputError from '@/components/InputError.vue';
 
