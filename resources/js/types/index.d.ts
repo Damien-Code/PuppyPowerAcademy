@@ -59,6 +59,7 @@ export interface Order {
     updated_at: string;
     deleted_at: string;
     totalPrice: number;
+    order_products: OrderProducts[];
 }
 
 export interface Product {

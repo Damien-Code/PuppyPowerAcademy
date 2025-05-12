@@ -5,7 +5,7 @@ import { Dialog, DialogDescription, DialogHeader, DialogScrollContent, DialogTit
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { type BreadcrumbItem, type Order, type OrderProducts, type Product } from '@/types';
+import { type BreadcrumbItem, type Order } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { useDateFormat } from '@vueuse/core';
 
@@ -17,9 +17,9 @@ const breadcrumbItems: BreadcrumbItem[] = [
 ];
 
 interface Props {
-    order_products: OrderProducts[];
+    // order_products: OrderProducts[];
     orders: Order[];
-    products: Product;
+    // products: Product;
 }
 
 defineProps<Props>();
@@ -43,9 +43,7 @@ defineProps<Props>();
                         <TableRow v-for="order in orders" :key="order.id">
                             <TableCell>{{ order.id }}</TableCell>
                             <TableCell>{{ useDateFormat(order.created_at, 'YYYY-MM-DD') }}</TableCell>
-                            <!--                            <TableCell>{{ orde * order_product.product.price }}</TableCell>-->
-                            <TableCell>{{ order.totalPrice }}</TableCell>
-                            <TableCell>Prijs</TableCell>
+                            <TableCell>&euro;{{ order.totalPrice }}</TableCell>
                             <TableCell>
                                 <Dialog>
                                     <DialogTrigger as-child>
@@ -56,24 +54,29 @@ defineProps<Props>();
                                             <DialogTitle>Bestelde product</DialogTitle>
                                             <DialogDescription> Bekijk hier uw bestelde product</DialogDescription>
                                         </DialogHeader>
-                                        <div class="py-4">
-                                            <div class="pb-8">
+                                        <div>
+                                            <div>
                                                 <HeadingSmall title="Order ID" :description="order.id.toString()" />
                                             </div>
-                                            <div class="grid items-center gap-8" v-for="product in order_products" :key="product.product.id">
-                                                <div>
-                                                    <HeadingSmall title="Product" :description="product.product.name" />
+                                            <div v-if="order.order_products.length != 0">
+                                                <div v-for="orderProducts in order.order_products" :key="orderProducts.product.id" class="pt-8">
+                                                    <div class="pb-2">
+                                                        <HeadingSmall title="Product" :description="orderProducts.product.name" />
+                                                    </div>
+                                                    <div class="pb-2">
+                                                        <HeadingSmall title="Beschrijving" :description="orderProducts.product.description" />
+                                                    </div>
+                                                    <div class="pb-2">
+                                                        <HeadingSmall title="Hoeveelheid" :description="orderProducts.amount.toString()" />
+                                                    </div>
+                                                    <div class="pb-8">
+                                                        <HeadingSmall title="Artikel prijs" :description="orderProducts.product.price.toString()" />
+                                                    </div>
+                                                    <hr>
                                                 </div>
-                                                <div>
-                                                    <HeadingSmall title="Beschrijving" :description="product.product.description" />
-                                                </div>
-                                                <div>
-                                                    <HeadingSmall title="Hoeveelheid" :description="product.amount.toString()" />
-                                                </div>
-                                                <div>
-                                                    <HeadingSmall title="Artikel prijs" :description="product.product.price.toString()" />
-                                                </div>
-                                                <hr />
+                                            </div>
+                                            <div v-else>
+                                                <HeadingSmall title="Geen artikelen gevonden" description="Deze order heeft geen artikelen" />
                                             </div>
                                         </div>
                                     </DialogScrollContent>
@@ -82,8 +85,7 @@ defineProps<Props>();
                         </TableRow>
                     </TableBody>
                 </Table>
-
-                <div v-if="order_products.length == 0">
+                <div v-if="orders.length == 0">
                     <HeadingSmall title="Geen aankopen om te weergeven" />
                 </div>
             </div>
