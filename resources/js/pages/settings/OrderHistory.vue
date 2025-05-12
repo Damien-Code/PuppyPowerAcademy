@@ -33,7 +33,7 @@ defineProps<Props>();
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Bestelgeschiedenis" description="Bekijk hier uw gemaakte bestelling" />
-                <Table class="min-w-full">
+                <Table class="min-w-full" v-if="orders.length != 0">
                     <TableHeader>
                         <TableHead>Order id</TableHead>
                         <TableHead>Order datum</TableHead>
@@ -89,8 +89,8 @@ defineProps<Props>();
                         </TableRow>
                     </TableBody>
                 </Table>
-<!--                Display if there aren't any orders made-->
-                <div v-if="orders.length == 0">
+                <!--                Display if there aren't any orders made-->
+                <div v-else>
                     <HeadingSmall title="Geen aankopen om te weergeven" />
                 </div>
             </div>
