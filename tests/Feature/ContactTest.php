@@ -10,6 +10,7 @@ class ContactTest extends TestCase
 {
     use RefreshDatabase;
     /**
+     * @author Damien-Code
      * A basic test where the contact page can be rendered without login.
      */
     public function test_contactPageCanBeRenderedWithoutLogin(): void
@@ -19,6 +20,10 @@ class ContactTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * @author  Damien-Code
+     * Test that a user can send a contact message.
+     */
     public function test_user_can_send_contact_message(): void
     {
         // Data to be sent to the store method
