@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart_Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +34,25 @@ class WebshopController extends Controller
      */
     public function store(Request $request)
     {
+        $data = json_decode($request->getContent());
+        //contains product_id, amount 
+        $cart_id = $request->user()->id;
+        // $data['cart_id'] = $cart_id;
+        $request['content'] = json_encode($data);
         dd($request);
+        // $tableData = (object) array(
+        // 'cart_id' => $cart_id,
+        // 'product_id' => $data->product_id,
+        // 'amount' => $data->amount);
+
+        $validatedRequest = $request->validate([
+            'cart_id' => 'int',
+            'product_id' => 'int',
+            'amount' => 'int'
+        ]);
+        dd($request, $validatedRequest, $cart_id);
+        $cartProducts= Cart_Product::create($validatedRequest);
+        return $this->index();
     }
 
     /**
