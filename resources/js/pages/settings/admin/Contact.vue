@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Switch } from '@/components/ui/switch'
@@ -23,6 +23,16 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const submitForm = (message: Message) => {
+    router.post(
+        route('contact.update', message.id), 
+        {
+            'is_completed': message.is_completed,
+            _method: 'PATCH'
+        }
+    )
+}
 
 </script>
 
@@ -50,7 +60,14 @@ defineProps<Props>();
                             <TableCell>{{ message.email }}</TableCell>
                             <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                             <TableCell class="flex">
-                                <Switch class="ml-auto" id="is-read" v-model="message.is_completed" />
+                                <form>
+                                    <Switch 
+                                        class="ml-auto" 
+                                        id="is-read" 
+                                        v-model="message.is_completed" 
+                                        @update:modelValue="submitForm(message)"
+                                    />
+                                </form>
                             </TableCell>
                         </TableRow>
                     </TableBody>

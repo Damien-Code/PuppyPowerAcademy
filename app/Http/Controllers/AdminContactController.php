@@ -56,9 +56,16 @@ class AdminContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Contact $contact)
     {
-        //
+        $validatedContact = $request->validate([
+            'is_completed' => 'required|bool'
+        ]);
+
+        $contact->is_completed = $validatedContact['is_completed'];
+        $contact->save();
+
+        return redirect()->back();
     }
 
     /**
