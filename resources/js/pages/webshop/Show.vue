@@ -28,16 +28,14 @@ const props = defineProps<Props>();
 const product = props.product;
 
 const form = useForm({
-    id: 0,
-    amount:1
+    product_id: 0,
+    amount:1,
 });
 
 const submit = () => {
-    form.id = product.id;
+    form.product_id = product.id;
     form.amount = form.amount;
-    // form.amount = 
     form.post(route('webshop.store'), {
-        onFinish: () => route('webshop.index')
     })
 }
 
@@ -91,7 +89,7 @@ const submit = () => {
                              
                            <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
                            >   
-                           <input type="hidden" name="product_id" value="{{product.id }}" v-model="form.id">
+                           <input type="hidden" name="product_id" value="{{product.id }}" v-model="form.product_id">
                                 <!-- <Input/> -->
                                 <a  
                                 class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
