@@ -21,7 +21,6 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Bestelgeschiedenis',
         href: '/settings/order-history',
-        // href: `route('settings/order-history')`,
     },
     {
         title: 'Admin',
@@ -73,8 +72,8 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
 
             <Separator class="my-6 md:hidden" />
 
-            <div class="flex-1 md:max-w-2xl">
-                <section class="max-w-xl space-y-12">
+            <div class="flex-1 md:max-w-xl">
+                <section :class="['max-w-xl space-y-12', { 'lg:min-w-4xl': currentPath === '/settings/order-history' }]">
                     <slot />
                 </section>
             </div>
