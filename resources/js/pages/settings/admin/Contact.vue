@@ -2,13 +2,10 @@
 import { Head } from '@inertiajs/vue3';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 
-import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Message, type BreadcrumbItem } from '@/types';
-import { reactive } from 'vue';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
@@ -42,7 +39,7 @@ defineProps<Props>();
                             <TableHead>Geplaatst op</TableHead>
                             <TableHead>Naam</TableHead>
                             <TableHead>E-Mail</TableHead>
-                            <TableHead class="max-w-1/2">Bericht</TableHead>
+                            <TableHead>Bericht</TableHead>
                             <TableHead class="text-right w-1/12">Afgerond</TableHead>
                         </TableRow>
                     </TableHeader>
