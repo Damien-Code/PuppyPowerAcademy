@@ -33,7 +33,7 @@ class WebshopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -70,8 +70,4 @@ class WebshopController extends Controller
         //
     }
 
-    public function add(Product $product)
-    {
-        dd($product);
-    }
 }
