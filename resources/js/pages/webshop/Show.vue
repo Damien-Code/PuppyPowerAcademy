@@ -3,7 +3,7 @@ import Footer from '@/components/Footer.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, type Product} from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -131,12 +131,13 @@ const product = props.product;
                         <!-- <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8"> -->
                            <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
                            >   
-                           <!-- :href="route('webshop.add',product.id)" -->
-
                            
-                           <a
-                               title=""
-                               class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
+                           
+                           <!-- title="" -->
+                           <!-- :buttonVariants="primary"                         -->
+                           <!-- :post="route('webshop.add',product.id)" -->
+                           <a  
+                           class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
                                role="button"
                                >
                                <svg

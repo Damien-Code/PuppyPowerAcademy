@@ -12,9 +12,11 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::get('webshop/{product}', [WebshopController::class, 'show']);
-Route::resource('webshop', WebshopController::class);
-   
+
+Route::resource('webshop', WebshopController::class, ['parameters' => [
+    'webshop' => 'product'
+]]);
+
 
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
