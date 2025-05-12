@@ -43,7 +43,7 @@ defineProps<Props>();
                         <TableRow v-for="order in orders" :key="order.id">
                             <TableCell>{{ order.id }}</TableCell>
                             <TableCell>{{ useDateFormat(order.created_at, 'YYYY-MM-DD') }}</TableCell>
-                            <TableCell>&euro;{{ order.totalPrice }}</TableCell>
+                            <TableCell>{{ order.totalPrice.toLocaleString('nl-NL', {currency:'EUR', style:'currency'}) }}</TableCell>
                             <TableCell>
                                 <Dialog>
                                     <DialogTrigger as-child>
@@ -70,7 +70,7 @@ defineProps<Props>();
                                                         <HeadingSmall title="Hoeveelheid" :description="orderProducts.amount.toString()" />
                                                     </div>
                                                     <div class="pb-8">
-                                                        <HeadingSmall title="Artikel prijs" :description="orderProducts.product.price.toString()" />
+                                                        <HeadingSmall title="Artikel prijs" :description="orderProducts.product.price.toLocaleString('nl-NL', {currency:'EUR', style:'currency'})" />
                                                     </div>
                                                     <hr>
                                                 </div>
