@@ -19,8 +19,11 @@ class OrderHistoryController extends Controller
             $query->where('user_id', auth()->id());
         })->with('product', 'order')->get();
 
+        $orders = Order::where('user_id', auth()->id())->get();
+
         return Inertia::render('settings/OrderHistory',[
             'order_products' => $order_products,
+            'orders' => $orders,
         ]);
     }
 

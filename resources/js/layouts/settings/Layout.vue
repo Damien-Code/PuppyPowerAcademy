@@ -73,7 +73,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
             <Separator class="my-6 md:hidden" />
 
             <div class="flex-1 md:max-w-xl">
-                <section :class="['max-w-xl space-y-12', { 'lg:min-w-4xl': currentPath === '/settings/order-history' }]">
+                <section :class="['max-w-xl space-y-12', { 'lg:min-w-4xl': currentPath === '/settings/order-history' || currentPath === '/settings/admin/webshop' || currentPath === '/settings/admin/training' || currentPath === '/settings/admin/dagopvang' || currentPath === '/settings/admin/contact' }]">
                     <slot />
                 </section>
             </div>
