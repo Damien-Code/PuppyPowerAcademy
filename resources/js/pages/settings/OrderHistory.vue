@@ -16,10 +16,11 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
+// Define props for the component
+// Created an Order interface instead of using any
+// Better typing for the props
 interface Props {
-    // order_products: OrderProducts[];
     orders: Order[];
-    // products: Product;
 }
 
 defineProps<Props>();
@@ -45,6 +46,7 @@ defineProps<Props>();
                             <TableCell>{{ useDateFormat(order.created_at, 'YYYY-MM-DD') }}</TableCell>
                             <TableCell>{{ order.totalPrice.toLocaleString('nl-NL', {currency:'EUR', style:'currency'}) }}</TableCell>
                             <TableCell>
+<!--                                Modal to open on a specific order-->
                                 <Dialog>
                                     <DialogTrigger as-child>
                                         <Button> Details</Button>
@@ -58,6 +60,7 @@ defineProps<Props>();
                                             <div>
                                                 <HeadingSmall title="Order ID" :description="order.id.toString()" />
                                             </div>
+<!--                                            Display if there are orders-->
                                             <div v-if="order.order_products.length != 0">
                                                 <div v-for="orderProducts in order.order_products" :key="orderProducts.product.id" class="pt-8">
                                                     <div class="pb-2">
@@ -75,6 +78,7 @@ defineProps<Props>();
                                                     <hr>
                                                 </div>
                                             </div>
+<!--                                            Display if there are orders without any products-->
                                             <div v-else>
                                                 <HeadingSmall title="Geen artikelen gevonden" description="Deze order heeft geen artikelen" />
                                             </div>
@@ -85,6 +89,7 @@ defineProps<Props>();
                         </TableRow>
                     </TableBody>
                 </Table>
+<!--                Display if there aren't any orders made-->
                 <div v-if="orders.length == 0">
                     <HeadingSmall title="Geen aankopen om te weergeven" />
                 </div>

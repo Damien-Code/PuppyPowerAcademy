@@ -5,23 +5,23 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Order_Product;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class OrderHistoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @author Damien-Code
+     * @return \Inertia\Response
+     * Query that returns all orders for the current user with a relation with the order_products model.
+     * I first returned the order_products model, but I found out that returning the order model
+     * was a better option.
      */
-    public function index()
+    public function index() : \Inertia\Response
     {
-//        $order_products = Order_Product::whereHas('order', function($query){
-//            $query->where('user_id', auth()->id());
-//        })->with('product', 'order')->get();
-
         $orders = Order::with('orderProducts')->where('user_id', auth()->id())->get();
         return Inertia::render('settings/OrderHistory',[
-//            'order_products' => $order_products,
             'orders' => $orders,
         ]);
     }
