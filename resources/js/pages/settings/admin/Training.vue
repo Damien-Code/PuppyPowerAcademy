@@ -2,9 +2,16 @@
 import { Head } from '@inertiajs/vue3';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem } from '@/types';
-
+import { ref } from 'vue';
+import YouTube from 'vue3-youtube';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+
+const youtubeRef = ref<InstanceType<typeof YouTube> | null>(null);
+
+const onReady = () => {
+    youtubeRef.value?.playVideo();
+};
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -21,6 +28,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Update your account's appearance settings" />
+                
+                <YouTube ref="youtubeRef" src="https://www.youtube.com/watch?v=7LsM8y84gjw" @ready="onReady"></YouTube>
             </div>
         </SettingsLayout>
     </AppLayout>
