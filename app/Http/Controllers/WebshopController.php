@@ -47,21 +47,26 @@ class WebshopController extends Controller
         // ->where('product_id', '=', 9)
         ->where('product_id', '=', $validatedRequest['product_id'])
         ->first();
-
+        dd($itemInCart);
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
             //create 
             Cart_Product::create($validatedRequest);
-            return redirect()->route('webshop.index');
+            // return redirect()->route('webshop.index');
         }
         else{
             //update
-            // dd("update");
-            dd("update", $itemInCart->amount);
+            $currentAmount = $itemInCart->amount;
+            $selectedAmount = $validatedRequest['amount'];
+            $newAmount = $currentAmount + $selectedAmount;
+            $itemInCart->update(['amount' => $newAmount]);
+
+            // dd("update", $currentAmount, $selectedAmount);
         }
+        return redirect()->route('webshop.index');
 
 
-        return $this->index();
+        // return $this->index();
     }
 
     /**
