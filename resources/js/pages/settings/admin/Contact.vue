@@ -46,29 +46,29 @@ const submitForm = (message: Message) => {
                 <Table class="">
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Geplaatst op</TableHead>
+                            <TableHead class="text-left w-1/12">Afgerond</TableHead>
                             <TableHead>Naam</TableHead>
                             <TableHead>E-Mail</TableHead>
+                            <TableHead>Geplaatst op</TableHead>
                             <TableHead>Bericht</TableHead>
-                            <TableHead class="text-right w-1/12">Afgerond</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         <TableRow v-for="message in messages" :key="message.id" class="">
-                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
-                            <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
-                            <TableCell>{{ message.email }}</TableCell>
-                            <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                             <TableCell class="flex">
                                 <form>
                                     <Switch 
-                                        class="ml-auto" 
+                                        class="mr-auto" 
                                         id="is-read" 
                                         v-model="message.is_completed" 
                                         @update:modelValue="submitForm(message)"
                                     />
                                 </form>
                             </TableCell>
+                            <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
+                            <TableCell>{{ message.email }}</TableCell>
+                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
+                            <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
