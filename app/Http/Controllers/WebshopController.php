@@ -59,8 +59,8 @@ class WebshopController extends Controller
             $currentAmount = $itemInCart->amount;
             $selectedAmount = $validatedRequest['amount'];
             $newAmount = $currentAmount + $selectedAmount;
-            $itemInCart->update(['amount' => $newAmount]);    
-        }
+            $itemInCart->update(['amount' => $newAmount]);
+            }
         return redirect()->route('webshop.index');
     }
 
