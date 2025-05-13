@@ -37,9 +37,9 @@ class WebshopController extends Controller
         $request->request->add(['cart_id' => $request->user()->id]);
         
         $validatedRequest = $request->validate([
-            'cart_id' => 'int',
-            'product_id' => 'int',
-            'amount' => 'int'
+            'cart_id'    => 'int|required|gt:0',
+            'product_id' => 'int|required|gt:0',
+            'amount'     => 'int|required|gt:0',
         ]);
 
         $itemInCart = Cart_Product::
@@ -50,12 +50,14 @@ class WebshopController extends Controller
 
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
-            //create
-            
+            //create 
+            Cart_Product::create($validatedRequest);
+            return redirect()->route('webshop.index');
         }
         else{
             //update
-            dd($itemInCart->amount);
+            // dd("update");
+            dd("update", $itemInCart->amount);
         }
 
 
