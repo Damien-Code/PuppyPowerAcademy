@@ -28,6 +28,22 @@ Route::middleware('auth')->group(function () {
 //    Route::get('settings/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
     Route::resource('settings/order-history', OrderHistoryController::class);
 
+//    Route::get('settings/admin/webshop', function () {
+//        return Inertia::render('settings/admin/Webshop');
+//    })->name('admin.webshop');
+//
+//    Route::get('settings/admin/dagopvang', function () {
+//        return Inertia::render('settings/admin/Dagopvang');
+//    })->name('admin.dagopvang');
+//
+//    Route::get('settings/admin/training', function () {
+//        return Inertia::render('settings/admin/Training');
+//    })->name('admin.training');
+//
+//    Route::resource('settings/admin/contact', AdminContactController::class);
+});
+
+Route::middleware('admin')->group(function () {
     Route::get('settings/admin/webshop', function () {
         return Inertia::render('settings/admin/Webshop');
     })->name('admin.webshop');
