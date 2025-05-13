@@ -21,26 +21,26 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('settings/Appearance');
     })->name('appearance');
 
-//    Route::get('settings/order-history', function () {
-//        return Inertia::render('settings/OrderHistory');
-//    })->name('order-history');
-
-//    Route::get('settings/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
     Route::resource('settings/order-history', OrderHistoryController::class);
+
+    // Extra middleware grouping for admin
+    // Defining these grouped routes will result in attempt to read role_id on null
+    // This is because it isn't asking for auth
+    Route::middleware('admin')->group(function () {
+        Route::get('settings/admin/webshop', function () {
+            return Inertia::render('settings/admin/Webshop');
+        })->name('admin.webshop')->middleware('admin');
+
+        Route::get('settings/admin/dagopvang', function () {
+            return Inertia::render('settings/admin/Dagopvang');
+        })->name('admin.dagopvang')->middleware('admin');
+
+        Route::get('settings/admin/training', function () {
+            return Inertia::render('settings/admin/Training');
+        })->name('admin.training');
+
+        Route::resource('settings/admin/contact', AdminContactController::class);
+    });
+
 });
 
-Route::middleware('admin')->group(function () {
-    Route::get('settings/admin/webshop', function () {
-        return Inertia::render('settings/admin/Webshop');
-    })->name('admin.webshop');
-
-    Route::get('settings/admin/dagopvang', function () {
-        return Inertia::render('settings/admin/Dagopvang');
-    })->name('admin.dagopvang');
-
-    Route::get('settings/admin/training', function () {
-        return Inertia::render('settings/admin/Training');
-    })->name('admin.training');
-
-    Route::resource('settings/admin/contact', AdminContactController::class);
-});
