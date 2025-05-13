@@ -1,28 +1,77 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 
-import AppearanceTabs from '@/components/AppearanceTabs.vue';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Switch } from '@/components/ui/switch'
+
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Message, type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+import { useDateFormat } from '@vueuse/core';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Appearance settings',
-        href: '/settings/appearance',
+        title: 'Admin panel',
+        href: '/settings/admin',
     },
 ];
+
+interface Props {
+    messages: Message[];
+}
+
+defineProps<Props>();
+
+const submitForm = (message: Message) => {
+    router.post(
+        route('contact.update', message.id), 
+        {
+            'is_completed': message.is_completed,
+            _method: 'PATCH'
+        }
+    )
+}
+
 </script>
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Admin Contact" />
+        <Head title="Admin Panel"/>
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Contact" description="Update your account's appearance settings" />
+                <HeadingSmall title="Contact" description="View your unread contact messages"/>
+                <Table class="">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead class="text-left w-1/12">Afgerond</TableHead>
+                            <TableHead>Naam</TableHead>
+                            <TableHead>E-Mail</TableHead>
+                            <TableHead>Geplaatst op</TableHead>
+                            <TableHead>Bericht</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow v-for="message in messages" :key="message.id" class="">
+                            <TableCell class="flex">
+                                <form>
+                                    <Switch 
+                                        class="mr-auto" 
+                                        id="is-read" 
+                                        v-model="message.is_completed" 
+                                        @update:modelValue="submitForm(message)"
+                                    />
+                                </form>
+                            </TableCell>
+                            <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
+                            <TableCell>{{ message.email }}</TableCell>
+                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
+                            <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
             </div>
         </SettingsLayout>
     </AppLayout>

@@ -39,6 +39,28 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role_id: number;
+}
+
+export interface OrderProducts {
+    order: Order;
+    product: Product;
+    amount: number;
+}
+
+export interface Order {
+    id: number;
+    user_id: number;
+    postal_code: string;
+    country: string;
+    city: string;
+    street: string;
+    house_number: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    totalPrice: number;
+    order_products: OrderProducts[];
 }
 
 export interface Product {
@@ -49,6 +71,27 @@ export interface Product {
     stock: number;
     created_at: string;
     updated_at: string;
+    deleted_at: string;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Message {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    message: string;
+    is_completed: boolean;
+    created_at: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

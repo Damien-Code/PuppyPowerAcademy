@@ -18,13 +18,25 @@ class Order extends Model
         'city',
         'street',
         'houseNumber',
-        // 'totalPrice',
     ];
     public function user(){
         return $this->belongsTo(User::class);
     }
     public function orderProducts(){
         return $this->hasMany(Order_Product::class);
+    }
+
+
+    protected $appends = ['totalPrice'];
+    /**
+     * @author Damien-Code
+     * @return mixed
+     * Returns the total price of the order
+     */
+    public function getTotalPriceAttribute(){
+        return $this->orderProducts->sum(function($orderProduct){
+            return $orderProduct->product->price * $orderProduct->amount;
+        });
     }
 
     protected $table = 'orders';
