@@ -27,7 +27,9 @@ Route::middleware('auth')->group(function () {
 
 //    Route::get('settings/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
     Route::resource('settings/order-history', OrderHistoryController::class);
+});
 
+Route::middleware('admin')->group(function () {
     Route::get('settings/admin/webshop', function () {
         return Inertia::render('settings/admin/Webshop');
     })->name('admin.webshop');
