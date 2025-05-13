@@ -41,14 +41,24 @@ class WebshopController extends Controller
             'product_id' => 'int',
             'amount' => 'int'
         ]);
-        // dd($request, $validatedRequest);
-        // $cartProducts= 
-        $x = Cart_Product::all()
-        ->where('cart_id', '=', $validatedRequest['cart_id'])
-        // ->where('product_id', '=', 9);
-        // Cart_Product::create($validatedRequest);
-        ;
-        dd($x);
+
+        $itemInCart = Cart_Product::
+        where('cart_id', '=' , $validatedRequest['cart_id'])
+        // ->where('product_id', '=', 9)
+        ->where('product_id', '=', $validatedRequest['product_id'])
+        ->first();
+
+        //check if $itemInCart is already in cart, if so update, else create
+        if($itemInCart == null){
+            //create
+            
+        }
+        else{
+            //update
+            dd($itemInCart->amount);
+        }
+
+
         return $this->index();
     }
 
