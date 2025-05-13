@@ -6,6 +6,8 @@ import { type BreadcrumbItem } from '@/types';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -26,16 +28,16 @@ const breadcrumbItems: BreadcrumbItem[] = [
                     <div class=" px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                                <form>
-                                    <label>Product naam</label>
-                                    <input class="border-2 border-b-gray-200">
-                                    <label>Prijs</label>
-                                    <input class="border-2 border-b-gray-200">
-                                    <label>Product beschrijving</label>
-                                    <input class="border-2 border-b-gray-200">
-                                    <label>Afbeelding</label>
-                                    <input class="border-2 border-b-gray-200 w-full" type="file">
-                                    <Button class="mt-8">Toevoegen</Button>
+                                <form class="space-y-3">
+                                    <Label>Productnaam</Label>
+                                    <Input type="text" placeholder="Productnaam"/>
+                                    <Label>Prijs</Label>
+                                    <Input type="number" placeholder="&euro;1" />
+                                    <Label>Product beschrijving</Label>
+                                    <Input type="text" placeholder="Product beschrijving" />
+                                    <Label>Afbeelding</Label>
+                                    <Input type="file" />
+                                    <Button class="mt-4">Toevoegen</Button>
                                 </form>
                             </div>
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
