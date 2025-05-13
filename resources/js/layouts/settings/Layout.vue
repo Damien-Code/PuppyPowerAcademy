@@ -26,10 +26,6 @@ const sidebarNavItems: NavItem[] = [
 
 const adminNavItems: NavItem[] = [
     {
-        title: 'Admin',
-        href: '/settings/admin/webshop',
-    },
-    {
         title: 'Webshop',
         href: '/settings/admin/webshop',
     },
@@ -71,6 +67,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                         </Link>
                     </Button>
                     <div v-if="$page.props.auth.role == 1">
+                        <p class="px-4 pb-2 pt-4 font-bold">Admin</p>
                         <Button
                             v-for="adminItem in adminNavItems"
                             :key="adminItem.href"
