@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Settings\OrderHistoryController;
+use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,5 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('settings/admin/Training');
     })->name('admin.training');
 
-    Route::get('settings/admin/contact', function () {
-        return Inertia::render('settings/admin/Contact');
-    })->name('admin.contact');
+    Route::resource('settings/admin/contact', AdminContactController::class);
 });

@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WebshopController;
+
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -11,9 +15,8 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::get('webshop', function () {
-    return Inertia::render('webshop/Index');
-})->name('webshop/Index');
+Route::resource('webshop', WebshopController::class);
+   
 
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
@@ -43,9 +46,7 @@ Route::get('about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::get('contact', function () {
-    return Inertia::render('Contact');
-})->name('contact');
+Route::resource('contact', ContactController::class);
 
 
 

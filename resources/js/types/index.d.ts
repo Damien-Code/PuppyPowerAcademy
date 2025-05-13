@@ -74,4 +74,24 @@ export interface Product {
     deleted_at: string;
 }
 
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Message {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    message: string;
+    is_completed: boolean;
+    created_at: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
