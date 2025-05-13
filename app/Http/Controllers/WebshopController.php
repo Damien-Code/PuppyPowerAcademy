@@ -34,6 +34,7 @@ class WebshopController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->user() == null){return redirect()->route('login');}
         $request->request->add(['cart_id' => $request->user()->id]);
         
         $validatedRequest = $request->validate([
@@ -43,30 +44,24 @@ class WebshopController extends Controller
         ]);
 
         $itemInCart = Cart_Product::
-        where('cart_id', '=' , $validatedRequest['cart_id'])
-        // ->where('product_id', '=', 9)
-        ->where('product_id', '=', $validatedRequest['product_id'])
+        where(['cart_id' => $validatedRequest['cart_id'],
+               'product_id' => $validatedRequest['product_id']
+              ])
         ->first();
-        dd($itemInCart);
+
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
             //create 
             Cart_Product::create($validatedRequest);
-            // return redirect()->route('webshop.index');
         }
         else{
             //update
             $currentAmount = $itemInCart->amount;
             $selectedAmount = $validatedRequest['amount'];
             $newAmount = $currentAmount + $selectedAmount;
-            $itemInCart->update(['amount' => $newAmount]);
-
-            // dd("update", $currentAmount, $selectedAmount);
+            $itemInCart->update(['amount' => $newAmount]);    
         }
         return redirect()->route('webshop.index');
-
-
-        // return $this->index();
     }
 
     /**
