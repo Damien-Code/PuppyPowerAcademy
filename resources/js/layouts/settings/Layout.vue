@@ -66,7 +66,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                             {{ item.title }}
                         </Link>
                     </Button>
-                    <div v-if="$page.props.auth.role == 1">
+                    <div v-if="$page.props.auth.role == 1" class="space-y-1 space-x-0">
                         <p class="px-4 pb-2 pt-4 font-bold">Admin</p>
                         <Button
                             v-for="adminItem in adminNavItems"
