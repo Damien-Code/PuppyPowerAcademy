@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -19,6 +20,13 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');
     })->name('appearance');
+
+//    Route::get('settings/order-history', function () {
+//        return Inertia::render('settings/OrderHistory');
+//    })->name('order-history');
+
+//    Route::get('settings/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
+    Route::resource('settings/order-history', OrderHistoryController::class);
 
     Route::get('settings/admin/webshop', function () {
         return Inertia::render('settings/admin/Webshop');
