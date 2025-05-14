@@ -23,7 +23,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
     public function cart(){
-        return $this->hasOne(Cart::class);
+        return $this->hasOne(Cart::class)->withDefault(function ($cart, $user) {
+
+        $user->cart()->save($cart);
+    });
     }
 
     /**

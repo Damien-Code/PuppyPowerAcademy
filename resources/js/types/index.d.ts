@@ -73,16 +73,18 @@ export interface Product {
     updated_at: string;
     deleted_at: string;
 }
-
-export interface Product {
+export interface Training {
     id: number;
-    name: string;
-    description: string;
+    title: string;
     price: number;
-    stock: number;
+    description: string;
+    link: string;
     created_at: string;
     updated_at: string;
+    deleted_at: string;
 }
+
+
 
 export interface Message {
     id: number;

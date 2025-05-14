@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Cart_Product;
+use App\Models\Cart_Training;
 use App\Models\Contact;
 use App\Models\Dog;
 use App\Models\Daycare;
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
         Dog_Training::factory(10)->create();
         Cart::factory(count(User::all()))->create();
         Cart_Product::factory(count(User::all()))->create();
+        Cart_Training::factory(count(User::all()))->create();
         Order_Product::factory(10)->create();
         
         

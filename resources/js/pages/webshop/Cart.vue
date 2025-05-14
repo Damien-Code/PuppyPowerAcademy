@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Product, type BreadcrumbItem } from '@/types';
+import { Product, Training, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '../../components/PlaceholderPattern.vue';
 import Footer from '@/components/Footer.vue';
@@ -13,6 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 interface Props {
     products: Product[]
+    trainings: Training[]
 
 }
 const props = defineProps<Props>();
@@ -31,6 +32,13 @@ console.log(props.products);
                     <div v-for="product in props.products" :key="product.id">
                         {{ product.name }}
                         <br>
+                    </div>
+                    <div v-for="training in props.trainings" :key="training.id">
+                        <b>
+                            {{ training.title }}
+                        </b>
+                        <br>
+
                     </div>
                 </div>  
             </div>
