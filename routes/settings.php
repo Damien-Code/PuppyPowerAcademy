@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
-use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,10 +29,6 @@ Route::middleware('auth')->group(function () {
     // Defining these grouped routes will result in attempt to read role_id on null
     // This is because it isn't asking for auth
     Route::middleware('admin')->group(function () {
-        Route::get('settings/admin/webshop', function () {
-            return Inertia::render('settings/admin/Webshop');
-        })->name('admin.webshop')->middleware('admin');
-
         Route::get('settings/admin/dagopvang', function () {
             return Inertia::render('settings/admin/Dagopvang');
         })->name('admin.dagopvang')->middleware('admin');
@@ -38,6 +36,8 @@ Route::middleware('auth')->group(function () {
         Route::get('settings/admin/training', function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
+
+        Route::resource('settings/admin/webshop', AdminWebshopController::class);
 
         Route::resource('settings/admin/contact', AdminContactController::class);
     });

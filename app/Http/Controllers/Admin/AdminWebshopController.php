@@ -1,24 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Contact;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AdminContactController extends Controller
+class AdminWebshopController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render(
-            'settings/admin/Contact',
-            [
-                'messages' => Contact::all()
-            ]
-        );
+        return Inertia::render('settings/admin/Webshop');
     }
 
     /**
@@ -56,16 +51,9 @@ class AdminContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, string $id)
     {
-        $validatedContact = $request->validate([
-            'is_completed' => 'required|bool'
-        ]);
-
-        $contact->is_completed = $validatedContact['is_completed'];
-        $contact->save();
-
-        return redirect()->back();
+        //
     }
 
     /**

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem } from '@/types';
 
@@ -8,6 +8,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { toast } from 'vue-sonner';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -15,6 +16,29 @@ const breadcrumbItems: BreadcrumbItem[] = [
         href: '/admin/webshop',
     },
 ];
+
+const form = useForm({
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+});
+
+const submit = () => {
+    form.post(route('admin.webshop.store'), {
+        forceFormData: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            toast.success('Product toegevoegd');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan');
+        }
+    });
+}
+
+
 </script>
 
 <template>
@@ -28,15 +52,17 @@ const breadcrumbItems: BreadcrumbItem[] = [
                     <div class=" px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                                <form class="space-y-3">
+                                <form class="space-y-3" @submit.prevent="submit">
                                     <Label>Productnaam</Label>
-                                    <Input type="text" placeholder="Productnaam"/>
-                                    <Label>Prijs</Label>
-                                    <Input type="number" placeholder="&euro;1" />
+                                    <Input type="text" placeholder="Productnaam" v-model="form.name"/>
                                     <Label>Product beschrijving</Label>
-                                    <Input type="text" placeholder="Product beschrijving" />
-                                    <Label>Afbeelding</Label>
-                                    <Input type="file" />
+                                    <Input type="text" placeholder="Product beschrijving" v-model="form.description"/>
+                                    <Label>Prijs</Label>
+                                    <Input type="number" placeholder="&euro;1" v-model="form.price" />
+<!--                                    <Label>Afbeelding</Label>-->
+<!--                                    <Input type="file" />-->
+                                    <Label>Voorraad</Label>
+                                    <Input type="number"/>
                                     <Button class="mt-4">Toevoegen</Button>
                                 </form>
                             </div>
