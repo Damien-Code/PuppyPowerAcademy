@@ -15,16 +15,16 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::resource('webshop', WebshopController::class);
-   
+// Route::post('webshop', [WebshopController::class,'store'])->name('webshop');
+Route::resource('webshop', WebshopController::class, ['parameters' => [
+    'webshop' => 'product'
+]]);
+
 
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
 })->name('webshop.cart')->middleware('auth');
 
-Route::get('webshop/{id}', function () {
-    return Inertia::render('webshop/Show');
-})->name('webshop.show');
 
 Route::get('training', function () {
     return Inertia::render('training/Index');

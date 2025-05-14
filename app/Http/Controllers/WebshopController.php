@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart_Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,15 +34,41 @@ class WebshopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->user() == null){return redirect()->route('login');}
+        $request->request->add(['cart_id' => $request->user()->id]);
+        
+        $validatedRequest = $request->validate([
+            'cart_id'    => 'int|required|gt:0',
+            'product_id' => 'int|required|gt:0',
+            'amount'     => 'int|required|gt:0',
+        ]);
+
+        $itemInCart = Cart_Product::
+        where(['cart_id' => $validatedRequest['cart_id'],
+               'product_id' => $validatedRequest['product_id']
+              ])
+        ->first();
+
+        //check if $itemInCart is already in cart, if so update, else create
+        if($itemInCart == null){
+            //create 
+            Cart_Product::create($validatedRequest);
+        }
+        else{
+            //update
+            $currentAmount = $itemInCart->amount;
+            $selectedAmount = $validatedRequest['amount'];
+            $newAmount = $currentAmount + $selectedAmount;
+            $itemInCart->update(['amount' => $newAmount]);
+            }
+        return redirect()->route('webshop.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::find($id);
         return Inertia::render('webshop/Show', [
             'product' => $product,
         ]);
@@ -70,4 +97,5 @@ class WebshopController extends Controller
     {
         //
     }
+
 }
