@@ -21,7 +21,7 @@ class Product extends Model
         return $this->hasMany(Order_Product::class);
     }
     public function cartProduct(){
-        return $this->hasMany(Cart_Product::class);
+        return $this->hasMany(Cart::class);
     }
 
     protected $table = 'products';

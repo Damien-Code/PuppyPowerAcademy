@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart_Product>
  */
 class CartFactory extends Factory
 {
@@ -17,8 +18,11 @@ class CartFactory extends Factory
      */
     public function definition(): array
     {
+        static $user_id = 1;
         return [
-            'user_id' => User::inRandomOrder()->first(),
+            'user_id' => $user_id++,
+            'product_id' => Product::inRandomOrder()->first(),
+            'amount' => $this->faker->numberBetween(1,5),
         ];
     }
 }
