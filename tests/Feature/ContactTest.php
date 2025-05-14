@@ -24,21 +24,21 @@ class ContactTest extends TestCase
      * @author  Damien-Code
      * Test that a user can send a contact message.
      */
-//    public function test_user_can_send_contact_message(): void
-//    {
-//        // Data to be sent to the store method
-//        $data = [
-//            'first_name' => 'Test',
-//            'last_name' => 'User',
-//            'email' => 'test@example.com',
-//            'message' => 'Test Message',
-//            'is_completed' => false,
-//        ];
-//        // Send a POST request to the store route
-//        $response = $this->post(route('contact.store'), $data);
-//        // Assert that the response is a redirect
-//        $response->assertStatus(302);
-//        $this->assertDatabasehas('contacts', $data);
-//
-//    }
+    public function test_user_can_send_contact_message(): void
+    {
+        // Data to be sent to the store method
+        $data = [
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'email' => 'test@example.com',
+            'message' => 'Test Message',
+            'is_completed' => false,
+        ];
+        // Send a POST request to the store route
+        $response = $this->post('/contact', $data);
+        // Assert that the response is a redirect
+        $response->assertStatus(302);
+        $this->assertDatabasehas('contacts', $data);
+
+    }
 }
