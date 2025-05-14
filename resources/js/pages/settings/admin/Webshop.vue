@@ -79,7 +79,7 @@ const update = (productId: any, formData: any) => {
             toast.success('Product gewijzigd');
         },
         onError: () => {
-            toast.error('Er is iets misgegaan,');
+            toast.error('Er is iets misgegaan');
         }
     })
 }
