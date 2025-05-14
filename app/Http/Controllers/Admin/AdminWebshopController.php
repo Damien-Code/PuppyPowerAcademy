@@ -16,7 +16,7 @@ class AdminWebshopController extends Controller
     public function index()
     {
         return Inertia::render('settings/admin/Webshop', [
-            'products' => DB::table('products')->orderBy('updated_at', 'desc')->get()
+            'products' => Product::orderBy('updated_at', 'desc')->get()
         ]);
     }
 
