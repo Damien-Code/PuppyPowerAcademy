@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Cart_Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -35,24 +36,24 @@ class WebshopController extends Controller
     public function store(Request $request)
     {
         if($request->user() == null){return redirect()->route('login');}
-        $request->request->add(['user_id' => $request->user()->id]);
+        $request->request->add(['cart_id' => $request->user()->id]);
         
         $validatedRequest = $request->validate([
-            'user_id'    => 'int|required|gt:0',
+            'cart_id'    => 'int|required|gt:0',
             'product_id' => 'int|required|gt:0',
             'amount'     => 'int|required|gt:0',
         ]);
 
-        $itemInCart = Cart::
-        where(['user_id' => $validatedRequest['user_id'],
+        $itemInCart = Cart_Product::
+        where(['cart_id' => $validatedRequest['cart_id'],
                'product_id' => $validatedRequest['product_id']
               ])
         ->first();
-
+        // dd($itemInCart);
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
             //create 
-            Cart::create($validatedRequest);
+            Cart_Product::create($validatedRequest);
         }
         else{
             //update
