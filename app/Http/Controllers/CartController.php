@@ -15,8 +15,10 @@ class CartController extends Controller
      */
     public function index()
     {
-        $products = Product::join("carts", function($join){
-        	$join->on("products.id", "=", "carts.product_id");
+        $products = Product::join("cart_products", function($join){
+        	$join->on("products.id", "=", "cart_products.product_id");
+        })->join("carts", function($join){
+        	$join->on("carts.user_id", "=", "cart_products.cart_id");
         })->where(['user_id'=>Auth::user()->id])->get();
 
         return Inertia::render('webshop/Cart',[
