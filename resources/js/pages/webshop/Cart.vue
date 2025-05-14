@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Product, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '../../components/PlaceholderPattern.vue';
 import Footer from '@/components/Footer.vue';
@@ -11,6 +11,13 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/webshop/cart',
     },
 ];
+interface Props {
+    products: Product[]
+
+}
+const props = defineProps<Props>();
+console.log(props.products);
+
 </script>
 
 <template>
@@ -21,16 +28,11 @@ const breadcrumbs: BreadcrumbItem[] = [
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <p>Cart</p>
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
-            </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <PlaceholderPattern />
+                    <div v-for="product in props.products" :key="product.id">
+                        {{ product.name }}
+                        <br>
+                    </div>
+                </div>  
             </div>
         </div>
         <Footer/>

@@ -146,7 +146,7 @@ const rightNavItems: NavItem[] = [
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
                         <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
-                            <a :href="route('webshop.cart')"><ShoppingCart class="size-5 opacity-80 group-hover:opacity-100" /></a>
+                            <a :href="route('cart.index')"><ShoppingCart class="size-5 opacity-80 group-hover:opacity-100" /></a>
                         </Button>
                     </div>
 

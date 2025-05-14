@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WebshopController;
 
@@ -21,9 +21,7 @@ Route::resource('webshop', WebshopController::class, ['parameters' => [
 ]]);
 
 
-Route::get('webshop/cart', function () {
-    return Inertia::render('webshop/Cart');
-})->name('webshop.cart')->middleware('auth');
+Route::resource('cart', CartController::class)->middleware('auth');
 
 
 Route::get('training', function () {
