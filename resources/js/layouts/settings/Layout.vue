@@ -27,7 +27,7 @@ const sidebarNavItems: NavItem[] = [
 const adminNavItems: NavItem[] = [
     {
         title: 'Webshop',
-        href: '/settings/admin/webshop',
+        href: '/settings/admin/webshop ',
     },
     {
         title: 'Training',

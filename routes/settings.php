@@ -31,13 +31,15 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('settings/admin/dagopvang', function () {
             return Inertia::render('settings/admin/Dagopvang');
-        })->name('admin.dagopvang')->middleware('admin');
+        })->name('admin.dagopvang');
 
         Route::get('settings/admin/training', function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
 
-        Route::resource('settings/admin/webshop', AdminWebshopController::class);
+        Route::name('admin.')->group(function () {
+            Route::resource('settings/admin/webshop', AdminWebshopController::class);
+        });
 
         Route::resource('settings/admin/contact', AdminContactController::class);
     });

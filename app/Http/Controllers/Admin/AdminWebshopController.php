@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AdminWebshopController extends Controller
@@ -15,7 +16,7 @@ class AdminWebshopController extends Controller
     public function index()
     {
         return Inertia::render('settings/admin/Webshop', [
-            'products' => Product::all()
+            'products' => DB::table('products')->orderBy('updated_at', 'desc')->get()
         ]);
     }
 
@@ -32,7 +33,14 @@ class AdminWebshopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+        ]);
+        Product::create($validated);
+        return redirect()->route('admin.webshop.index');
     }
 
     /**
