@@ -5,15 +5,10 @@ use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-//Route::get('/', function () {
-//    return Inertia::render('Welcome');
-//})->name('home');
-
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-// Route::post('webshop', [WebshopController::class,'store'])->name('webshop');
 Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
