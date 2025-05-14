@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
         })->name('admin.training');
 
         Route::name('admin.')->group(function () {
-            Route::resource('settings/admin/webshop', AdminWebshopController::class);
+            Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
         });
 
         Route::resource('settings/admin/contact', AdminContactController::class);

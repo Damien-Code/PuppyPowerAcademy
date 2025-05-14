@@ -1,5 +1,6 @@
-<script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { reactive } from 'vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem, type Product } from '@/types';
 
@@ -10,27 +11,49 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
+import {
+    Dialog, DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Admin webshop',
-        href: '/admin/webshop',
-    },
+        href: '/admin/webshop'
+    }
 ];
+
+
+
+interface Props {
+    products: Product[];
+}
+
+const props = defineProps<Props>();
+const productForms = reactive({});
+props.products.forEach(product => {
+    productForms[product.id] = {
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+    }
+})
+// const editProduct = props.products.forEach(product => {
+//     name: product.name,
+// });
 
 const form = useForm({
     name: '',
     description: '',
     price: '',
-    stock: '',
+    stock: ''
 });
-
-interface Props {
-    products: Product[]
-}
-
-defineProps<Props>();
-
 
 const submit = () => {
     form.post(route('admin.webshop.store'), {
@@ -44,6 +67,21 @@ const submit = () => {
             toast.error('Er is iets misgegaan');
         }
     });
+};
+
+const update = (productId: any, formData: any) => {
+    router.post(route('admin.webshop.update', productId),{
+        ...formData,
+        _method: 'PATCH',
+    },{
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.success('Product gewijzigd');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan,');
+        }
+    })
 }
 
 
@@ -101,7 +139,56 @@ const submit = () => {
 
                                     <div class="mt-4 flex items-center justify-between gap-4">
                                         <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">&euro;{{product.price}}</p>
-                                        <Button>Bewerk</Button>
+                                        <Dialog>
+                                            <DialogTrigger as-child>
+                                                <Button>
+                                                    Bewerk
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent class="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Bewerk product</DialogTitle>
+                                                    <DialogDescription>
+                                                        Bewerk hier het gekozen product. Druk op opslaan wanneer je klaar bent.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <form @submit.prevent="update(product.id, productForms[product.id])">
+                                                <div class="grid gap-4 py-4">
+                                                    <div class="grid grid-cols-4 items-center gap-4">
+                                                        <Label for="name" class="text-right">
+                                                            Naam
+                                                        </Label>
+                                                        <Input class="col-span-3" v-model="productForms[product.id].name" />
+                                                    </div>
+                                                    <div class="grid grid-cols-4 items-center gap-4">
+                                                        <Label for="username" class="text-right">
+                                                            Beschrijving
+                                                        </Label>
+                                                        <textarea class="col-span-3" v-model="productForms[product.id].description"/>
+                                                    </div>
+                                                    <div class="grid grid-cols-4 items-center gap-4">
+                                                        <Label for="name" class="text-right">
+                                                            Prijs
+                                                        </Label>
+                                                        <Input class="col-span-3" v-model="productForms[product.id].price" type="number" />
+                                                    </div>
+                                                    <div class="grid grid-cols-4 items-center gap-4">
+                                                        <Label for="name" class="text-right">
+                                                            Voorraad
+                                                        </Label>
+                                                        <Input class="col-span-3" v-model="productForms[product.id].stock" type="number" />
+                                                    </div>
+                                                </div>
+                                                <DialogFooter>
+                                                    <DialogClose>
+                                                    <Button type="submit">
+                                                        Save changes
+                                                    </Button>
+                                                    </DialogClose>
+                                                </DialogFooter>
+                                                </form>
+                                            </DialogContent>
+                                        </Dialog>
                                     </div>
                                 </div>
                             </div>
