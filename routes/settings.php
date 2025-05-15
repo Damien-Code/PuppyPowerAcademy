@@ -37,9 +37,9 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
 
-
+        Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
-
+        });
 
         Route::resource('settings/admin/contact', AdminContactController::class);
     });
