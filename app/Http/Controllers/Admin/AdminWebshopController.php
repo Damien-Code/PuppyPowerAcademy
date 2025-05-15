@@ -10,7 +10,9 @@ use Inertia\Inertia;
 class AdminWebshopController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @author Damien-Code
+     * Show the component and all the products with relation to media
+     * Order the products
      */
     public function index()
     {
@@ -28,7 +30,9 @@ class AdminWebshopController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @author Damien-Code
+     * Validate input and store product.
+     * If the request has a file, then add that file to mediacollection
      */
     public function store(Request $request)
     {
@@ -74,8 +78,14 @@ class AdminWebshopController extends Controller
             'description' => 'required|string|max:255',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
+            'media' => 'nullable|file|max:10240'
         ]);
+
         $product->update($validated);
+        if ($request->hasFile('media')) {
+            $product->getFirstMedia()?->delete();
+            $product->addMedia($request->file('media'))->toMediaCollection();
+        }
         return redirect()->route('admin.webshop.index');
 
     }

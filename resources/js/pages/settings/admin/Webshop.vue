@@ -66,6 +66,8 @@ const fileSelected = (event: Event) => {
     form.media = file;
 };
 
+
+
 const submit = () => {
     form.post(route('admin.webshop.store'), {
         forceFormData: true,
@@ -85,6 +87,7 @@ const update = (productId: any, formData: any) => {
         ...formData,
         _method: 'PATCH',
     },{
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
             toast.success('Product gewijzigd');
@@ -132,11 +135,8 @@ const update = (productId: any, formData: any) => {
                             </div>
                             <div v-for="product in products" :key="product.id" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" >
                                 <div class="h-56 w-full">
-<!--                                    <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">-->
-<!--                                        <img class="h-8 w-8" :src="product.mediaFile.original_url" alt="" />-->
-<!--                                    </a>-->
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="w-fit h-fit" />
+                                        <img :src="product.mediaFile.original_url" class="max-h-full mx-auto" />
                                     </a>
 
                                 </div>
@@ -189,6 +189,13 @@ const update = (productId: any, formData: any) => {
                                                             Prijs
                                                         </Label>
                                                         <Input class="col-span-3" v-model="productForms[product.id].price" type="number" />
+                                                    </div>
+                                                    <div class="grid grid-cols-4 items-center gap-4">
+                                                        <Label for="media" class="text-right">
+                                                            Afbeelding
+                                                        </Label>
+                                                        <Input type="file" v-on:change="fileSelected($event)" class="col-span-3" />
+                                                        <progress v-if="form.progress" :value="form.progress.percentage" max="100">{form.progress.percentage}%</progress>
                                                     </div>
                                                     <div class="grid grid-cols-4 items-center gap-4">
                                                         <Label for="name" class="text-right">

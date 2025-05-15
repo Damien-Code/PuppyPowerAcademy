@@ -21,10 +21,11 @@ class Product extends Model implements HasMedia
         'price',
         'stock' //kan maybe weg
     ];
+
+    // Add media to model without adding it to db
     protected $appends = [
         'mediaFile'
     ];
-
 
     public function orderProduct(){
         return $this->hasMany(Order_Product::class);
@@ -33,12 +34,16 @@ class Product extends Model implements HasMedia
         return $this->hasMany(Cart::class);
     }
 
+    /**
+     * @author Damien-Code
+     * Check if media is already loaded
+     * Retrieve the first media item
+     */
     public function getMediaFileAttribute()
     {
         if ($this->relationLoaded('media')) {
             return $this->getFirstMedia();
         }
-
         return null;
     }
 
