@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.10.1",
         "spatie/laravel-medialibrary": "^11.12",
         "thiagoprz/eloquent-composite-key": "^1.0",
+        "spatie/laravel-medialibrary": "^11.12",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
