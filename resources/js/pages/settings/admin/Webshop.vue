@@ -132,9 +132,13 @@ const update = (productId: any, formData: any) => {
                             </div>
                             <div v-for="product in products" :key="product.id" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" >
                                 <div class="h-56 w-full">
+<!--                                    <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">-->
+<!--                                        <img class="h-8 w-8" :src="product.mediaFile.original_url" alt="" />-->
+<!--                                    </a>-->
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img class="mx-auto h-full dark:hidden" :src="product.mediaFile.original_url" alt="" />
+                                        <img :src="product.mediaFile.original_url" class="w-fit h-fit" />
                                     </a>
+
                                 </div>
 
                                 <div class="pt-6">

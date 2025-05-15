@@ -21,7 +21,11 @@ class Product extends Model implements HasMedia
         'price',
         'stock' //kan maybe weg
     ];
-    protected $appends = ['mediaFile'];
+    protected $appends = [
+        'mediaFile'
+    ];
+
+
     public function orderProduct(){
         return $this->hasMany(Order_Product::class);
     }

@@ -41,8 +41,9 @@ class AdminWebshopController extends Controller
         ]);
 
        $product = Product::create($validated);
-       if ($request->hasFile('media')) {
-           $product->addMedia($request->file('media'))->toMediaCollection('media');
+
+        if ($request->hasFile('media')) {
+            $product->addMedia($request->file('media'))->toMediaCollection();
         }
         return redirect()->route('admin.webshop.index');
     }
