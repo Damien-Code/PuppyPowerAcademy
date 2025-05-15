@@ -52,8 +52,19 @@ const form = useForm({
     name: '',
     description: '',
     price: '',
-    stock: ''
+    stock: '',
+    media: '',
 });
+
+const fileSelected = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (!file) {
+        return;
+    }
+    form.media = file;
+};
 
 const submit = () => {
     form.post(route('admin.webshop.store'), {
@@ -109,8 +120,10 @@ const update = (productId: any, formData: any) => {
                                     <Label>Prijs</Label>
                                     <Input type="number" placeholder="&euro;1" v-model="form.price" />
                                     <InputError :message="form.errors.price"/>
-<!--                                    <Label>Afbeelding</Label>-->
-<!--                                    <Input type="file" />-->
+                                    <Label>Afbeelding</Label>
+                                    <Input type="file" v-on:change="fileSelected($event)" />
+                                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">{form.progress.percentage}%</progress>
+                                    <InputError :message="form.errors.media" />
                                     <Label>Voorraad</Label>
                                     <Input type="number" v-model="form.stock"/>
                                     <InputError :message="form.errors.stock"/>
@@ -119,8 +132,9 @@ const update = (productId: any, formData: any) => {
                             </div>
                             <div v-for="product in products" :key="product.id" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" >
                                 <div class="h-56 w-full">
-                                        <img class="mx-auto h-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-light.svg" alt="" />
-                                        <img class="mx-auto hidden h-full dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/iphone-dark.svg" alt="" />
+                                    <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
+                                        <img class="mx-auto h-full dark:hidden" :src="product.mediaFile.original_url" alt="" />
+                                    </a>
                                 </div>
 
                                 <div class="pt-6">

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\Admin\AdminContactMessageController;
 use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
@@ -37,10 +37,13 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
 
+        //Group for admin because it would interfere with webshop and contact routes
         Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
+
+            Route::resource('settings/admin/contact', AdminContactMessageController::class);
         });
 
-        Route::resource('settings/admin/contact', AdminContactController::class);
+
     });
 });

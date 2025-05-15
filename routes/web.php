@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,11 +44,7 @@ Route::get('about', function () {
     return Inertia::render('About');
 })->name('about');
 
-Route::get('contact', function () {
-    return Inertia::render('Contact');
-})->name('contact');
-
-
+Route::resource('contact', ContactController::class);
 
 
 require __DIR__.'/settings.php';

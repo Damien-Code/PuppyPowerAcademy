@@ -15,7 +15,7 @@ class AdminWebshopController extends Controller
     public function index()
     {
         return Inertia::render('settings/admin/Webshop', [
-            'products' => Product::orderBy('updated_at', 'desc')->get()
+            'products' => Product::with('media')->orderBy('updated_at', 'desc')->get()
         ]);
     }
 
@@ -37,8 +37,13 @@ class AdminWebshopController extends Controller
             'description' => 'required|string|max:255',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
+            'media' => 'nullable|file|max:10240'
         ]);
-        Product::create($validated);
+
+       $product = Product::create($validated);
+       if ($request->hasFile('media')) {
+           $product->addMedia($request->file('media'))->toMediaCollection('media');
+        }
         return redirect()->route('admin.webshop.index');
     }
 
