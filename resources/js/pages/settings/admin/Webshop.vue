@@ -99,6 +99,11 @@ const update = (productId: any, formData: any) => {
     })
 }
 
+const deleteProduct = (id: number) => {
+    router.delete(route('admin.webshop.destroy', {id}));
+    toast.success('Product verwijderd');
+}
+
 
 </script>
 
@@ -215,6 +220,9 @@ const update = (productId: any, formData: any) => {
                                                 </form>
                                             </DialogContent>
                                         </Dialog>
+                                        <div>
+                                            <Button :variant="'destructive'" @click="deleteProduct(product.id)">Delete</Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
