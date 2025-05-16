@@ -28,8 +28,6 @@ const breadcrumbItems: BreadcrumbItem[] = [
     }
 ];
 
-
-
 interface Props {
     products: Product[];
 }
@@ -42,6 +40,7 @@ props.products.forEach(product => {
         description: product.description,
         price: product.price,
         stock: product.stock,
+        media: product.mediaFile,
     }
 })
 // const editProduct = props.products.forEach(product => {
@@ -85,6 +84,7 @@ const submit = () => {
 const update = (productId: any, formData: any) => {
     router.post(route('admin.webshop.update', productId),{
         ...formData,
+        media: form.data().media,
         _method: 'PATCH',
     },{
         forceFormData: true,
@@ -92,8 +92,9 @@ const update = (productId: any, formData: any) => {
         onSuccess: () => {
             toast.success('Product gewijzigd');
         },
-        onError: () => {
+        onError: (err) => {
             toast.error('Er is iets misgegaan');
+            console.log(err);
         }
     })
 }
@@ -170,7 +171,7 @@ const update = (productId: any, formData: any) => {
                                                         Bewerk hier het gekozen product. Druk op opslaan wanneer je klaar bent.
                                                     </DialogDescription>
                                                 </DialogHeader>
-                                                <form @submit.prevent="update(product.id, productForms[product.id])">
+                                                <form @submit.prevent="update(product.id, productForms[product.id])" :id="product.id">
                                                 <div class="grid gap-4 py-4">
                                                     <div class="grid grid-cols-4 items-center gap-4">
                                                         <Label for="name" class="text-right">
@@ -194,7 +195,7 @@ const update = (productId: any, formData: any) => {
                                                         <Label for="media" class="text-right">
                                                             Afbeelding
                                                         </Label>
-                                                        <Input type="file" v-on:change="fileSelected($event)" class="col-span-3" />
+                                                        <Input type="file"  v-on:change="fileSelected($event)" class="col-span-3" />
                                                         <progress v-if="form.progress" :value="form.progress.percentage" max="100">{form.progress.percentage}%</progress>
                                                     </div>
                                                     <div class="grid grid-cols-4 items-center gap-4">

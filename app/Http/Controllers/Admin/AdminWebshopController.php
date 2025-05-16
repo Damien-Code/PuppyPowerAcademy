@@ -80,7 +80,6 @@ class AdminWebshopController extends Controller
             'stock' => 'required|numeric',
             'media' => 'nullable|file|max:10240'
         ]);
-
         $product->update($validated);
         if ($request->hasFile('media')) {
             $product->getFirstMedia()?->delete();
