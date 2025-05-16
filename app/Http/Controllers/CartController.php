@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class CartController extends Controller
@@ -16,13 +17,28 @@ class CartController extends Controller
      */
     public function index()
     {
-        //get products
-        $products = Product::join("cart_products", function($join){
-        	$join->on("products.id", "=", "cart_products.product_id");
-        })->join("carts", function($join){
-        	$join->on("carts.user_id", "=", "cart_products.cart_id");
-        })->where(['user_id'=>Auth::user()->id])->get();
+        // get products
+        // $products = Product::join("cart_products", function($join){
+        // 	$join->on("products.id", "=", "cart_products.product_id");
+        // })->join("carts", function($join){
+        // 	$join->on("carts.user_id", "=", "cart_products.cart_id");
+        // })->where(['user_id'=>Auth::user()->id])->get();
+
         
+        $products = DB::table("products")
+        ->join("cart_products", function($join){
+        	$join->on(['products.id' => 'cart_products.product_id']);
+        })
+        ->join("carts", function($join){
+        	$join->on(['carts.user_id' => 'cart_products.cart_id']);
+        })
+        ->select("products.*", "cart_products.amount as amount")
+        ->where(['user_id'=>Auth::user()->id])
+        ->get();
+        $subtotal = 0;
+        foreach($products as $product){
+            $subtotal += ($product->price * $product->amount);
+        }
         //get trainings
         $trainings = Training::join("cart_trainings", function($join){
         	$join->on("trainings.id", "=", "cart_trainings.training_id");
@@ -30,10 +46,14 @@ class CartController extends Controller
         	$join->on("carts.user_id", "=", "cart_trainings.cart_id");
         })->where(['user_id'=>Auth::user()->id])->get();
         
+        foreach($trainings as $training){
+            $subtotal += ($training->price);
+        }
+
         return Inertia::render('webshop/Cart',[
         'products' => $products,
-        'trainings' => $trainings
-
+        'trainings' => $trainings,
+        'subtotalPrice' => $subtotal,
     ]);
     }
 

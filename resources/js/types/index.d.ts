@@ -72,6 +72,7 @@ export interface Product {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    amount:number;
 }
 export interface Training {
     id: number;
