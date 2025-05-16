@@ -25,7 +25,7 @@ class OrderFactory extends Factory
             'street' => $this->faker->streetName(),
             'house_number' => $this->faker->buildingNumber(),
             'postal_code' => $this->faker->postcode(),
-            'total_price' => $this->faker->randomNumber(5,100),
+            'total_price' => $this->faker->numberBetween(5,100),
         ];
     }
 }
