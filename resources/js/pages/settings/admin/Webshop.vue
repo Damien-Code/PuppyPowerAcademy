@@ -12,20 +12,21 @@ import { Input } from '@/components/ui/input';
 import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
 import {
-    Dialog, DialogClose,
+    Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
 } from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Admin webshop',
-        href: '/admin/webshop'
-    }
+        href: '/admin/webshop',
+    },
 ];
 
 interface Props {
@@ -33,19 +34,17 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
 const productForms = reactive({});
-props.products.forEach(product => {
+props.products.forEach((product) => {
     productForms[product.id] = {
         name: product.name,
         description: product.description,
         price: product.price,
         stock: product.stock,
         media: product.mediaFile,
-    }
-})
-// const editProduct = props.products.forEach(product => {
-//     name: product.name,
-// });
+    };
+});
 
 const form = useForm({
     name: '',
@@ -55,6 +54,13 @@ const form = useForm({
     media: '',
 });
 
+/**
+ * @author Damien-Code
+ * Gets the file from the input type file from form
+ * Gets the first file that is selected by user from the files list
+ * return if there is no file selected
+ * Store file in form.media
+ */
 const fileSelected = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -65,10 +71,13 @@ const fileSelected = (event: Event) => {
     form.media = file;
 };
 
-
-
+/**
+ * @author Damien-Code
+ * submit function to the route of store
+ */
 const submit = () => {
     form.post(route('admin.webshop.store'), {
+        // Forces the data to submit, so that files are saved correctly
         forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
@@ -77,34 +86,47 @@ const submit = () => {
         },
         onError: () => {
             toast.error('Er is iets misgegaan');
-        }
+        },
     });
 };
 
+/**
+ * @author Damien-Code
+ * Post the individual product to update route
+ * Needed to add media after formData because it could not be added to formData
+ */
 const update = (productId: any, formData: any) => {
-    router.post(route('admin.webshop.update', productId),{
-        ...formData,
-        media: form.data().media,
-        _method: 'PATCH',
-    },{
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            toast.success('Product gewijzigd');
+    router.post(
+        route('admin.webshop.update', productId),
+        {
+            ...formData,
+            media: form.data().media,
+            _method: 'PATCH',
         },
-        onError: (err) => {
-            toast.error('Er is iets misgegaan');
-            console.log(err);
-        }
-    })
-}
+        {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('Product gewijzigd');
+            },
+            onError: () => {
+                toast.error('Er is iets misgegaan');
+            },
+        },
+    );
+};
 
+/**
+ * @author Damien-Code
+ * Delete function with route to destroy
+ */
 const deleteProduct = (id: number) => {
-    router.delete(route('admin.webshop.destroy', {id}));
-    toast.success('Product verwijderd');
-}
-
-
+    router.delete(route('admin.webshop.destroy', { id }), {
+        onSuccess: () => {
+            toast.success('Product verwijderd');
+        },
+    });
+};
 </script>
 
 <template>
@@ -112,62 +134,64 @@ const deleteProduct = (id: number) => {
         <Head title="Admin Webshop" />
 
         <SettingsLayout>
-            <Toaster/>
+            <Toaster />
             <div class="space-y-6">
                 <HeadingSmall title="Admin Webshop" description="Update uw webshop of webshop items" />
                 <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                    <div class=" px-4 2xl:px-0">
+                    <div class="px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                                 <form class="space-y-3" @submit.prevent="submit">
                                     <Label>Productnaam</Label>
-                                    <Input type="text" placeholder="Productnaam" v-model="form.name"/>
-                                    <InputError :message="form.errors.name"/>
+                                    <Input type="text" placeholder="Productnaam" v-model="form.name" />
+                                    <InputError :message="form.errors.name" />
                                     <Label>Product beschrijving</Label>
-                                    <Input type="text" placeholder="Product beschrijving" v-model="form.description"/>
-                                    <InputError :message="form.errors.description"/>
+                                    <Input type="text" placeholder="Product beschrijving" v-model="form.description" />
+                                    <InputError :message="form.errors.description" />
                                     <Label>Prijs</Label>
                                     <Input type="number" placeholder="&euro;1" v-model="form.price" />
-                                    <InputError :message="form.errors.price"/>
+                                    <InputError :message="form.errors.price" />
                                     <Label>Afbeelding</Label>
                                     <Input type="file" v-on:change="fileSelected($event)" />
                                     <progress v-if="form.progress" :value="form.progress.percentage" max="100">{form.progress.percentage}%</progress>
                                     <InputError :message="form.errors.media" />
                                     <Label>Voorraad</Label>
-                                    <Input type="number" v-model="form.stock"/>
-                                    <InputError :message="form.errors.stock"/>
+                                    <Input type="number" v-model="form.stock" />
+                                    <InputError :message="form.errors.stock" />
                                     <Button class="mt-4" type="submit">Toevoegen</Button>
                                 </form>
                             </div>
-                            <div v-for="product in products" :key="product.id" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" >
+                            <div
+                                v-for="product in products"
+                                :key="product.id"
+                                class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+                            >
                                 <div class="h-56 w-full">
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="max-h-full mx-auto" />
+                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full" />
                                     </a>
-
                                 </div>
 
                                 <div class="pt-6">
-
-                                    <p class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ product.name}}</p>
+                                    <p class="text-lg leading-tight font-semibold text-gray-900 hover:underline dark:text-white">
+                                        {{ product.name }}
+                                    </p>
 
                                     <ul class="mt-2 flex items-center gap-4">
                                         <li class="flex items-center gap-2">
-                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Voorraad: {{product.stock}}</p>
+                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Voorraad: {{ product.stock }}</p>
                                         </li>
 
                                         <li class="flex items-center gap-2">
-                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Product ID: {{product.id}}</p>
+                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Product ID: {{ product.id }}</p>
                                         </li>
                                     </ul>
 
                                     <div class="mt-4 flex items-center justify-between gap-4">
-                                        <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">&euro;{{product.price}}</p>
+                                        <p class="text-2xl leading-tight font-extrabold text-gray-900 dark:text-white">&euro;{{ product.price }}</p>
                                         <Dialog>
                                             <DialogTrigger as-child>
-                                                <Button>
-                                                    Bewerk
-                                                </Button>
+                                                <Button> Bewerk </Button>
                                             </DialogTrigger>
                                             <DialogContent class="sm:max-w-[425px]">
                                                 <DialogHeader>
@@ -177,60 +201,48 @@ const deleteProduct = (id: number) => {
                                                     </DialogDescription>
                                                 </DialogHeader>
                                                 <form @submit.prevent="update(product.id, productForms[product.id])" :id="product.id">
-                                                <div class="grid gap-4 py-4">
-                                                    <div class="grid grid-cols-4 items-center gap-4">
-                                                        <Label for="name" class="text-right">
-                                                            Naam
-                                                        </Label>
-                                                        <Input class="col-span-3" v-model="productForms[product.id].name" />
+                                                    <div class="grid gap-4 py-4">
+                                                        <div class="grid grid-cols-4 items-center gap-4">
+                                                            <Label for="name" class="text-right"> Naam </Label>
+                                                            <Input class="col-span-3" v-model="productForms[product.id].name" />
+                                                        </div>
+                                                        <div class="grid grid-cols-4 items-center gap-4">
+                                                            <Label for="username" class="text-right"> Beschrijving </Label>
+                                                            <textarea class="col-span-3" v-model="productForms[product.id].description" />
+                                                        </div>
+                                                        <div class="grid grid-cols-4 items-center gap-4">
+                                                            <Label for="name" class="text-right"> Prijs </Label>
+                                                            <Input class="col-span-3" v-model="productForms[product.id].price" type="number" />
+                                                        </div>
+                                                        <div class="grid grid-cols-4 items-center gap-4">
+                                                            <Label for="media" class="text-right"> Afbeelding </Label>
+                                                            <Input type="file" v-on:change="fileSelected($event)" class="col-span-3" />
+                                                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                                                {form.progress.percentage}%
+                                                            </progress>
+                                                        </div>
+                                                        <div class="grid grid-cols-4 items-center gap-4">
+                                                            <Label for="name" class="text-right"> Voorraad </Label>
+                                                            <Input class="col-span-3" v-model="productForms[product.id].stock" type="number" />
+                                                        </div>
                                                     </div>
-                                                    <div class="grid grid-cols-4 items-center gap-4">
-                                                        <Label for="username" class="text-right">
-                                                            Beschrijving
-                                                        </Label>
-                                                        <textarea class="col-span-3" v-model="productForms[product.id].description"/>
-                                                    </div>
-                                                    <div class="grid grid-cols-4 items-center gap-4">
-                                                        <Label for="name" class="text-right">
-                                                            Prijs
-                                                        </Label>
-                                                        <Input class="col-span-3" v-model="productForms[product.id].price" type="number" />
-                                                    </div>
-                                                    <div class="grid grid-cols-4 items-center gap-4">
-                                                        <Label for="media" class="text-right">
-                                                            Afbeelding
-                                                        </Label>
-                                                        <Input type="file"  v-on:change="fileSelected($event)" class="col-span-3" />
-                                                        <progress v-if="form.progress" :value="form.progress.percentage" max="100">{form.progress.percentage}%</progress>
-                                                    </div>
-                                                    <div class="grid grid-cols-4 items-center gap-4">
-                                                        <Label for="name" class="text-right">
-                                                            Voorraad
-                                                        </Label>
-                                                        <Input class="col-span-3" v-model="productForms[product.id].stock" type="number" />
-                                                    </div>
-                                                </div>
-                                                <DialogFooter>
-                                                    <DialogClose>
-                                                    <Button type="submit">
-                                                        Save changes
-                                                    </Button>
-                                                    </DialogClose>
-                                                </DialogFooter>
+                                                    <DialogFooter>
+                                                        <DialogClose>
+                                                            <Button type="submit"> Save changes </Button>
+                                                        </DialogClose>
+                                                    </DialogFooter>
                                                 </form>
                                             </DialogContent>
                                         </Dialog>
                                         <div>
-                                            <Button :variant="'destructive'" @click="deleteProduct(product.id)">Delete</Button>
+                                            <Button :variant="'destructive'" @click="deleteProduct(product.id)">Delete </Button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                           </div>
+                        </div>
                     </div>
-
                 </div>
-
             </div>
         </SettingsLayout>
     </AppLayout>

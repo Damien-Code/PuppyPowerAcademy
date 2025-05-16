@@ -1,18 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class AdminWebshopController extends Controller
 {
     /**
      * @author Damien-Code
-     * Show the component and all the products with relation to media
-     * Order the products
+     * Show the component and all the products with relation to media.
+     * Order the products.
      */
     public function index()
     {
@@ -22,17 +22,9 @@ class AdminWebshopController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * @author Damien-Code
      * Validate input and store product.
-     * If the request has a file, then add that file to mediacollection
+     * If the request has a file, then add that file to mediacollection.
      */
     public function store(Request $request)
     {
@@ -53,23 +45,10 @@ class AdminWebshopController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @author Damien-Code
+     * Validate the incoming request.
+     * Update the validated request.
+     * Delete the first found mediafile and add its new updated mediafile to collection.
      */
     public function update(Request $request, Product $product)
     {
@@ -88,7 +67,6 @@ class AdminWebshopController extends Controller
         return redirect()->route('admin.webshop.index');
 
     }
-
     /**
      * Remove the specified resource from storage.
      */
