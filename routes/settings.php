@@ -37,11 +37,12 @@ Route::middleware('auth')->group(function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
 
-        //Group for admin because it would interfere with webshop and contact routes
+        Route::resource('settings/admin/contact', AdminContactMessageController::class);
+
+        //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
         Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
 
-            Route::resource('settings/admin/contact', AdminContactMessageController::class);
         });
 
 
