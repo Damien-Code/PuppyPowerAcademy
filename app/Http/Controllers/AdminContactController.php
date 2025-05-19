@@ -16,7 +16,7 @@ class AdminContactController extends Controller
         return Inertia::render(
             'settings/admin/Contact',
             [
-                'messages' => Contact::all()
+                'messages' => Contact::orderBy('created_at', 'desc')->get(),
             ]
         );
     }
