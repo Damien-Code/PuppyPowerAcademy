@@ -67,7 +67,7 @@ const submitForm = (message: Message) => {
                             </TableCell>
                             <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
                             <TableCell>{{ message.email }}</TableCell>
-                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
+                            <TableCell>{{ useDateFormat(message.created_at, 'DD-MM-YYYY') }}</TableCell>
                             <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                         </TableRow>
                     </TableBody>
