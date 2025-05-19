@@ -2,8 +2,16 @@
 import Footer from '@/components/Footer.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, type Product} from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import {
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from '@/components/ui/number-field/index';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,10 +27,22 @@ interface Props {
 const props = defineProps<Props>();
 const product = props.product;
 
+const form = useForm({
+    product_id: 0,
+    amount:1,
+});
+
+const submit = () => {
+    form.product_id = product.id;
+    form.amount = form.amount;
+    form.post(route('webshop.store'), {
+    })
+}
+
 </script>
 
 <template>
-    <Head title="Item" />
+    <Head :title=" product.name " />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -46,96 +66,33 @@ const product = props.product;
                                 €{{ product.price }}
                             </p>
 
-                            <!-- <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                                <div class="flex items-center gap-1">
-                                    <svg
-                                        class="w-4 h-4 text-yellow-300"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 h-4 text-yellow-300"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 h-4 text-yellow-300"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 h-4 text-yellow-300"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                        />
-                                    </svg>
-                                    <svg
-                                        class="w-4 h-4 text-yellow-300"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                        />
-                                    </svg>
-                                </div>
-                                <p
-                                    class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400"
-                                >
-                                    (5.0)
-                                </p>
-                                <a
-                                    href="#"
-                                    class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white"
-                                >
-                                    345 Reviews
-                                </a>
-                            </div> -->
                         </div>
 
-                        <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                           <Button>
-                               
-                               
-                               <a
-                               href="#"
-                               title=""
-                               class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
+                        <form @submit.prevent="submit" >
+
+                        <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
+                            <p
+                                class="text-l font-extrabold text-gray-900 sm:text-l dark:text-white"
+                            >
+                                <NumberField id="Aantal" :default-value="1" :min="1" :max="product.stock" v-model="form.amount">
+                                  <Label for="Aantal">Age</Label>
+                                  <NumberFieldContent>
+                                    <NumberFieldDecrement />
+                                    <NumberFieldInput />
+                                    <NumberFieldIncrement />
+                                  </NumberFieldContent>
+                                </NumberField>
+                            </p>
+
+                       </div>
+                        <!-- <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8"> -->
+
+                           <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
+                           >
+                           <input type="hidden" name="product_id" value="{{product.id }}" v-model="form.product_id">
+                                <!-- <Input/> -->
+                                <a
+                                class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
                                role="button"
                                >
                                <svg
@@ -155,11 +112,12 @@ const product = props.product;
                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
                                />
                             </svg>
-                            
+
                             Add to cart
                         </a>
                     </Button>
-                        </div>
+                        </form>
+                        <!-- </div> -->
 
                         <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 

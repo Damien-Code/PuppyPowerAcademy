@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminContactMessageController;
+use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
-use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,26 +24,28 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('settings/Appearance');
     })->name('appearance');
 
-//    Route::get('settings/order-history', function () {
-//        return Inertia::render('settings/OrderHistory');
-//    })->name('order-history');
+    Route::resource('settings/training', TrainingController::class);
 
-//    Route::get('settings/order-history', [OrderHistoryController::class, 'index'])->name('order-history');
     Route::resource('settings/order-history', OrderHistoryController::class);
-});
 
-Route::middleware('admin')->group(function () {
-    Route::get('settings/admin/webshop', function () {
-        return Inertia::render('settings/admin/Webshop');
-    })->name('admin.webshop');
+    // Extra middleware grouping for admin
+    // Defining these grouped routes will result in attempt to read role_id on null
+    // This is because it isn't asking for auth
+    Route::middleware('admin')->group(function () {
+        Route::get('settings/admin/dagopvang', function () {
+            return Inertia::render('settings/admin/Dagopvang');
+        })->name('admin.dagopvang');
 
-    Route::get('settings/admin/dagopvang', function () {
-        return Inertia::render('settings/admin/Dagopvang');
-    })->name('admin.dagopvang');
+        Route::get('settings/admin/training', function () {
+            return Inertia::render('settings/admin/Training');
+        })->name('admin.training');
 
-    Route::get('settings/admin/training', function () {
-        return Inertia::render('settings/admin/Training');
-    })->name('admin.training');
+        Route::resource('settings/admin/contact', AdminContactMessageController::class);
 
-    Route::resource('settings/admin/contact', AdminContactController::class);
+        //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
+        Route::name('admin.')->group(function () {
+            Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
+
+        });
+    });
 });

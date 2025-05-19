@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Cart;
+// use App\Models\Cart;
 use App\Models\Product;
-use App\Models\Cart_Product;
+use App\Models\Cart;
 use App\Models\Contact;
 use App\Models\Dog;
 use App\Models\Daycare;
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(10)->create(['role_id' => 2]);
-        Cart::factory(10)->create();
+        // Cart::factory(10)->create();
         Product::factory(10)->create();
         Order::factory(10)->create(); // CHECK THIS FACTORY
         Dog::factory(10)->create();
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         
         Daycare_Dog::factory(10)->create();
         Dog_Training::factory(10)->create();
-        Cart_Product::factory(10)->create();
+        Cart::factory(count(User::all()))->create();
         Order_Product::factory(10)->create();
         
         

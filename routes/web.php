@@ -1,30 +1,23 @@
 <?php
 
-
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WebshopController;
-
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-//Route::get('/', function () {
-//    return Inertia::render('Welcome');
-//})->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::resource('webshop', WebshopController::class);
-   
+Route::resource('webshop', WebshopController::class, ['parameters' => [
+    'webshop' => 'product'
+]]);
+
 
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
 })->name('webshop.cart')->middleware('auth');
 
-Route::get('webshop/{id}', function () {
-    return Inertia::render('webshop/Show');
-})->name('webshop.show');
 
 Route::get('training', function () {
     return Inertia::render('training/Index');
@@ -47,8 +40,6 @@ Route::get('about', function () {
 })->name('about');
 
 Route::resource('contact', ContactController::class);
-
-
 
 
 require __DIR__.'/settings.php';

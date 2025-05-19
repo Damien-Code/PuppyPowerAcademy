@@ -32,7 +32,7 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-        toast.success('Uw bericht is verstuurd');
+            toast.success('Uw bericht is verstuurd');
         },
         onError: () => {
             toast.error('Er is iets misgegaan');

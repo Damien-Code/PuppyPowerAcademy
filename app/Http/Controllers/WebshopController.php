@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,9 +14,9 @@ class WebshopController extends Controller
      */
     public function index()
     {
-        
+        // Get all products with relation to media
     return Inertia::render('webshop/Index',[
-        'products' => Product::all()
+        'products' => Product::with('media')->get()
     ]);
 
     }
@@ -33,15 +34,41 @@ class WebshopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->user() == null){return redirect()->route('login');}
+        $request->request->add(['user_id' => $request->user()->id]);
+
+        $validatedRequest = $request->validate([
+            'user_id'    => 'int|required|gt:0',
+            'product_id' => 'int|required|gt:0',
+            'amount'     => 'int|required|gt:0',
+        ]);
+
+        $itemInCart = Cart::
+        where(['user_id' => $validatedRequest['user_id'],
+               'product_id' => $validatedRequest['product_id']
+              ])
+        ->first();
+
+        //check if $itemInCart is already in cart, if so update, else create
+        if($itemInCart == null){
+            //create
+            Cart::create($validatedRequest);
+        }
+        else{
+            //update
+            $currentAmount = $itemInCart->amount;
+            $selectedAmount = $validatedRequest['amount'];
+            $newAmount = $currentAmount + $selectedAmount;
+            $itemInCart->update(['amount' => $newAmount]);
+            }
+        return redirect()->route('webshop.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::find($id);
         return Inertia::render('webshop/Show', [
             'product' => $product,
         ]);
@@ -70,4 +97,5 @@ class WebshopController extends Controller
     {
         //
     }
+
 }

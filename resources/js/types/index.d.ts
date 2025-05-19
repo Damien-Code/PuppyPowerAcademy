@@ -69,20 +69,12 @@ export interface Product {
     description: string;
     price: number;
     stock: number;
+    mediaFile?: MediaFile;
     created_at: string;
     updated_at: string;
     deleted_at: string;
 }
 
-export interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    stock: number;
-    created_at: string;
-    updated_at: string;
-}
 
 export interface Message {
     id: number;
@@ -92,6 +84,29 @@ export interface Message {
     message: string;
     is_completed: boolean;
     created_at: string;
+}
+
+export interface MediaFile {
+    id: number,
+    model_type: string,
+    model_id: number,
+    uuid: string,
+    collection_name: string,
+    name: string,
+    file_name: string,
+    mime_type: string,
+    disk: string,
+    conversions_disk: string,
+    size: number,
+    manipulations: string[],
+    custom_properties: string[],
+    generated_conversions: string[],
+    responsive_images: string[],
+    order_column: number,
+    created_at: string,
+    updated_at: string,
+    original_url: string,
+    preview_url: string,
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
