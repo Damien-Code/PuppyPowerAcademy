@@ -1,9 +1,8 @@
 <script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem, type Product } from '@/types';
-
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Button } from '@/components/ui/button';
@@ -13,13 +12,11 @@ import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
@@ -33,18 +30,19 @@ interface Props {
     products: Product[];
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
-const productForms = reactive({});
-props.products.forEach((product) => {
-    productForms[product.id] = {
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        stock: product.stock,
-        media: product.mediaFile,
-    };
-});
+// modal value references
+// Selected row is data
+// modalOpen is the visibility of the modal
+const selectedRow = ref<Product>(null!);
+const modalOpen = ref(false);
+
+//Closes the dialog/modal
+const openModal = (product: Product) => {
+    selectedRow.value = product;
+    modalOpen.value = true;
+}
 
 const form = useForm({
     name: '',
@@ -107,6 +105,8 @@ const update = (productId: any, formData: any) => {
             forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
+                form.reset();
+                modalOpen.value = false;
                 toast.success('Product gewijzigd');
             },
             onError: () => {
@@ -189,57 +189,56 @@ const deleteProduct = (id: number) => {
 
                                     <div class="mt-4 flex items-center justify-between gap-4">
                                         <p class="text-2xl leading-tight font-extrabold text-gray-900 dark:text-white">&euro;{{ product.price }}</p>
-                                        <Dialog>
-                                            <DialogTrigger as-child>
-                                                <Button> Bewerk </Button>
-                                            </DialogTrigger>
-                                            <DialogContent class="sm:max-w-[425px]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Bewerk product</DialogTitle>
-                                                    <DialogDescription>
-                                                        Bewerk hier het gekozen product. Druk op opslaan wanneer je klaar bent.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <form @submit.prevent="update(product.id, productForms[product.id])" :id="product.id">
-                                                    <div class="grid gap-4 py-4">
-                                                        <div class="grid grid-cols-4 items-center gap-4">
-                                                            <Label for="name" class="text-right"> Naam </Label>
-                                                            <Input class="col-span-3" v-model="productForms[product.id].name" />
-                                                        </div>
-                                                        <div class="grid grid-cols-4 items-center gap-4">
-                                                            <Label for="username" class="text-right"> Beschrijving </Label>
-                                                            <textarea class="col-span-3" v-model="productForms[product.id].description" />
-                                                        </div>
-                                                        <div class="grid grid-cols-4 items-center gap-4">
-                                                            <Label for="name" class="text-right"> Prijs </Label>
-                                                            <Input class="col-span-3" v-model="productForms[product.id].price" type="number" />
-                                                        </div>
-                                                        <div class="grid grid-cols-4 items-center gap-4">
-                                                            <Label for="media" class="text-right"> Afbeelding </Label>
-                                                            <Input type="file" v-on:change="fileSelected($event)" class="col-span-3" />
-                                                            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-                                                                {form.progress.percentage}%
-                                                            </progress>
-                                                        </div>
-                                                        <div class="grid grid-cols-4 items-center gap-4">
-                                                            <Label for="name" class="text-right"> Voorraad </Label>
-                                                            <Input class="col-span-3" v-model="productForms[product.id].stock" type="number" />
-                                                        </div>
-                                                    </div>
-                                                    <DialogFooter>
-                                                        <DialogClose>
-                                                            <Button type="submit"> Save changes </Button>
-                                                        </DialogClose>
-                                                    </DialogFooter>
-                                                </form>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <div>
+                                            <Button @click="openModal(product)">Bewerk</Button>
+                                        </div>
                                         <div>
                                             <Button :variant="'destructive'" @click="deleteProduct(product.id)">Delete </Button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <Dialog v-model:open="modalOpen">
+                                <DialogContent class="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Bewerk product</DialogTitle>
+                                        <DialogDescription>
+                                            Bewerk hier het gekozen product. Druk op opslaan wanneer je klaar bent.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <form @submit.prevent="update(selectedRow.id, selectedRow)" :id="selectedRow.id">
+                                        <div class="grid gap-4 py-4">
+                                            <div class="grid grid-cols-4 items-center gap-4">
+                                                <Label for="name" class="text-right"> Naam </Label>
+                                                <Input class="col-span-3" v-model="selectedRow.name" />
+                                            </div>
+                                            <div class="grid grid-cols-4 items-center gap-4">
+                                                <Label for="username" class="text-right"> Beschrijving </Label>
+                                                <textarea class="col-span-3" v-model="selectedRow.description" />
+                                            </div>
+                                            <div class="grid grid-cols-4 items-center gap-4">
+                                                <Label for="name" class="text-right"> Prijs </Label>
+                                                <Input class="col-span-3" v-model="selectedRow.price" type="number" />
+                                            </div>
+                                            <div class="grid grid-cols-4 items-center gap-4">
+                                                <Label for="media" class="text-right"> Afbeelding </Label>
+                                                <Input type="file" v-on:change="fileSelected($event)" class="col-span-3" />
+                                                <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                                    {form.progress.percentage}%
+                                                </progress>
+                                            </div>
+                                            <div class="grid grid-cols-4 items-center gap-4">
+                                                <Label for="name" class="text-right"> Voorraad </Label>
+                                                <Input class="col-span-3" v-model="selectedRow.stock" type="number" />
+                                            </div>
+                                        </div>
+                                        <DialogFooter>
+                                                <Button type="submit"> Save changes </Button>
+                                        </DialogFooter>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
                 </div>
