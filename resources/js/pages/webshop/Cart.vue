@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Product, Training, type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { Link } from '@inertiajs/vue3';
+import Icon from '@/components/Icon.vue';
+import { Trash2 } from 'lucide-vue-next';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,15 +18,34 @@ interface Props {
     products: Product[]
     trainings: Training[]
     subtotalPrice: number
+    taxProduct: number
+    taxTraining: number
 }
-const props = defineProps<Props>();
-console.log(props.products);
-let shipping = 0.00;
-let total = props.subtotalPrice + shipping;
 
-const storeCart = () => {
-  
-}
+const props = defineProps<Props>();
+
+const form = useForm({
+    products: new Array(),
+    trainings: new Array(),
+    totalPrice: 0,
+});
+
+let shippingCost = 4.95;
+let totalTax = props.taxProduct + props.taxTraining;
+let total = props.subtotalPrice + totalTax + shippingCost;
+
+const submit = () => {
+    form.products = props.products;
+    form.trainings = props.trainings;
+    form.totalPrice = total
+    form.post(route('cart.store'), {
+    })
+};
+
+const deleteItem = () => {
+    router.delete(route('cart.delete'))
+};
+
 </script>
 
 <template>
@@ -32,7 +53,7 @@ const storeCart = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-  <form :action="route('cart.store')" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+  <form @submit.prevent="submit" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
     <div class="mx-auto max-w-3xl">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text- text-center">Winkelwagen</h2>
 <!-- <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
@@ -52,7 +73,17 @@ const storeCart = () => {
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 <!-- products -->
                 <!-- <div v-for="product in props.products" :key="product.id" > -->
+                  <!-- <thead> 
+                    <tr class="flex items-center justify-between w-full">
+                      
 
+                        <th class="flex items-center aspect-square w-10 h-10 shrink-0">Product</th>
+                        <th class="p-4 text-base font-normal text-gray-900 dark:text-white">Aantal</th>
+                        <th class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs</th>
+                      
+                    </tr>  
+                  </thead> -->
+                  
                     <tr v-for="product in props.products" :key="product.id">
                         <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
@@ -62,7 +93,7 @@ const storeCart = () => {
                       <img class="hidden h-auto w-full max-h-full dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="imac image" />
                     </a>
                     <!-- name -->
-                    <a href="#" class="hover:underline">{{ product.name }}</a>
+                    <a :href="route('webshop.show', product.id)" class="hover:underline">{{ product.name }}</a>
                   </div>
                 </td>
                 
@@ -70,7 +101,16 @@ const storeCart = () => {
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">Aantal: {{ product.amount }}</td>
                 
                 <!-- price -->
-                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ product.price }}</td>
+                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ product.price.toFixed(2) }}</td>
+                
+                <!-- Delete -->
+                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
+                  
+                    <Button @click="deleteItem" variant="destructive">
+                      <Icon name="Trash2" />
+                    </Button>    
+               
+                </td>
             </tr>
                 <!-- </div> -->
         <!-- trainings -->
@@ -94,8 +134,17 @@ const storeCart = () => {
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">Aantal: 1</td>
                 
                 <!-- price -->
-                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ training.price }}</td>
-                </tr>
+                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ training.price.toFixed(2) }}</td>
+                
+              <!-- Delete -->
+                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
+                   
+                    <Button @click="deleteItem" variant="destructive">
+                      <Icon name="Trash2" />
+                    </Button>    
+                  
+                </td>
+              </tr>
                 <!-- </div> -->
            </tbody>
           </table>
@@ -106,23 +155,30 @@ const storeCart = () => {
 
           <div class="space-y-4">
             <div class="space-y-2">
+
+              <!-- subtotal -->
               <dl class="flex items-center justify-between gap-4">
-                <!-- subtotal -->
-                <dt class="text-gray-500 dark:text-gray-400">Original price</dt>
-                <dd class="text-base font-medium text-gray-900 dark:text-white">€{{ subtotalPrice }}</dd>
+                <dt class="text-gray-500 dark:text-gray-400">Subtotaal</dt>
+                <dd class="text-base font-medium text-gray-900 dark:text-white">€{{ subtotalPrice.toFixed(2) }}</dd>
               </dl>
 
               
+                <!-- TAX -->
+              <dl class="flex items-center justify-between gap-4">
+                <dt class="text-gray-500 dark:text-gray-400">BTW: </dt>
+                <dd class="text-base font-medium text-gray-900 dark:text-white">€{{ totalTax.toFixed(2) }}</dd>
+              </dl> 
+              
                 <!-- shipping -->
               <dl class="flex items-center justify-between gap-4">
-                <dt class="text-gray-500 dark:text-gray-400">Shipping</dt>
-                <dd class="text-base font-medium text-gray-900 dark:text-white">€{{ shipping }}</dd>
+                <dt class="text-gray-500 dark:text-gray-400">Verzendkosten</dt>
+                <dd class="text-base font-medium text-gray-900 dark:text-white">€{{ shippingCost.toFixed(2) }}</dd>
               </dl> 
             </div>
                 <!-- total -->
             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
               <dt class="text-lg font-bold text-gray-900 dark:text-white">Total</dt>
-              <dd class="text-lg font-bold text-gray-900 dark:text-white">€{{ total }}</dd>
+              <dd class="text-lg font-bold text-gray-900 dark:text-white">€{{ total.toFixed(2) }}</dd>
             </dl>
           </div>
 
@@ -141,6 +197,7 @@ const storeCart = () => {
   </form>
 </section>
 
+<!-- modal -->
 <div id="billingInformationModal" tabindex="-1" aria-hidden="true" class="antialiased fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-auto w-full max-h-full items-center justify-center overflow-y-auto overflow-x-hidden antialiased md:inset-0">
   <div class="relative max-h-auto w-full max-h-full max-w-lg p-4">
     <!-- Modal content -->

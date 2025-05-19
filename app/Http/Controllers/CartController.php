@@ -17,6 +17,8 @@ class CartController extends Controller
      */
     public function index()
     {
+        $productTaxPercentage  = 18;
+        $trainingTaxPercentage = 18;
         // get products
         // $products = Product::join("cart_products", function($join){
         // 	$join->on("products.id", "=", "cart_products.product_id");
@@ -35,9 +37,14 @@ class CartController extends Controller
         ->select("products.*", "cart_products.amount as amount")
         ->where(['user_id'=>Auth::user()->id])
         ->get();
+        
         $subtotal = 0;
+        $taxProduct = 0;
+        $taxTraining = 0;
+
         foreach($products as $product){
             $subtotal += ($product->price * $product->amount);
+            $taxProduct += ($product->price * $product->amount * ($productTaxPercentage/100));
         }
         //get trainings
         $trainings = Training::join("cart_trainings", function($join){
@@ -48,12 +55,15 @@ class CartController extends Controller
         
         foreach($trainings as $training){
             $subtotal += ($training->price);
+            $taxTraining += ($training->price * ($trainingTaxPercentage/100));
         }
 
         return Inertia::render('webshop/Cart',[
         'products' => $products,
         'trainings' => $trainings,
         'subtotalPrice' => $subtotal,
+        'taxProduct' => $taxProduct,
+        'taxTraining' => $taxTraining
     ]);
     }
 
@@ -70,7 +80,14 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        dd("test");
+        //store in orders
+        
+        //remove products/trainings from cart
+        $this->delete($request->products, $request->trainings);
+        //remove trainings from cart
+
+
+        dd($request->products, $request->trainings, $request->totalPrice);
     }
 
     /**
@@ -100,8 +117,21 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product, Training $training)
     {
-        //
+        dd($product, $training);
+        if($training != null){
+            $training->cartTraining()->detach(); 
+        }
+        else{
+            $product->cartProduct()->detach(); 
+        }
+
+        return redirect()->route('cart.index');
+    }
+    public function delete(Request $request)
+    {
+        $cart_id = Auth::user()->id; 
+        dd($request, $cart_id);
     }
 }
