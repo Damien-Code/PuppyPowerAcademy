@@ -1,4 +1,4 @@
-<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+<script setup lang="ts">
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
@@ -168,7 +168,7 @@ const deleteProduct = (id: number) => {
                             >
                                 <div class="h-56 w-full">
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full" />
+                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full"  alt=""/>
                                     </a>
                                 </div>
 
