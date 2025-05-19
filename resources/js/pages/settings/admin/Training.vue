@@ -29,7 +29,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Update your account's appearance settings" />
                 
-                <YouTube ref="youtubeRef" src="https://www.youtube.com/watch?v=7LsM8y84gjw" @ready="onReady"></YouTube>
+                <YouTube ref="youtubeRef" src="https://www.youtube.com/watch?v=n16MfPu3U28" @ready="onReady"></YouTube>
             </div>
         </SettingsLayout>
     </AppLayout>
