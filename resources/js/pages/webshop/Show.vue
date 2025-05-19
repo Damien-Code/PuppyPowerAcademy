@@ -3,7 +3,7 @@ import Footer from '@/components/Footer.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, type Product} from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
   NumberField,
@@ -67,9 +67,9 @@ const submit = () => {
                             </p>
 
                         </div>
-                        
+
                         <form @submit.prevent="submit" >
-                        
+
                         <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                             <p
                                 class="text-l font-extrabold text-gray-900 sm:text-l dark:text-white"
@@ -86,12 +86,12 @@ const submit = () => {
 
                        </div>
                         <!-- <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8"> -->
-                             
+
                            <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
-                           >   
+                           >
                            <input type="hidden" name="product_id" value="{{product.id }}" v-model="form.product_id">
                                 <!-- <Input/> -->
-                                <a  
+                                <a
                                 class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
                                role="button"
                                >
@@ -112,7 +112,7 @@ const submit = () => {
                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
                                />
                             </svg>
-                            
+
                             Add to cart
                         </a>
                     </Button>

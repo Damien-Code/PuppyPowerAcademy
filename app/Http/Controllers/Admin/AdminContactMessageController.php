@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AdminContactController extends Controller
+class AdminContactMessageController extends Controller
 {
     /**
      * Display a listing of the resource.
