@@ -31,11 +31,13 @@ const props = defineProps<Props>();
 
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                                 <div class="h-56 w-full">
+
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
                                         <img :src="product.mediaFile.original_url" class="w-fit h-fit" />
                                     </a>
 <!--                                    <img class="mx-auto h-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" />-->
 <!--                                    <img class="mx-auto hidden h-full dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="" />-->
+
 
                             </div>
                             <div class="pt-6">
