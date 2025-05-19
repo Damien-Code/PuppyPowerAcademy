@@ -24,9 +24,9 @@ Route::get('webshop/cart', function () {
 
 Route::resource('dagopvang', DaycareController::class)->middleware('auth');
 
-//Route::get('training', function () {
-//    return Inertia::render('training/Index');
-//})->name('training/Index');
+Route::get('training', function () {
+    return Inertia::render('training/Index');
+})->name('training/Index');
 
 
 Route::get('dagopvang/planning', function () {
