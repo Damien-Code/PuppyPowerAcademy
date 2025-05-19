@@ -2,8 +2,9 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Product, Training, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../../components/PlaceholderPattern.vue';
 import Footer from '@/components/Footer.vue';
+import Button from '@/components/ui/button/Button.vue';
+import { Link } from '@inertiajs/vue3';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,6 +21,10 @@ const props = defineProps<Props>();
 console.log(props.products);
 let shipping = 0.00;
 let total = props.subtotalPrice + shipping;
+
+const storeCart = () => {
+  
+}
 </script>
 
 <template>
@@ -27,7 +32,7 @@ let total = props.subtotalPrice + shipping;
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-  <form action="#" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+  <form :action="route('cart.store')" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
     <div class="mx-auto max-w-3xl">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text- text-center">Winkelwagen</h2>
 <!-- <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
@@ -46,9 +51,9 @@ let total = props.subtotalPrice + shipping;
           <table class="w-full text-left font-medium text-gray-900 dark:text-white md:table-fixed">
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 <!-- products -->
-                <div v-for="product in props.products" :key="product.id" >
+                <!-- <div v-for="product in props.products" :key="product.id" > -->
 
-                    <tr>
+                    <tr v-for="product in props.products" :key="product.id">
                         <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
                     <a href="#" class="flex items-center aspect-square w-10 h-10 shrink-0">
@@ -67,11 +72,12 @@ let total = props.subtotalPrice + shipping;
                 <!-- price -->
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ product.price }}</td>
             </tr>
-                </div>
+                <!-- </div> -->
         <!-- trainings -->
-                <div v-for="training in props.trainings" :key="training.id">
+                <!-- <div v-for="training in props.trainings" :key="training.id"> -->
 
-                    <tr>
+                    <tr v-for="training in props.trainings" :key="training.id">
+                    
                         <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
                     <a href="#" class="flex items-center aspect-square w-10 h-10 shrink-0">
@@ -82,15 +88,15 @@ let total = props.subtotalPrice + shipping;
                     <!-- title   -->
                     <a href="#" class="hover:underline"><u><b>{{ training.title }}</b></u></a>
                   </div>
-                </td>
+                  </td>
                 
                 <!-- amount -->
                 <td class="p-4 text-base font-normal text-gray-900 dark:text-white">Aantal: 1</td>
                 
                 <!-- price -->
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ training.price }}</td>
-            </tr>
-                </div>
+                </tr>
+                <!-- </div> -->
            </tbody>
           </table>
         </div>
@@ -126,9 +132,8 @@ let total = props.subtotalPrice + shipping;
           </div>
 
           <div class="gap-4 sm:flex sm:items-center">
-            <button type="button" class="w-full rounded-lg  border border-gray-200 bg-white px-5  py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Return to Shopping</button>
-
-            <button type="submit" class="mt-4 flex w-full items-center justify-center rounded-lg bg-blue-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:mt-0">Send the order</button>
+              <Link :href="route('webshop.index')" variant="destructive" >Return to Shopping</Link>
+              <Button type="submit">Send the order</Button>
           </div>
         </div>
       </div>
