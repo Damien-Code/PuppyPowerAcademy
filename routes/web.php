@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DaycareController;
 use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,19 +14,20 @@ Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
 
-
 Route::get('webshop/cart', function () {
     return Inertia::render('webshop/Cart');
 })->name('webshop.cart')->middleware('auth');
 
+//Route::get('dagopvang', function () {
+//    return Inertia::render('dagopvang/Index');
+//})->name('dagopvang/Index');
 
-Route::get('training', function () {
-    return Inertia::render('training/Index');
-})->name('training/Index');
+Route::resource('dagopvang', DaycareController::class)->middleware('auth');
 
-Route::get('dagopvang', function () {
-    return Inertia::render('dagopvang/Index');
-})->name('dagopvang/Index');
+//Route::get('training', function () {
+//    return Inertia::render('training/Index');
+//})->name('training/Index');
+
 
 Route::get('dagopvang/planning', function () {
     return Inertia::render('dagopvang/Planning');

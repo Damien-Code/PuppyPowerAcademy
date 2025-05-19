@@ -16,10 +16,10 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
-    public function dog(){
+    public function dogs(){
         return $this->hasMany(Dog::class);
     }
-    public function order(){
+    public function orders(){
         return $this->hasMany(Order::class);
     }
     public function cart(){
