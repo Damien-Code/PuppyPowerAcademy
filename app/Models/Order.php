@@ -13,12 +13,12 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'postalCode',
+        'postal_code',
         'country',
         'city',
         'street',
-        'houseNumber',
-        'totalPrice'
+        'house_number',
+        'total_price'
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -27,7 +27,7 @@ class Order extends Model
         return $this->hasMany(Order_Product::class);
     }
 
-
+//msNote: maybe dat deze ook hernoemd moet worden (idk)
     protected $appends = ['totalPrice'];
     /**
      * @author Damien-Code

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { ref } from 'vue';
 import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue';
+import { toast } from 'vue-sonner';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Cart',
@@ -37,12 +38,12 @@ const openModal = ()=>{
 const form = useForm({
     products: new Array(),
     trainings: new Array(),
-    totalPrice: 0,
+    total_price: 0,
     country: '',
     city: '',
     street: '',
-    houseNumber: 0,
-    postalCode: '',
+    house_number: 0,
+    postal_code: '',
 });
 
 let shippingCost = 4.95;
@@ -50,11 +51,21 @@ let totalTax = props.taxProduct + props.taxTraining;
 let total = props.subtotalPrice + totalTax + shippingCost;
 
 const submit = () => {
-    form.products = props.products;
-    form.trainings = props.trainings;
-    form.totalPrice = total;
+  form.products = props.products;
+  form.trainings = props.trainings;
+  // form.country = this.country
+    form.total_price = total;
     modalOpen.value = false;
     form.post(route('cart.store'), {
+      // forceFormData: true,
+      // preserveScroll: true,
+      // onSuccess: () => {
+      //       form.reset();
+      //   toast.success('Uw order is geplaatst');
+      //   },
+      //   onError: () => {
+      //       toast.error('Er is iets misgegaan');
+      //   },
     })
 };
 
@@ -232,11 +243,11 @@ const deleteAllItems = () => {
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="name" class="text-right"> Huisnummer </Label>
-          <Input class="col-span-3" v-model="form.houseNumber" type="number" />
+          <Input class="col-span-3" v-model="form.house_number" type="number" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="media" class="text-right"> Postcode </Label>
-          <Input class="col-span-3" v-model="form.postalCode" />
+          <Input class="col-span-3" v-model="form.postal_code" />
         </div>
       </div>
       <DialogFooter>

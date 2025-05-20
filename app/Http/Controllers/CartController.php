@@ -7,6 +7,9 @@ use App\Models\Cart_Product;
 use App\Models\Cart_Training;
 use App\Models\Product;
 use App\Models\Training;
+use App\Models\Order;
+use App\Models\Order_Product;
+use App\Models\Order_Training;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,14 +24,7 @@ class CartController extends Controller
     {
         $productTaxPercentage  = 18;
         $trainingTaxPercentage = 18;
-        // get products
-        // $products = Product::join("cart_products", function($join){
-        // 	$join->on("products.id", "=", "cart_products.product_id");
-        // })->join("carts", function($join){
-        // 	$join->on("carts.user_id", "=", "cart_products.cart_id");
-        // })->where(['user_id'=>Auth::user()->id])->get();
-
-        
+        // get products      
         $products = DB::table("products")
         ->join("cart_products", function($join){
         	$join->on(['products.id' => 'cart_products.product_id']);
@@ -82,12 +78,54 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //store in orders
-        dd($request);
-        dd($request->products, $request->trainings, $request->totalPrice, $request->country, $request->city, $request->street, $request->houseNumber, $request->postalCode);
+        //format price to not be xx.xx0000005 but to be of format xx.xx
+        $request->totalPrice = number_format($request->totalPrice, 2, '.',"");
+        
+        // temp adding to $request for db testing till frontend form takes values
+        $request->request->add(['postal_code' => "TEST01"]); 
+        $request->request->add(['country' => "Netherlands"]); 
+        $request->request->add(['city' => "Lelystad"]); 
+        $request->request->add(['street' => "test15"]); 
+        $request->request->add(['house_number' => 25]); 
+        //^ end temp
+
+        //add user_id to request for query
+        $request->request->add(['user_id' => Auth::user()->id]); 
+
+        //add to orders
+        $validatedOrder = $request->validate([
+            'user_id' => 'required|integer|gt:0',
+            'postal_code' => 'required|string|max:7',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'house_number' => 'required|integer',
+            'total_price' => 'required|numeric|gt:0',
+        ]);
+        
+        Order::create($validatedOrder);
+        
+        //get latest order_id
+        $order_id = Order::where(['user_id' => Auth::user()->id])->orderBy('id', 'desc')->first()->id;
+
+        //insert into order_products
+        if(count($request->products)>0){
+            foreach ($request->products as $product) {
+                Order_Product::create(['order_id' => $order_id, 'product_id' => $product['id'], 'amount' => $product['amount']]);
+            }
+        }
+
+        //insert into order_trainings
+        if(count($request->trainings)>0){
+            foreach ($request->trainings as $training) {
+                Order_Training::create(['order_id' => $order_id, 'training_id' => $training['id']]);
+            }
+        }
+
         //remove products/trainings from cart
         $this->removeItemsFromCart();
-
+        
+        return redirect()->route('webshop.index');
 
     }
 
