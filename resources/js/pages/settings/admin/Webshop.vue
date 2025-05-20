@@ -200,7 +200,7 @@ const deleteProduct = (id: number) => {
                             </div>
 
                             <Dialog v-model:open="modalOpen">
-                                <DialogContent class="sm:max-w-[425px]">
+                                <DialogContent class="sm:max-w-[425px] bg-white">
                                     <DialogHeader>
                                         <DialogTitle>Bewerk product</DialogTitle>
                                         <DialogDescription>

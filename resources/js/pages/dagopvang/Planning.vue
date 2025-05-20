@@ -16,6 +16,7 @@ import { CalendarIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
+import Heading from '@/components/Heading.vue';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -73,7 +74,9 @@ const submit = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toaster/>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <form class="mx-auto flex w-2/6 flex-col pt-12" @submit.prevent="submit">
+            <div class="mx-auto md:w-1/2 lg:w-2/6 p-8 bg-white rounded-2xl">
+                <Heading title="Dagopvang" description="Plan hier uw afspraak in" />
+            <form @submit.prevent="submit" class=" flex flex-col">
                 <label>Naam van de hond</label>
                 <Input v-model="form.name"/>
                 <InputError :message="form.errors.name"/>
@@ -102,6 +105,7 @@ const submit = () => {
                 <input v-model="form.been_to_daycare" hidden>
                 <Button class="mt-12">Plan</Button>
             </form>
+            </div>
         </div>
         <Footer />
     </AppLayout>

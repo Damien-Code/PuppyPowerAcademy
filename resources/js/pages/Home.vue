@@ -28,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 <!--            <div class=" relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">-->
 <!--                <img src="../../../public/images/DogHome.png" alt="Homepage" />-->
 <!--            </div>-->
-            <section class="bg-white dark:bg-gray-900">
+            <section class="bg-white dark:bg-gray-900 rounded-2xl">
                 <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
                     <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
                         <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Puppy Power Academy</h2>
