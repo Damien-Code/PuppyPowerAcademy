@@ -64,7 +64,7 @@ const submit = () => {
                     <textarea v-model="form.message" class="border-1 border-b-gray-200 rounded-md h-24"></textarea>
                     <InputError :message="form.errors.message"/>
                     <input type="hidden" v-model="form.is_completed" />
-                    <Button type="submit" :disabled="form.processing">Versturen</Button>
+                    <Button type="submit" :disabled="form.processing" class="bg-green-300">Versturen</Button>
                 </form>
             </div>
         </div>

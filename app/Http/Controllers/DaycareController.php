@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class DaycareController extends Controller
@@ -47,6 +48,12 @@ class DaycareController extends Controller
             ->daycares()
             ->firstOrCreate($validatedDaycare);
 
+//        Mail::raw('Het dagopvangschema is aangevraagd op', function ($message) use ($validatedDog, $validatedDaycare, $request) {
+//            $message->to($request->user()->email);
+//            $message->subject('Dagopvangschema aangevraagd');
+//            $message->text('Uw aanvraag voor ' . $validatedDog['name'] . ' op ' . $validatedDaycare['date']->format('Y-m-d') . ' is goed ontvangen. We zullen zo spoedig mogelijk contact met u opnemen.');
+//
+//        });
         return redirect()->route('dagopvang.planning');
     }
 
