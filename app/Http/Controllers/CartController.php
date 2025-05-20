@@ -121,13 +121,14 @@ class CartController extends Controller
      */
     public function destroy()
     {
+        $this->removeItemsFromCart();
+        
+        return redirect()->route('webshop.index');
+    }
 
+    private function removeItemsFromCart()
+    {
         Cart_Product::where(['cart_id' => Auth::user()->id])->delete();
         Cart_Training::where(['cart_id'=> Auth::user()->id])->delete();
-        // dd($products, $trainings);
-        return redirect()->route('webshop.index');
-        // dd("test");
-
-
     }
 }
