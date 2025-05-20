@@ -84,12 +84,11 @@ class CartController extends Controller
     {
         //store in orders
         
-        //remove products/trainings from cart
-        // $this->delete($request->products, $request->trainings);
-        //remove trainings from cart
-
-
         dd($request->products, $request->trainings, $request->totalPrice);
+        //remove products/trainings from cart
+        $this->removeItemsFromCart();
+
+
     }
 
     /**
@@ -122,7 +121,6 @@ class CartController extends Controller
     public function destroy()
     {
         $this->removeItemsFromCart();
-        
         return redirect()->route('webshop.index');
     }
 
