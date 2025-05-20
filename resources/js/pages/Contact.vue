@@ -62,7 +62,7 @@ const submit = () => {
                     <Input v-model="form.email" placeholder="Email" />
                     <InputError :message="form.errors.email"/>
                     <Label for="last_name">Bericht</Label>
-                    <textarea v-model="form.message" class="border-1 border-b-gray-200 rounded-md h-24"></textarea>
+                    <textarea v-model="form.message" class="border-1 border-primary rounded-md h-24"></textarea>
                     <InputError :message="form.errors.message"/>
                     <input type="hidden" v-model="form.is_completed" />
                     <Button type="submit" :disabled="form.processing">Versturen</Button>
