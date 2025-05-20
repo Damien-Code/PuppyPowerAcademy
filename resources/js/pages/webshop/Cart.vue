@@ -42,8 +42,8 @@ const submit = () => {
     })
 };
 
-const deleteItem = () => {
-    router.delete(route('cart.delete'))
+const deleteAllItems = () => {
+    form.delete(route('cart.destroy'))
 };
 
 </script>
@@ -53,6 +53,12 @@ const deleteItem = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+          <form @submit.prevent="deleteAllItems">
+            <Button variant="destructive">Leeg Winkelwagen</Button>
+             <!-- <div> -->
+               <!-- <Link :href="route('cart.delete')" variant="destructive">Leeg Winkelwagen</Link> -->
+              <!-- </div> -->
+          </form>
   <form @submit.prevent="submit" class="mx-auto max-w-screen-xl px-4 2xl:px-0">
     <div class="mx-auto max-w-3xl">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text- text-center">Winkelwagen</h2>
@@ -104,13 +110,13 @@ const deleteItem = () => {
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ product.price.toFixed(2) }}</td>
                 
                 <!-- Delete -->
-                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
+                <!-- <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
                   
                     <Button @click="deleteItem" variant="destructive">
                       <Icon name="Trash2" />
                     </Button>    
                
-                </td>
+                </td> -->
             </tr>
                 <!-- </div> -->
         <!-- trainings -->
@@ -137,13 +143,13 @@ const deleteItem = () => {
                 <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs: €{{ training.price.toFixed(2) }}</td>
                 
               <!-- Delete -->
-                <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
+                <!-- <td class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">
                    
                     <Button @click="deleteItem" variant="destructive">
                       <Icon name="Trash2" />
                     </Button>    
                   
-                </td>
+                </td> -->
               </tr>
                 <!-- </div> -->
            </tbody>

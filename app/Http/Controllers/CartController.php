@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Cart_Product;
+use App\Models\Cart_Training;
 use App\Models\Product;
 use App\Models\Training;
 use Illuminate\Http\Request;
@@ -83,7 +85,7 @@ class CartController extends Controller
         //store in orders
         
         //remove products/trainings from cart
-        $this->delete($request->products, $request->trainings);
+        // $this->delete($request->products, $request->trainings);
         //remove trainings from cart
 
 
@@ -117,21 +119,15 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product, Training $training)
+    public function destroy()
     {
-        dd($product, $training);
-        if($training != null){
-            $training->cartTraining()->detach(); 
-        }
-        else{
-            $product->cartProduct()->detach(); 
-        }
 
-        return redirect()->route('cart.index');
-    }
-    public function delete(Request $request)
-    {
-        $cart_id = Auth::user()->id; 
-        dd($request, $cart_id);
+        Cart_Product::where(['cart_id' => Auth::user()->id])->delete();
+        Cart_Training::where(['cart_id'=> Auth::user()->id])->delete();
+        // dd($products, $trainings);
+        return redirect()->route('webshop.index');
+        // dd("test");
+
+
     }
 }

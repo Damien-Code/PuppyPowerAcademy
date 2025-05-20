@@ -20,8 +20,10 @@ Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
 
+Route::delete('cart/deleteAllItems', [CartController::class, 'destroy'])
+->middleware('auth')->name('cart.destroy');
 
-Route::resource('cart', CartController::class)->middleware('auth');
+Route::resource('cart', CartController::class)->middleware('auth')->except(['destroy']);
 
 
 Route::get('training', function () {
