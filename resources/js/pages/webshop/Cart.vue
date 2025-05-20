@@ -26,14 +26,22 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+ 
+//modal
 const modalOpen = ref(false);
 const openModal = ()=>{
   modalOpen.value = true;
 }
+
 const form = useForm({
     products: new Array(),
     trainings: new Array(),
     totalPrice: 0,
+    country: '',
+    city: '',
+    street: '',
+    houseNumber: 0,
+    postalCode: '',
 });
 
 let shippingCost = 4.95;
@@ -85,18 +93,6 @@ const deleteAllItems = () => {
           <table class="w-full text-left font-medium text-gray-900 dark:text-white md:table-fixed">
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 <!-- products -->
-                <!-- <div v-for="product in props.products" :key="product.id" > -->
-                  <!-- <thead> 
-                    <tr class="flex items-center justify-between w-full">
-                      
-
-                        <th class="flex items-center aspect-square w-10 h-10 shrink-0">Product</th>
-                        <th class="p-4 text-base font-normal text-gray-900 dark:text-white">Aantal</th>
-                        <th class="p-4 text-right text-base font-bold text-gray-900 dark:text-white">Prijs</th>
-                      
-                    </tr>  
-                  </thead> -->
-                  
                     <tr v-for="product in props.products" :key="product.id">
                         <td class="whitespace-nowrap py-4 md:w-[384px]">
                   <div class="flex items-center gap-4">
@@ -205,7 +201,7 @@ const deleteAllItems = () => {
     </div>
   </form>
   <div class="gap-4 sm:flex sm:items-center">
-      <Link :href="route('webshop.index')" variant="destructive" >Return to Shopping</Link>
+      <Button v-on:click="route('webshop.index')" >Return to Shopping</Button> <!-- fix this route -->
       <Button @click="openModal()">Send the order</Button>
   </div>
 </section>
@@ -219,6 +215,33 @@ const deleteAllItems = () => {
         Vul hier uw adresgegevens in voor verzending. Druk op order wanneer u klaar bent.
       </DialogDescription>
     </DialogHeader>
+    <form @submit.prevent="submit()">
+      <div class="grid gap-4 py-4">
+        <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="name" class="text-right"> Land </Label>
+            <Input class="col-span-3" v-model="form.country" />
+        </div>
+        <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="name" class="text-right"> Stad </Label>
+            <Input class="col-span-3" v-model="form.city" />
+        </div>
+        <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="username" class="text-right"> Straat </Label>
+            <Input class="col-span-3" v-model="form.street" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="name" class="text-right"> Huisnummer </Label>
+            <Input class="col-span-3" v-model="form.houseNumber" type="number" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="media" class="text-right"> Postcode </Label>
+            <Input class="col-span-3" v-model="form.postalCode" />
+        </div>
+      </div>
+    <DialogFooter>
+            <Button type="submit"> Bestel </Button>
+    </DialogFooter>
+     </form>
   </DialogContent>
 </Dialog>
      <Footer/>
