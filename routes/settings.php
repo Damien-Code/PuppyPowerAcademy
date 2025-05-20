@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminContactMessageController;
+use App\Http\Controllers\Admin\AdminTrainingController;
 use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
         //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
         Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
-
+            Route::resource('settings/admin/training', AdminTrainingController::class);
         });
     });
 });

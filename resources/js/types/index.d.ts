@@ -63,6 +63,13 @@ export interface Order {
     order_products: OrderProducts[];
 }
 
+export interface Training {
+    id: number;
+    title: string;
+    description: string;
+    link: string;
+}
+
 export interface Product {
     id: number;
     name: string;

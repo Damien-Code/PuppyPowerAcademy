@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
 use App\Models\Training;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AdminContactMessageController extends Controller
+class AdminTrainingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +15,9 @@ class AdminContactMessageController extends Controller
     public function index()
     {
         return Inertia::render(
-            'settings/admin/Contact',
+            'settings/admin/Training',
             [
-                'messages' => Contact::where(
-                    'completed_at', '>', date('d.m.Y', strtotime("-1 week"))
-                )
-                ->orWhereNull('completed_at')
-                ->orderBy('created_at', 'desc')->get(),
+                'trainings' => Training::all(),
             ]
         );
     }
@@ -62,16 +57,9 @@ class AdminContactMessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, string $id)
     {
-        $validatedContact = $request->validate([
-            'is_completed' => 'required|bool'
-        ]);
-
-        $contact->is_completed = $validatedContact['is_completed'];
-        $contact->save();
-
-        return redirect()->back();
+        //
     }
 
     /**
