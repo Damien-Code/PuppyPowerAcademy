@@ -83,8 +83,8 @@ class CartController extends Controller
     public function store(Request $request)
     {
         //store in orders
-        
-        dd($request->products, $request->trainings, $request->totalPrice);
+        dd($request);
+        dd($request->products, $request->trainings, $request->totalPrice, $request->country, $request->city, $request->street, $request->houseNumber, $request->postalCode);
         //remove products/trainings from cart
         $this->removeItemsFromCart();
 

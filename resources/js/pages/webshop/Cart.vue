@@ -11,6 +11,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
 } from '@/components/ui/dialog';
 import { ref } from 'vue';
+import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Cart',
@@ -202,48 +203,50 @@ const deleteAllItems = () => {
   </form>
   <div class="gap-4 sm:flex sm:items-center">
       <Button v-on:click="route('webshop.index')" >Return to Shopping</Button> <!-- fix this route -->
-      <Button @click="openModal()">Send the order</Button>
-  </div>
-</section>
-
-<!-- modal -->
- <Dialog v-modal:open="openModal">
-  <DialogContent class="sm:max-w-[425px]">
-    <DialogHeader>
-      <DialogTitle>Adres informatie</DialogTitle>
-      <DialogDescription>
-        Vul hier uw adresgegevens in voor verzending. Druk op order wanneer u klaar bent.
-      </DialogDescription>
-    </DialogHeader>
-    <form @submit.prevent="submit()">
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="name" class="text-right"> Land </Label>
-            <Input class="col-span-3" v-model="form.country" />
+      
+      <!-- modal -->
+      <Dialog v-modal:open="openModal">
+        <DialogTrigger>
+          <Button @click="openModal()">Send the order</Button>
+        </DialogTrigger>
+        <DialogContent class="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Adres informatie</DialogTitle>
+            <DialogDescription>
+              Vul hier uw adresgegevens in voor verzending. Druk op order wanneer u klaar bent.
+            </DialogDescription>
+          </DialogHeader>
+          <form @submit.prevent="submit()">
+            <div class="grid gap-4 py-4">
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="name" class="text-right"> Land </Label>
+                <Input class="col-span-3" v-model="form.country" />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="name" class="text-right"> Stad </Label>
+                <Input class="col-span-3" v-model="form.city" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="name" class="text-right"> Stad </Label>
-            <Input class="col-span-3" v-model="form.city" />
+          <Label for="username" class="text-right"> Straat </Label>
+          <Input class="col-span-3" v-model="form.street" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="username" class="text-right"> Straat </Label>
-            <Input class="col-span-3" v-model="form.street" />
-          </div>
-          <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="name" class="text-right"> Huisnummer </Label>
-            <Input class="col-span-3" v-model="form.houseNumber" type="number" />
-          </div>
-          <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="media" class="text-right"> Postcode </Label>
-            <Input class="col-span-3" v-model="form.postalCode" />
+          <Label for="name" class="text-right"> Huisnummer </Label>
+          <Input class="col-span-3" v-model="form.houseNumber" type="number" />
+        </div>
+        <div class="grid grid-cols-4 items-center gap-4">
+          <Label for="media" class="text-right"> Postcode </Label>
+          <Input class="col-span-3" v-model="form.postalCode" />
         </div>
       </div>
-    <DialogFooter>
-            <Button type="submit"> Bestel </Button>
-    </DialogFooter>
-     </form>
+      <DialogFooter>
+        <Button type="submit"> Bestel </Button>
+      </DialogFooter>
+    </form>
   </DialogContent>
 </Dialog>
-     <Footer/>
+</div>
+</section>
+<Footer/>
     </AppLayout>
 </template>
