@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->text('message');
-            $table->boolean('is_completed');
+            $table->timestamp('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

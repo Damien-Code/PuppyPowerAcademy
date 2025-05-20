@@ -17,7 +17,11 @@ class AdminContactMessageController extends Controller
         return Inertia::render(
             'settings/admin/Contact',
             [
-                'messages' => Contact::orderBy('created_at', 'desc')->get(),
+                'messages' => Contact::where(
+                    'completed_at', '>', date('d.m.Y', strtotime("-1 week"))
+                )
+                ->orWhereNull('completed_at')
+                ->orderBy('created_at', 'desc')->get(),
             ]
         );
     }

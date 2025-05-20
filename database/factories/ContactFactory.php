@@ -21,7 +21,7 @@ class ContactFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'message' => $this->faker->text(),
-            'is_completed' => $this->faker->boolean(50)
+            'completed_at' => $this->faker->optional(0.5, null)->dateTimeThisMonth(),
         ];
     }
 }
