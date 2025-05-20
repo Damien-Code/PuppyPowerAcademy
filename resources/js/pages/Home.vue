@@ -36,8 +36,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <p>We are strategists, designers and developers. Innovators and problem solvers. Small enough to be simple and quick.</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mt-8">
-                        <img class="w-full rounded-lg " src="../../../public/images/DogHome.png" alt="office content 1">
-                        <img class="mt-4 w-full lg:mt-10 rounded-lg" src="../../../public/images/DogHome2.png" alt="office content 2">
+                        <img class="w-full rounded-lg " src="../../../public/images/DogHome.png" alt="dog">
+                        <img class="mt-4 w-full lg:mt-10 rounded-lg" src="../../../public/images/DogHome2.png" alt="dog">
                     </div>
                 </div>
             </section>
