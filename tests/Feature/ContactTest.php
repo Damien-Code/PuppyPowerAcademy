@@ -32,7 +32,7 @@ class ContactTest extends TestCase
             'last_name' => 'User',
             'email' => 'test@example.com',
             'message' => 'Test Message',
-            'is_completed' => false,
+            'completed_at' => null,
         ];
         // Send a POST request to the store route
         $response = $this->post('/contact', $data);
