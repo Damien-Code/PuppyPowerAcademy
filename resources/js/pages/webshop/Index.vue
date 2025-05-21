@@ -33,7 +33,7 @@ const props = defineProps<Props>();
                                 <div class="h-56 w-full">
 
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="w-fit h-fit" />
+                                        <img :src="product.mediaFile.original_url" class="h-full mx-auto" />
                                     </a>
 <!--                                    <img class="mx-auto h-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" />-->
 <!--                                    <img class="mx-auto hidden h-full dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="" />-->
