@@ -74,6 +74,18 @@ export interface Training {
     deleted_at: string;
     amount:number;
 }
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    mediaFile?: MediaFile;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    amount:number;
+}
 export interface Training {
     id: number;
     title: string;
