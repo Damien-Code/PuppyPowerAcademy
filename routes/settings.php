@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminContactMessageController;
+use App\Http\Controllers\Admin\AdminTrainingController;
 use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/Appearance');
     })->name('appearance');
+
+    Route::resource('settings/training', TrainingController::class);
 
     Route::resource('settings/order-history', OrderHistoryController::class);
 
@@ -42,10 +46,7 @@ Route::middleware('auth')->group(function () {
         //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
         Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
-
+            Route::resource('settings/admin/training', AdminTrainingController::class);
         });
-
-
-
     });
 });

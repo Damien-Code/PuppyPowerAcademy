@@ -19,6 +19,10 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/appearance',
     },
     {
+        title: 'Training',
+        href: '/settings/training',
+    },
+    {
         title: 'Bestelgeschiedenis',
         href: '/settings/order-history',
     },
