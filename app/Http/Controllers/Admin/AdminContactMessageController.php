@@ -19,10 +19,14 @@ class AdminContactMessageController extends Controller
             'settings/admin/Contact',
             [
                 'messages' => Contact::where(
-                    'completed_at', '>', date('d.m.Y', strtotime("-1 week"))
+                    'completed_at', '>', date('Y.m.d', strtotime("-1 week"))
                 )
                 ->orWhereNull('completed_at')
-                ->orderBy('created_at', 'desc')->get(),
+                ->orderBy('created_at', 'desc')
+                ->withCasts([
+                    'completed_at' => 'boolean'
+                ])
+                ->get(),
             ]
         );
     }
@@ -65,7 +69,7 @@ class AdminContactMessageController extends Controller
     public function update(Request $request, Contact $contact)
     {
         $validatedContact = $request->validate([
-            'completed_at' => 'required|date'
+            'completed_at' => 'nullable|date_format:Y-m-d H:i:s'
         ]);
 
         $contact->completed_at = $validatedContact['completed_at'];
