@@ -17,7 +17,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Award, BookOpen, CalendarDays, Folder, Menu, Store, ShoppingCart} from 'lucide-vue-next';
+import { Award, Instagram, CalendarDays, Menu, Store, ShoppingCart} from 'lucide-vue-next';
 import { computed } from 'vue';
 
 interface Props {
@@ -57,14 +57,9 @@ const mainNavItems: NavItem[] = [
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Repository',
+        title: 'Instagram',
         href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        icon: Instagram,
     },
 ];
 </script>
