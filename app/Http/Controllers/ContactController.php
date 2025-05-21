@@ -36,7 +36,7 @@ class ContactController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255',
             'message' => 'required|string|max:255',
-            'is_completed' => 'nullable|boolean'
+            'completed_at' => 'nullable|date'
         ]);
         Contact::create($validated);
         return redirect()->route('contact.index');

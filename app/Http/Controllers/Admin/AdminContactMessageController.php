@@ -65,10 +65,10 @@ class AdminContactMessageController extends Controller
     public function update(Request $request, Contact $contact)
     {
         $validatedContact = $request->validate([
-            'is_completed' => 'required|bool'
+            'completed_at' => 'required|date'
         ]);
 
-        $contact->is_completed = $validatedContact['is_completed'];
+        $contact->completed_at = $validatedContact['completed_at'];
         $contact->save();
 
         return redirect()->back();

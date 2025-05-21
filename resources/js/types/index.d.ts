@@ -106,7 +106,7 @@ export interface Message {
     last_name: string;
     email: string;
     message: string;
-    is_completed: boolean;
+    completed_at: string;
     created_at: string;
 }
 

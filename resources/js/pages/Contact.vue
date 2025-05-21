@@ -23,7 +23,7 @@ const form = useForm({
     last_name: '',
     email: '',
     message: '',
-    is_completed: false,
+    completed_at: '',
 });
 
 const submit = () => {
@@ -64,7 +64,7 @@ const submit = () => {
                     <Label for="last_name">Bericht</Label>
                     <textarea v-model="form.message" class="border-1 border-primary rounded-md h-24"></textarea>
                     <InputError :message="form.errors.message"/>
-                    <input type="hidden" v-model="form.is_completed" />
+                    <input type="hidden" v-model="form.completed_at" />
                     <Button type="submit" :disabled="form.processing">Versturen</Button>
                 </form>
             </div>

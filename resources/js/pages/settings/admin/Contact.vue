@@ -28,7 +28,7 @@ const submitForm = (message: Message) => {
     router.post(
         route('contact.update', message.id),
         {
-            'is_completed': message.is_completed,
+            'completed_at': message.completed_at,
             _method: 'PATCH'
         }
     )
@@ -60,7 +60,7 @@ const submitForm = (message: Message) => {
                                     <Switch
                                         class="mr-auto"
                                         id="is-read"
-                                        v-model="message.is_completed"
+                                        v-model="message.completed_at"
                                         @update:modelValue="submitForm(message)"
                                     />
                                 </form>
