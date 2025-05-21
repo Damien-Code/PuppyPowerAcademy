@@ -35,7 +35,16 @@ class AdminTrainingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedRequest = $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
+            'description' => 'required|string',
+            'link' => 'required|string|max:255',
+        ]);
+
+        Training::create($validatedRequest);
+
+        return redirect()->route('admin.training.index');
     }
 
     /**
@@ -57,9 +66,18 @@ class AdminTrainingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Training $training)
     {
-        //
+        $validatedRequest = $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
+            'description' => 'required|string',
+            'link' => 'required|string|max:255',
+        ]);
+
+        $training->update($validatedRequest);
+
+        return redirect()->route('admin.training.index');
     }
 
     /**
