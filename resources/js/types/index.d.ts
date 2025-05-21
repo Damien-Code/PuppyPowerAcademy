@@ -71,19 +71,21 @@ export interface Training {
     link: string;
     created_at: string;
     updated_at: string;
+    deleted_at: string;
+    amount:number;
 }
-
-export interface Product {
+export interface Training {
     id: number;
-    name: string;
-    description: string;
+    title: string;
     price: number;
-    stock: number;
+    description: string;
+    link: string;
     mediaFile?: MediaFile;
     created_at: string;
     updated_at: string;
     deleted_at: string;
 }
+
 
 
 export interface Message {

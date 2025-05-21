@@ -1,5 +1,8 @@
 <?php
 
+
+use App\Http\Controllers\CartController;
+
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DaycareController;
 use App\Http\Controllers\WebshopController;
@@ -14,9 +17,11 @@ Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
 
-Route::get('webshop/cart', function () {
-    return Inertia::render('webshop/Cart');
-})->name('webshop.cart')->middleware('auth');
+Route::delete('cart/deleteAllItems', [CartController::class, 'destroy'])
+->middleware('auth')->name('cart.destroy');
+
+Route::resource('cart', CartController::class)->middleware('auth')->except(['destroy']);
+
 
 //Route::get('dagopvang', function () {
 //    return Inertia::render('dagopvang/Index');

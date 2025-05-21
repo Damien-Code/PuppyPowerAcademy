@@ -75,7 +75,7 @@ const submit = () => {
                                 class="text-l font-extrabold text-gray-900 sm:text-l dark:text-white"
                             >
                                 <NumberField id="Aantal" :default-value="1" :min="1" :max="product.stock" v-model="form.amount">
-                                  <Label for="Aantal">Age</Label>
+                                  <Label for="Aantal">Aantal</Label>
                                   <NumberFieldContent>
                                     <NumberFieldDecrement />
                                     <NumberFieldInput />

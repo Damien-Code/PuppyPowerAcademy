@@ -6,6 +6,8 @@ use App\Models\User;
 // use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Cart_Product;
+use App\Models\Cart_Training;
 use App\Models\Contact;
 use App\Models\Dog;
 use App\Models\Daycare;
@@ -14,6 +16,7 @@ use App\Models\Training;
 use App\Models\Dog_Training;
 use App\Models\Order;
 use App\Models\Order_Product;
+use App\Models\Order_Training;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -48,7 +51,10 @@ class DatabaseSeeder extends Seeder
         Daycare_Dog::factory(10)->create();
         Dog_Training::factory(10)->create();
         Cart::factory(count(User::all()))->create();
+        Cart_Product::factory(count(User::all()))->create();
+        Cart_Training::factory(count(User::all()))->create();
         Order_Product::factory(10)->create();
+        Order_Training::factory(10)->create();
         
         
     }

@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Product;
+use App\Models\Training;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart_Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cart_Training>
  */
-class CartFactory extends Factory
+class Cart_TrainingFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,8 +19,8 @@ class CartFactory extends Factory
     {
         static $user_id = 1;
         return [
-            'user_id' => $user_id++,
-            
+            'cart_id' => $user_id++,
+            'training_id' => Training::inRandomOrder()->first(),
         ];
     }
 }
