@@ -1,4 +1,4 @@
-<script setup lang="ts">
+    <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +19,10 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/appearance',
     },
     {
+        title: 'Training',
+        href: '/settings/training',
+    },
+    {
         title: 'Bestelgeschiedenis',
         href: '/settings/order-history',
     },
@@ -27,7 +31,7 @@ const sidebarNavItems: NavItem[] = [
 const adminNavItems: NavItem[] = [
     {
         title: 'Webshop',
-        href: '/settings/admin/webshop',
+        href: '/settings/admin/webshop ',
     },
     {
         title: 'Training',

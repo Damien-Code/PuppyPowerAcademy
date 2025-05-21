@@ -26,7 +26,7 @@ defineProps<Props>();
 
 const submitForm = (message: Message) => {
     router.post(
-        route('contact.update', message.id), 
+        route('contact.update', message.id),
         {
             'is_completed': message.is_completed,
             _method: 'PATCH'
@@ -43,7 +43,7 @@ const submitForm = (message: Message) => {
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Contact" description="View your unread contact messages"/>
-                <Table class="">
+                <Table>
                     <TableHeader>
                         <TableRow>
                             <TableHead class="text-left w-1/12">Afgerond</TableHead>
@@ -57,17 +57,17 @@ const submitForm = (message: Message) => {
                         <TableRow v-for="message in messages" :key="message.id" class="">
                             <TableCell class="flex">
                                 <form>
-                                    <Switch 
-                                        class="mr-auto" 
-                                        id="is-read" 
-                                        v-model="message.is_completed" 
+                                    <Switch
+                                        class="mr-auto"
+                                        id="is-read"
+                                        v-model="message.is_completed"
                                         @update:modelValue="submitForm(message)"
                                     />
                                 </form>
                             </TableCell>
                             <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
                             <TableCell>{{ message.email }}</TableCell>
-                            <TableCell>{{ useDateFormat(message.created_at, 'YYYY-MM-DD') }}</TableCell>
+                            <TableCell>{{ useDateFormat(message.created_at, 'DD-MM-YYYY') }}</TableCell>
                             <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
                         </TableRow>
                     </TableBody>

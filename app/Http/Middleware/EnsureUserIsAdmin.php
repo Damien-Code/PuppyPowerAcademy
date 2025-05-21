@@ -9,12 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureUserIsAdmin
 {
     /**
-     * Handle an incoming request.
-     *
+     * @author Damien-COde
+     * Check to what the role_id from auth user is equal to
+     * if not role_id of 1, then abort with 403
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if (auth()->user()->role_id != 1) {
             abort(403);
         }

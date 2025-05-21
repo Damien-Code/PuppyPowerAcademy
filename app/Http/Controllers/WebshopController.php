@@ -15,9 +15,9 @@ class WebshopController extends Controller
      */
     public function index()
     {
-        
+        // Get all products with relation to media
     return Inertia::render('webshop/Index',[
-        'products' => Product::all()
+        'products' => Product::with('media')->get()
     ]);
 
     }
@@ -36,8 +36,9 @@ class WebshopController extends Controller
     public function store(Request $request)
     {
         if($request->user() == null){return redirect()->route('login');}
+
         $request->request->add(['cart_id' => $request->user()->id]);
-        
+
         $validatedRequest = $request->validate([
             'cart_id'    => 'int|required|gt:0',
             'product_id' => 'int|required|gt:0',
@@ -52,8 +53,9 @@ class WebshopController extends Controller
         // dd($itemInCart);
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
-            //create 
+
             Cart_Product::create($validatedRequest);
+
         }
         else{
             //update

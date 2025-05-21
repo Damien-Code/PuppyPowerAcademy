@@ -1,21 +1,18 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\WebshopController;
 
+use App\Http\Controllers\CartController;
+
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DaycareController;
+use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-//Route::get('/', function () {
-//    return Inertia::render('Welcome');
-//})->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
-// Route::post('webshop', [WebshopController::class,'store'])->name('webshop');
 Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
@@ -26,13 +23,18 @@ Route::delete('cart/deleteAllItems', [CartController::class, 'destroy'])
 Route::resource('cart', CartController::class)->middleware('auth')->except(['destroy']);
 
 
+//Route::get('dagopvang', function () {
+//    return Inertia::render('dagopvang/Index');
+//})->name('dagopvang/Index');
+
+Route::resource('dagopvang', DaycareController::class)->except(['index'])->middleware('auth');
+
+Route::get('dagopvang', [DaycareController::class, 'index'])->name('dagopvang.index');
+
 Route::get('training', function () {
     return Inertia::render('training/Index');
 })->name('training/Index');
 
-Route::get('dagopvang', function () {
-    return Inertia::render('dagopvang/Index');
-})->name('dagopvang/Index');
 
 Route::get('dagopvang/planning', function () {
     return Inertia::render('dagopvang/Planning');
@@ -47,8 +49,6 @@ Route::get('about', function () {
 })->name('about');
 
 Route::resource('contact', ContactController::class);
-
-
 
 
 require __DIR__.'/settings.php';

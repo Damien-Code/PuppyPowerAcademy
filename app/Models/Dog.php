@@ -25,5 +25,11 @@ class Dog extends Model
         return $this->hasMany(Dog_Training::class);
     }
 
+    // Search if this is correct for pivot table
+    public function daycares(){
+//        return $this->hasManyThrough(Daycare::class, Daycare_Dog::class);
+        return $this->belongsToMany(Daycare::class, Daycare_Dog::class);
+    }
+
     protected $table = 'dogs';
 }

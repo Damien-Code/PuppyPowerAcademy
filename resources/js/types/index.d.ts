@@ -63,12 +63,12 @@ export interface Order {
     order_products: OrderProducts[];
 }
 
-export interface Product {
+export interface Training {
     id: number;
-    name: string;
-    description: string;
+    title: string;
     price: number;
-    stock: number;
+    description: string;
+    link: string;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -80,6 +80,7 @@ export interface Training {
     price: number;
     description: string;
     link: string;
+    mediaFile?: MediaFile;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -95,6 +96,29 @@ export interface Message {
     message: string;
     is_completed: boolean;
     created_at: string;
+}
+
+export interface MediaFile {
+    id: number,
+    model_type: string,
+    model_id: number,
+    uuid: string,
+    collection_name: string,
+    name: string,
+    file_name: string,
+    mime_type: string,
+    disk: string,
+    conversions_disk: string,
+    size: number,
+    manipulations: string[],
+    custom_properties: string[],
+    generated_conversions: string[],
+    responsive_images: string[],
+    order_column: number,
+    created_at: string,
+    updated_at: string,
+    original_url: string,
+    preview_url: string,
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

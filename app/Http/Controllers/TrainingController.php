@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
-use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ContactController extends Controller
+class TrainingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Contact');
+        return Inertia::render('settings/Training');
     }
 
     /**
@@ -30,16 +28,7 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255',
-            'message' => 'required|string|max:255',
-            'is_completed' => 'nullable|boolean'
-        ]);
-        Contact::create($validated);
-        return redirect()->route('contact.index');
+        //
     }
 
     /**
