@@ -80,14 +80,6 @@ class CartController extends Controller
     {
         //format price to not be xx.xx0000005 but to be of format xx.xx
         $request->totalPrice = number_format($request->totalPrice, 2, '.',"");
-        
-        // temp adding to $request for db testing till frontend form takes values
-        $request->request->add(['postal_code' => "TEST01"]); 
-        $request->request->add(['country' => "Netherlands"]); 
-        $request->request->add(['city' => "Lelystad"]); 
-        $request->request->add(['street' => "test15"]); 
-        $request->request->add(['house_number' => 25]); 
-        //^ end temp
 
         //add user_id to request for query
         $request->request->add(['user_id' => Auth::user()->id]); 
@@ -95,14 +87,15 @@ class CartController extends Controller
         //add to orders
         $validatedOrder = $request->validate([
             'user_id' => 'required|integer|gt:0',
-            'postal_code' => 'required|string|max:7',
-            'country' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'street' => 'required|string|max:255',
-            'house_number' => 'required|integer',
+            'postal_code' => 'required|string|max:7|min:1',
+            'country' => 'required|string|max:255|min:1',
+            'city' => 'required|string|max:255|min:1',
+            'street' => 'required|string|max:255|min:1',
+            'house_number' => 'required|integer|gt:0',
             'total_price' => 'required|numeric|gt:0',
         ]);
-        
+  
+        //create order
         Order::create($validatedOrder);
         
         //get latest order_id
@@ -111,6 +104,8 @@ class CartController extends Controller
         //insert into order_products
         if(count($request->products)>0){
             foreach ($request->products as $product) {
+                $currrentProduct = Product::find($product['id']);
+                $currrentProduct->stock = $currrentProduct->stock - $product['amount'];
                 Order_Product::create(['order_id' => $order_id, 'product_id' => $product['id'], 'amount' => $product['amount']]);
             }
         }
