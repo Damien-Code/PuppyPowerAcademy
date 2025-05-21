@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('race');
             $table->foreignId('user_id')->constrained('users');
             $table->integer('age');
-            $table->boolean('been_to_daycare');
+            $table->boolean('been_to_daycare')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

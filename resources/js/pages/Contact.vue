@@ -46,10 +46,11 @@ const submit = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <Toaster/>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="border-sidebar-border/70 dark:border-sidebar-border flex min-h-[15vh] flex-col items-center justify-center rounded-xl border p-4 mb-12">
+<!--            <div class="border-sidebar-border/70 dark:border-sidebar-border flex min-h-[15vh] flex-col items-center justify-center rounded-xl border p-4 mb-12">-->
+<!--                <Heading title="Contact" description="Mocht u vragen hebben, stel ze gerust via dit contactformulier"/>-->
+<!--            </div>-->
+            <div class="border-sidebar-border/70 dark:border-sidebar-border relative mx-auto rounded-xl border md:min-h-min bg-white p-8">
                 <Heading title="Contact" description="Mocht u vragen hebben, stel ze gerust via dit contactformulier"/>
-            </div>
-            <div class="border-sidebar-border/70 dark:border-sidebar-border relative mx-auto rounded-xl border md:min-h-min">
                 <form class="flex flex-col justify-between gap-4 p-4 md:w-96 min-h-full" @submit.prevent="submit">
                     <Label for="first_name">Voornaam</Label>
                     <Input v-model="form.first_name" placeholder="Voornaam" />
@@ -61,7 +62,7 @@ const submit = () => {
                     <Input v-model="form.email" placeholder="Email" />
                     <InputError :message="form.errors.email"/>
                     <Label for="last_name">Bericht</Label>
-                    <textarea v-model="form.message" class="border-1 border-b-gray-200 rounded-md h-24"></textarea>
+                    <textarea v-model="form.message" class="border-1 border-primary rounded-md h-24"></textarea>
                     <InputError :message="form.errors.message"/>
                     <input type="hidden" v-model="form.is_completed" />
                     <Button type="submit" :disabled="form.processing">Versturen</Button>

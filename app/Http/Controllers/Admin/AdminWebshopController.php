@@ -31,8 +31,8 @@ class AdminWebshopController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'price' => 'required|numeric|gt:0',
+            'stock' => 'required|numeric:gt:0',
             'media' => 'nullable|file|max:10240'
         ]);
 
@@ -55,8 +55,8 @@ class AdminWebshopController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
+            'price' => 'required|numeric|gt:0',
+            'stock' => 'required|numeric|gt:0',
             'media' => 'nullable|file|max:10240'
         ]);
         $product->update($validated);

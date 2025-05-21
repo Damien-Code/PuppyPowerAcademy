@@ -134,7 +134,6 @@ const deleteProduct = (id: number) => {
         <Head title="Admin Webshop" />
 
         <SettingsLayout>
-            <Toaster />
             <div class="space-y-6">
                 <HeadingSmall title="Admin Webshop" description="Update uw webshop of webshop items" />
                 <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -200,7 +199,7 @@ const deleteProduct = (id: number) => {
                             </div>
 
                             <Dialog v-model:open="modalOpen">
-                                <DialogContent class="sm:max-w-[425px]">
+                                <DialogContent class="sm:max-w-[425px] bg-white">
                                     <DialogHeader>
                                         <DialogTitle>Bewerk product</DialogTitle>
                                         <DialogDescription>
@@ -243,6 +242,7 @@ const deleteProduct = (id: number) => {
                     </div>
                 </div>
             </div>
+            <Toaster />
         </SettingsLayout>
     </AppLayout>
 </template>
