@@ -9,11 +9,9 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
     DateFormatter,
-    type DateValue,
     getLocalTimeZone,
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
 import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
 import Heading from '@/components/Heading.vue';
@@ -28,8 +26,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 const df = new DateFormatter('nl-NL', {
     dateStyle: 'long',
 })
-
-const value = ref<DateValue>()
 
 const form = useForm({
     name: '',
