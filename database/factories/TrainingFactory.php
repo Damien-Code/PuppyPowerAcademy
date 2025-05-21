@@ -20,7 +20,7 @@ class TrainingFactory extends Factory
             'title' => $this->faker->words(2, true),
             'price' => $this->faker->numberBetween(2.5,12.5),
             'description' => $this->faker->paragraph(),
-            'link' => $this->faker->url(),
+            'link' => "https://www.youtube.com/watch?v=7Lf0jEgz9BA"
         ];
     }
 }

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
 use App\Models\Training;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AdminContactMessageController extends Controller
+class AdminTrainingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +15,9 @@ class AdminContactMessageController extends Controller
     public function index()
     {
         return Inertia::render(
-            'settings/admin/Contact',
+            'settings/admin/Training',
             [
-                'messages' => Contact::where(
-                    'completed_at', '>', date('d.m.Y', strtotime("-1 week"))
-                )
-                ->orWhereNull('completed_at')
-                ->orderBy('created_at', 'desc')->get(),
+                'trainings' => Training::all(),
             ]
         );
     }
@@ -40,7 +35,16 @@ class AdminContactMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedRequest = $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
+            'description' => 'required|string',
+            'link' => 'required|string|max:255',
+        ]);
+
+        Training::create($validatedRequest);
+
+        return redirect()->route('admin.training.index');
     }
 
     /**
@@ -62,16 +66,18 @@ class AdminContactMessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, Training $training)
     {
-        $validatedContact = $request->validate([
-            'is_completed' => 'required|bool'
+        $validatedRequest = $request->validate([
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
+            'description' => 'required|string',
+            'link' => 'required|string|max:255',
         ]);
 
-        $contact->is_completed = $validatedContact['is_completed'];
-        $contact->save();
+        $training->update($validatedRequest);
 
-        return redirect()->back();
+        return redirect()->route('admin.training.index');
     }
 
     /**
