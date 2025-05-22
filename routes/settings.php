@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminContactMessageController;
+use App\Http\Controllers\Admin\AdminTrainingCategoryController;
 use App\Http\Controllers\Admin\AdminTrainingController;
 use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('settings/admin/contact', AdminContactMessageController::class);
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
             Route::resource('settings/admin/training', AdminTrainingController::class);
+            Route::resource('settings/admin/training-categories', AdminTrainingCategoryController::class);
         });
     });
 });

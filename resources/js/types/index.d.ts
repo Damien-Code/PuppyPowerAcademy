@@ -69,10 +69,19 @@ export interface Training {
     price: number;
     description: string;
     link: string;
+    training_category: TrainingCategory[];
     created_at: string;
     updated_at: string;
     deleted_at: string;
     amount:number;
+}
+
+export interface TrainingCategory {
+    id: number;
+    name: string;
+    training: Training[];
+    created_at: string;
+    updated_at: string;
 }
 export interface Product {
     id: number;
