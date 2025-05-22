@@ -10,6 +10,7 @@ class TrainingCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'price'
     ];
 
     public function cartTraining(){

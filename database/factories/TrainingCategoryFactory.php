@@ -19,6 +19,7 @@ class TrainingCategoryFactory extends Factory
         return [
             //
             'name' => $this->faker->words(1, true),
+            'price' => $this->faker->numberBetween(2.5,12.5),
         ];
     }
 }

@@ -31,6 +31,7 @@ class AdminTrainingCategoryController extends Controller
     {
         $validatedRequest = $request->validate([
             'name' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
             'training_id' => 'nullable',
         ]);
         TrainingCategory::create($validatedRequest);
