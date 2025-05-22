@@ -79,7 +79,7 @@ export interface Training {
 export interface TrainingCategory {
     id: number;
     name: string;
-    training: Training[];
+    trainings: Training[];
     created_at: string;
     updated_at: string;
 }

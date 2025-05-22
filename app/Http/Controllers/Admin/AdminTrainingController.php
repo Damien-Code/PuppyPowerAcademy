@@ -18,9 +18,10 @@ class AdminTrainingController extends Controller
         return Inertia::render(
             'settings/admin/Training',
             [
-                'trainings' => Training::query()
-                ->with('trainingCategory')->get(),
-                'trainingCategories' => TrainingCategory::all()
+//                'trainings' => Training::query()
+//                ->with('trainingCategory')->get(),
+                'trainings' => Training::with('trainingCategory')->get(),
+                'trainingCategories' => TrainingCategory::with('trainings')->get(),
             ]
         );
     }
