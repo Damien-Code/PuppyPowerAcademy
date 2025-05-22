@@ -68,7 +68,8 @@ export interface Training {
     title: string;
     description: string;
     link: string;
-    training_category: TrainingCategory[];
+    training_category: TrainingCategory;
+    training_category_id: number
     created_at: string;
     updated_at: string;
     deleted_at: string;
