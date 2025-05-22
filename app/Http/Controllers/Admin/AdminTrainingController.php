@@ -76,7 +76,9 @@ class AdminTrainingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
+            'training_category_id' => 'required|exists:training_categories,id'
         ]);
+
 
         $training->update($validatedRequest);
 

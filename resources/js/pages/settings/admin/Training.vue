@@ -124,12 +124,12 @@ defineProps<Props>();
                             <form @submit.prevent="submitCategory">
                                 <div class="grid gap-4 py-4">
                                     <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label for="title" class="text-right"> Naam van de categorie </Label>
+                                        <Label for="title"> Naam van de categorie </Label>
                                         <Input id="title" class="col-span-3" v-model="formCat.name" />
                                         <InputError :message="formCat.errors.name" />
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label for="price" class="text-right"> Naam van de categorie </Label>
+                                        <Label for="price"> Prijs </Label>
                                         <Input id="price" class="col-span-3" v-model="formCat.price" />
                                         <InputError :message="formCat.errors.price" />
                                     </div>
@@ -196,9 +196,12 @@ defineProps<Props>();
                     </Dialog>
                 </div>
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary p-8 rounded-lg">
+                    <div class="flex justify-between">
                     <Heading :title="category.name" :description=" '&euro;' + category.price.toString()"/>
+                    <Button :variant="'secondary'">Bewerk categorie</Button>
+                    </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
-                        <div v-for="training in category.trainings" :key="training.id" class="my-4 flex rounded-lg bg-white">
+                        <div v-for="training in category.trainings" :key="training.id" class="my-4 flex rounded-lg bg-background">
                             <div class="relative flex w-1/2 flex-col p-4">
                                 <Heading :title="training.title" :description="training.description" />
                                 <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
@@ -238,19 +241,17 @@ defineProps<Props>();
                         <div class="flex flex-col justify-between gap-4">
                             <Label for="title"> Title </Label>
                             <Input id="title" v-model="selectedItem.title" />
-                            <Label for="price"> Price </Label>
-                            <Input id="price" v-model="selectedItem.price" />
                             <Label for="description"> Description </Label>
                             <Input id="description" v-model="selectedItem.description" />
                             <Label>Category</Label>
-                            <Select v-model="selectedItem.training_category">
+                            <Select v-model="selectedItem.training_category_id">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Kies een categorie" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Categorie</SelectLabel>
-                                        <SelectItem v-for="category in trainingCategories" :key="category.id" :value="selectedItem.training_category">
+                                        <SelectItem v-for="category in trainingCategories" :key="category.id" :value="category.id">
                                             {{ category.name }}
                                         </SelectItem>
                                     </SelectGroup>
