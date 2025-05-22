@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 //            $table->foreignId('training_id')->constrained(); // unique category
             $table->string('name');
+            $table->double('price');
             $table->timestamps();
         });
 

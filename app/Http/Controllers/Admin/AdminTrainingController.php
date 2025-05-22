@@ -41,7 +41,6 @@ class AdminTrainingController extends Controller
     {
         $validatedRequest = $request->validate([
             'title' => 'required|string|max:255',
-            'price' => 'required|numeric|gt:0',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
             'training_category_id' => 'required|int|exists:training_categories,id'
@@ -75,7 +74,6 @@ class AdminTrainingController extends Controller
     {
         $validatedRequest = $request->validate([
             'title' => 'required|string|max:255',
-            'price' => 'required|numeric|gt:0',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
         ]);

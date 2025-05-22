@@ -23,9 +23,8 @@ const onReady = () => {
 };
 
 const form = useForm({
-    // title, price, description, link
+    // title, description, link
     title: '',
-    price: '',
     description: '',
     training_category_id: 0,
     link: '',
@@ -33,6 +32,7 @@ const form = useForm({
 
 const formCat = useForm({
     name: '',
+    price: '',
 });
 
 const submit = () => {
@@ -132,6 +132,11 @@ defineProps<Props>();
                                         <Input id="title" class="col-span-3" v-model="formCat.name" />
                                         <InputError :message="formCat.errors.name" />
                                     </div>
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <Label for="price" class="text-right"> Naam van de categorie </Label>
+                                        <Input id="price" class="col-span-3" v-model="formCat.price" />
+                                        <InputError :message="formCat.errors.price" />
+                                    </div>
                                 </div>
 
                                 <DialogFooter>
@@ -158,10 +163,6 @@ defineProps<Props>();
                                     <div class="grid grid-cols-4 items-center gap-4">
                                         <Label for="title" class="text-right"> Title </Label>
                                         <Input id="title" class="col-span-3" v-model="form.title" />
-                                    </div>
-                                    <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label for="price" class="text-right"> Price </Label>
-                                        <Input id="price" class="col-span-3" type="number" step="0.01" v-model="form.price" />
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
                                         <Label for="description" class="text-right"> Description </Label>
@@ -199,11 +200,11 @@ defineProps<Props>();
                     </Dialog>
                 </div>
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary p-8 rounded-lg">
-                    <Heading :title="category.name" />
+                    <Heading :title="category.name" :description=" '&euro;' + category.price.toString()"/>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
                         <div v-for="training in category.trainings" :key="training.id" class="my-4 flex rounded-lg bg-white">
                             <div class="relative flex w-1/2 flex-col p-4">
-                                <Heading :title="training.title + ' (€' + training.price + ')'" :description="training.description" />
+                                <Heading :title="training.title" :description="training.description" />
                                 <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
                                 <p class="text-black" v-if="training.created_at != training.updated_at">
                                     Laatst geüpdate op:

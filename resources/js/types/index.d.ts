@@ -66,7 +66,6 @@ export interface Order {
 export interface Training {
     id: number;
     title: string;
-    price: number;
     description: string;
     link: string;
     training_category: TrainingCategory[];
@@ -79,6 +78,7 @@ export interface Training {
 export interface TrainingCategory {
     id: number;
     name: string;
+    price: number;
     trainings: Training[];
     created_at: string;
     updated_at: string;
