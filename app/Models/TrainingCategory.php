@@ -16,7 +16,7 @@ class TrainingCategory extends Model
         return $this->hasMany(Cart::class);
     }
 
-    public function training(){
+    public function trainings(){
         return $this->hasMany(Training::class);
     }
 }
