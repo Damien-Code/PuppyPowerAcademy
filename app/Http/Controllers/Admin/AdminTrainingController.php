@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Training;
+use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,7 +18,9 @@ class AdminTrainingController extends Controller
         return Inertia::render(
             'settings/admin/Training',
             [
-                'trainings' => Training::all(),
+                'trainings' => Training::query()
+                ->with('trainingCategory')->get(),
+                'trainingCategories' => TrainingCategory::all()
             ]
         );
     }
@@ -40,6 +43,7 @@ class AdminTrainingController extends Controller
             'price' => 'required|numeric|gt:0',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
+            'training_category_id' => 'required|int|exists:training_categories,id'
         ]);
 
         Training::create($validatedRequest);
