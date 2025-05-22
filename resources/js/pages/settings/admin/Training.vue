@@ -202,7 +202,7 @@ defineProps<Props>();
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary p-8 rounded-lg">
                     <div class="flex justify-between">
                     <Heading :title="category.name" :description=" '&euro;' + category.price.toString()"/>
-                    <Button :variant="'secondary'">Bewerk categorie</Button>
+                    <Button variant="secondary">Bewerk categorie</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
                         <div v-for="training in category.trainings" :key="training.id" class="my-4 flex rounded-lg bg-background">
@@ -230,7 +230,7 @@ defineProps<Props>();
                         </div>
                     </div>
                     <div v-else>
-                        <p >Geen training toegevoegd</p>
+                        <HeadingSmall title="Geen trainingen toegevoegd" />
                     </div>
                 </div>
             </div>
