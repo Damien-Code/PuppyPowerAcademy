@@ -18,19 +18,25 @@ import YouTube from 'vue3-youtube';
 
 const youtubeRef = ref<InstanceType<typeof YouTube> | null>(null);
 
+const onReady = () => {
+    youtubeRef.value?.playVideo();
+};
+
+// This makes it able to submit the training form.
 const form = useForm({
-    // title, description, link
     title: '',
     description: '',
     training_category_id: 0,
     link: '',
 });
 
+// This makes it able to submit the training category form.
 const formCat = useForm({
     name: '',
     price: '',
 });
 
+// This makes it able to submit the training.
 const submit = () => {
     form.post(route('admin.training.store'), {
         forceFormData: true,
@@ -46,6 +52,7 @@ const submit = () => {
     });
 };
 
+// The function to submit the training category.
 const submitCategory = () => {
     formCat.post(route('admin.training-categories.store'), {
         forceFormData: true,
@@ -60,6 +67,7 @@ const submitCategory = () => {
     });
 };
 
+// This makes it able to update an individual training.
 const update = (trainingId: any, formData: any) => {
     router.post(
         route('admin.training.update', trainingId),
@@ -75,7 +83,28 @@ const update = (trainingId: any, formData: any) => {
             },
             onError: () => {
                 toast.error('Er is iets mis gegaan.');
-            }
+            },
+        },
+    );
+};
+
+// This makes it able to update an individual training category.
+const updateCategory = (categoryId: any, formData: any) => {
+    router.post(
+        route('admin.training-categories.update', categoryId),
+        {
+            ...formData,
+            _method: 'PATCH',
+        },
+        {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('Training categorie gewijzigd!');
+            },
+            onError: () => {
+                toast.error('Er is iets mis gegaan.');
+            },
         },
     );
 };
@@ -87,14 +116,27 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
+// This makes it able to use data from an individual training.
 const selectedItem = ref<Training>(null!);
 const modalOpen = ref(false);
 
+// This makes it able to use date from an individual training category.
+const selectedCat = ref<TrainingCategory>(null!);
+const modalOpenCat = ref(false);
+
+// Opens the dialog/modal for training.
 const openModal = (training: Training) => {
     selectedItem.value = training;
     modalOpen.value = true;
 };
 
+// Opens the dialog/modal for training category.
+const openModalCat = (trainingCategory: TrainingCategory) => {
+    selectedCat.value = trainingCategory;
+    modalOpenCat.value = true;
+};
+
+// Define the props for the training and training category
 interface Props {
     trainings: Training[];
     trainingCategories: TrainingCategory[];
@@ -108,9 +150,9 @@ defineProps<Props>();
         <Head title="Admin Training" />
         <SettingsLayout>
             <div class="space-y-6">
-                <div class="flex flex-row">
+                <div class="max-w-full">
                     <HeadingSmall title="Training" description="Edit the available training programs" />
-
+                    <!--Modal for training category-->
                     <Dialog>
                         <DialogTrigger as-child class="mt-auto ml-auto">
                             <Button class="cursor-pointer"> Training categorie toevoegen</Button>
@@ -143,7 +185,7 @@ defineProps<Props>();
                             </form>
                         </DialogContent>
                     </Dialog>
-
+                    <!--Modal for training-->
                     <Dialog>
                         <DialogTrigger as-child class="mt-auto ml-auto">
                             <Button class="cursor-pointer"> Training toevoegen</Button>
@@ -195,23 +237,30 @@ defineProps<Props>();
                         </DialogContent>
                     </Dialog>
                 </div>
-                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary p-8 rounded-lg">
+                <!--                Display for training category and training-->
+                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8 sm:max-w-3/5 lg:max-w-full">
                     <div class="flex justify-between">
-                    <Heading :title="category.name" :description=" '&euro;' + category.price.toString()"/>
-                    <Button variant="secondary">Bewerk categorie</Button>
+                        <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
+                        <!--                        Opens the modal for category-->
+                        <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
-                        <div v-for="training in category.trainings" :key="training.id" class="my-4 flex rounded-lg bg-background">
-                            <div class="relative flex w-1/2 flex-col p-4">
+                        <div
+                            v-for="training in category.trainings"
+                            :key="training.id"
+                            class="bg-background my-4 flex flex-col rounded-lg md:flex-row"
+                        >
+                            <div class="relative flex w-full flex-col gap-4 p-4 md:w-1/2">
                                 <Heading :title="training.title" :description="training.description" />
                                 <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
                                 <p class="text-black" v-if="training.created_at != training.updated_at">
                                     Laatst geüpdate op:
                                     {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
                                 </p>
-                                <Button class="absolute right-4 bottom-4 w-fit" @click="openModal(training)">Bewerk </Button>
+                                <!--                                Opens the modal for training-->
+                                <Button @click="openModal(training)">Bewerk</Button>
                             </div>
-                            <div class="flex w-1/2 flex-col">
+                            <div class="flex flex-col">
                                 <div class="mx-auto my-4 h-fit w-fit">
                                     <YouTube
                                         :height="216"
@@ -230,6 +279,9 @@ defineProps<Props>();
                     </div>
                 </div>
             </div>
+            <!--            Modal for update of training-->
+            <!--            Chose to have the modal outside of the foreach because of faster load-->
+            <!--            Having it defined in the foreach makes it load an modal for every training-->
             <Dialog v-model:open="modalOpen">
                 <DialogContent>
                     <DialogHeader>
@@ -268,6 +320,33 @@ defineProps<Props>();
                     </form>
                 </DialogContent>
             </Dialog>
+
+            <!--            Modal for the category-->
+            <!--            Chose to have the modal outside of the foreach because of faster load-->
+            <!--            Having it defined in the foreach makes it load an modal for every training category-->
+            <Dialog v-model:open="modalOpenCat">
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle> Bewerken</DialogTitle>
+                        <DialogDescription> Bewerk de training informatie</DialogDescription>
+                    </DialogHeader>
+
+                    <form @submit.prevent="updateCategory(selectedCat.id, selectedCat)" :id="selectedCat.id">
+                        <div class="flex flex-col justify-between gap-4">
+                            <Label for="title"> Naam </Label>
+                            <Input id="title" v-model="selectedCat.name" />
+                            <Label for="description"> Prijs </Label>
+                            <Input id="description" v-model="selectedCat.price" />
+                        </div>
+                        <DialogFooter>
+                            <DialogTrigger>
+                                <Button type="submit" class="cursor-pointer"> Toevoegen</Button>
+                            </DialogTrigger>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+            <!--            Toaster for displaying error or success messages-->
             <Toaster />
         </SettingsLayout>
     </AppLayout>
