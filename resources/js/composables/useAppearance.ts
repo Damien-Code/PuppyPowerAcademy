@@ -8,8 +8,8 @@ export function updateTheme(value: Appearance) {
     }
 
     if (value === 'system') {
-        const mediaQueryList = window.matchMedia('(prefers-color-scheme: light)');
-        const systemTheme = mediaQueryList.matches ? 'light' : 'system';
+        const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+        const systemTheme = mediaQueryList.matches ? 'light' : 'dark';
 
         document.documentElement.classList.toggle('dark', systemTheme === 'light');
     } else {
@@ -32,7 +32,7 @@ const mediaQuery = () => {
         return null;
     }
 
-    return window.matchMedia('(prefers-color-scheme: light), (prefers-color-scheme: dark), (prefers-color-scheme: no-preference)');
+    return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
 const getStoredAppearance = () => {
@@ -56,14 +56,14 @@ export function initializeTheme() {
 
     // Initialize theme from saved preference or default to system...
     const savedAppearance = getStoredAppearance();
-    updateTheme(savedAppearance || 'light');
+    updateTheme(savedAppearance || 'system');
 
     // Set up system theme change listener...
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);
 }
 
 export function useAppearance() {
-    const appearance = ref<Appearance>('light');
+    const appearance = ref<Appearance>('system');
 
     onMounted(() => {
         const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
