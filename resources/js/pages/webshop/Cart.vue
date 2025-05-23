@@ -38,8 +38,8 @@ const openModal = () => {
 }
 
 const form = useForm({
-  products: new Array(),
-  trainings: new Array(),
+  products: [],
+  trainings: [],
   total_price: 0,
   country: '',
   city: '',
@@ -48,9 +48,9 @@ const form = useForm({
   postal_code: '',
 });
 
-let shippingCost = 4.95;
-let totalTax = props.taxProduct + props.taxTraining;
-let total = props.subtotalPrice + totalTax + shippingCost;
+const shippingCost = 4.95;
+const totalTax = props.taxProduct + props.taxTraining;
+const total = props.subtotalPrice + totalTax + shippingCost;
 
 const submit = () => {
   form.products = props.products;
