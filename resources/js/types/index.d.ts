@@ -108,8 +108,6 @@ export interface Training {
     deleted_at: string;
 }
 
-
-
 export interface Message {
     id: number;
     first_name: string;
