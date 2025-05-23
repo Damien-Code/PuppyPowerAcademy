@@ -150,11 +150,11 @@ defineProps<Props>();
         <Head title="Admin Training" />
         <SettingsLayout>
             <div class="space-y-6">
-                <div class="max-w-full">
-                    <HeadingSmall title="Training" description="Edit the available training programs" />
-                    <!--Modal for training category-->
+                <HeadingSmall title="Training" description="Edit the available training programs" />
+                <!--Modal for training category-->
+                <div class="lg:flex md:justify-between">
                     <Dialog>
-                        <DialogTrigger as-child class="mt-auto ml-auto">
+                        <DialogTrigger as-child>
                             <Button class="cursor-pointer"> Training categorie toevoegen</Button>
                         </DialogTrigger>
                         <DialogContent>
@@ -187,7 +187,7 @@ defineProps<Props>();
                     </Dialog>
                     <!--Modal for training-->
                     <Dialog>
-                        <DialogTrigger as-child class="mt-auto ml-auto">
+                        <DialogTrigger as-child>
                             <Button class="cursor-pointer"> Training toevoegen</Button>
                         </DialogTrigger>
                         <DialogContent>
@@ -237,8 +237,9 @@ defineProps<Props>();
                         </DialogContent>
                     </Dialog>
                 </div>
+
                 <!--                Display for training category and training-->
-                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8 sm:max-w-3/5 lg:max-w-full">
+                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
                     <div class="flex justify-between">
                         <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
                         <!--                        Opens the modal for category-->
@@ -248,29 +249,27 @@ defineProps<Props>();
                         <div
                             v-for="training in category.trainings"
                             :key="training.id"
-                            class="bg-background my-4 flex flex-col rounded-lg md:flex-row"
+                            class="bg-background my-4 flex flex-col rounded-lg "
                         >
-                            <div class="relative flex w-full flex-col gap-4 p-4 md:w-1/2">
-                                <Heading :title="training.title" :description="training.description" />
+                            <div class="p-4">
+                                <div class="flex justify-between">
+                                    <Heading :title="training.title" :description="training.description" />
+                                    <!--                                Opens the modal for training-->
+                                    <Button @click="openModal(training)">Bewerk</Button>
+                                </div>
                                 <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
                                 <p class="text-black" v-if="training.created_at != training.updated_at">
                                     Laatst geüpdate op:
                                     {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
                                 </p>
-                                <!--                                Opens the modal for training-->
-                                <Button @click="openModal(training)">Bewerk</Button>
-                            </div>
-                            <div class="flex flex-col">
-                                <div class="mx-auto my-4 h-fit w-fit">
-                                    <YouTube
-                                        :height="216"
-                                        :width="384"
-                                        ref="youtubeRef"
-                                        :src="training.link"
-                                        :vars="{ autoplay: 0 }"
-                                        @ready="onReady"
-                                    ></YouTube>
-                                </div>
+                                <YouTube
+                                    :height="216"
+                                    :width="384"
+                                    ref="youtubeRef"
+                                    :src="training.link"
+                                    :vars="{ autoplay: 0 }"
+                                    @ready="onReady"
+                                ></YouTube>
                             </div>
                         </div>
                     </div>

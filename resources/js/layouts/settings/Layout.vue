@@ -90,7 +90,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                     :class="[
                         'max-w-xl space-y-12',
                         {
-                            'lg:min-w-4xl':
+                            'lg:min-w-2xl':
                                 currentPath === '/settings/training' ||
                                 currentPath === '/settings/order-history' ||
                                 currentPath === '/settings/admin/webshop' ||
