@@ -59,7 +59,13 @@ class AdminTrainingCategoryController extends Controller
      */
     public function update(Request $request, TrainingCategory $trainingCategory)
     {
-        //
+        $validatedRequest = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|gt:0',
+            'training_id' => 'nullable',
+        ]);
+        $trainingCategory->update($validatedRequest);
+        return redirect()->route('admin.training.index');
     }
 
     /**
