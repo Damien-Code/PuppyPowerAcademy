@@ -9,9 +9,9 @@ use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware('auth')->name('dashboard');
+// Route::get('dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware('auth')->name('dashboard');
 
 Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
