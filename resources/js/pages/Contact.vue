@@ -28,6 +28,7 @@ const getEmail = computed(() => {
     const user = page.props.auth.user;
     return user?.email || '';
 });
+
 import { computed } from 'vue';
 
 const page = usePage();
@@ -55,9 +56,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const form = useForm({
-    first_name: getFirstName.value,
-    last_name: getLastName.value,
-    email: getEmail.value,
     first_name: getFirstName.value,
     last_name: getLastName.value,
     email: getEmail.value,
@@ -93,30 +91,36 @@ const submit = () => {
                         v-model="form.first_name" 
                         :placeholder="getFirstName ? '' : 'Voornaam'"
                     />
+                    
                     <Input 
                         v-model="form.first_name" 
                         :placeholder="getFirstName ? '' : 'Voornaam'"
                     />
+                    
                     <InputError :message="form.errors.first_name"/>
                     <Label for="last_name">Achternaam</Label>
                     <Input 
                         v-model="form.last_name" 
                         :placeholder="getLastName ? '' : 'Achternaam'"
                     />
+                    
                     <Input 
                         v-model="form.last_name" 
                         :placeholder="getLastName ? '' : 'Achternaam'"
                     />
+                    
                     <InputError :message="form.errors.last_name"/>
                     <Label for="last_name">Email</Label>
                     <Input 
                         v-model="form.email" 
                         :placeholder="getEmail ? '' : 'Email'"
                     />
+                    
                     <Input 
                         v-model="form.email" 
                         :placeholder="getEmail ? '' : 'Email'"
                     />
+                    
                     <InputError :message="form.errors.email"/>
                     <Label for="last_name">Bericht</Label>
                     <textarea v-model="form.message" class="border-1 border-primary rounded-md h-24"></textarea>
