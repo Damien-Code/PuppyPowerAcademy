@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Product, Training, type BreadcrumbItem } from '@/types';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/ui/button/Button.vue';
-import { Link } from '@inertiajs/vue3';
-import Icon from '@/components/Icon.vue';
-import { Trash2 } from 'lucide-vue-next';
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
 } from '@/components/ui/dialog';
 import { ref } from 'vue';
 import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue';
-import { toast } from 'vue-sonner';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/InputError.vue';
 const breadcrumbs: BreadcrumbItem[] = [
