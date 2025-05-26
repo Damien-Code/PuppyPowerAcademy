@@ -20,7 +20,7 @@ return new class extends Migration
         });
 
         Schema::table('trainings', function (Blueprint $table) {
-            $table->foreignId('training_category_id')->constrained('training_categories');
+            $table->foreignId('training_category_id')->constrained('training_categories')->cascadeOnDelete();
         });
     }
 

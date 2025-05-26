@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use App\Models\Training;
+use App\Models\TrainingCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,7 @@ class Order_TrainingFactory extends Factory
     {
         return [
             'order_id' => Order::inRandomOrder()->first(),
-            'training_id' => Training::inRandomOrder()->first(),
+            'category_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }

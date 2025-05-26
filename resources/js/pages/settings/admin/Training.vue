@@ -136,6 +136,17 @@ const openModalCat = (trainingCategory: TrainingCategory) => {
     modalOpenCat.value = true;
 };
 
+const deleteCategory = (id: number) => {
+    router.delete(route('admin.training-categories.destroy', { id }), {
+        onSuccess: () => {
+            toast.success('Training categorie verwijderd');
+        },
+        onError: () => {
+            toast.error('Er is iets mis gegaan');
+        }
+    })
+}
+
 // Define the props for the training and training category
 interface Props {
     trainings: Training[];
@@ -152,7 +163,7 @@ defineProps<Props>();
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Edit the available training programs" />
                 <!--Modal for training category-->
-                <div class="lg:flex md:justify-between">
+                <div class="md:justify-between lg:flex">
                     <Dialog>
                         <DialogTrigger as-child>
                             <Button class="cursor-pointer"> Training categorie toevoegen</Button>
@@ -241,16 +252,13 @@ defineProps<Props>();
                 <!--                Display for training category and training-->
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
                     <div class="flex justify-between">
-                        <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
-                        <!--                        Opens the modal for category-->
-                        <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
+                            <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
+                            <!--                        Opens the modal for category-->
+                            <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
+                            <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
-                        <div
-                            v-for="training in category.trainings"
-                            :key="training.id"
-                            class="bg-background my-4 flex flex-col rounded-lg "
-                        >
+                        <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg">
                             <div class="p-4">
                                 <div class="flex justify-between">
                                     <Heading :title="training.title" :description="training.description" />
