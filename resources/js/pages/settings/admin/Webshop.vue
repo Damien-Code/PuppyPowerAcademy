@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import { Head, router, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { type BreadcrumbItem, type Product } from '@/types';
+import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { type BreadcrumbItem, type Product } from '@/types';
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { toast, Toaster } from 'vue-sonner';
-import InputError from '@/components/InputError.vue';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -42,7 +35,7 @@ const modalOpen = ref(false);
 const openModal = (product: Product) => {
     selectedRow.value = product;
     modalOpen.value = true;
-}
+};
 
 const form = useForm({
     name: '',
@@ -62,8 +55,11 @@ const form = useForm({
 const fileSelected = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
-
-    if (!file) {
+    const maxSize = 5 * 1024 * 1024;
+    // console.log(file?.size);
+    if (!file || file?.size > maxSize) {
+        toast.error('Bestand is te groot');
+        target.value = '';
         return;
     }
     form.media = file;
@@ -167,7 +163,7 @@ const deleteProduct = (id: number) => {
                             >
                                 <div class="h-56 w-full">
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full"  alt=""/>
+                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full" alt="" />
                                     </a>
                                 </div>
 
@@ -199,7 +195,7 @@ const deleteProduct = (id: number) => {
                             </div>
 
                             <Dialog v-model:open="modalOpen">
-                                <DialogContent class="sm:max-w-[425px] bg-white">
+                                <DialogContent class="bg-white sm:max-w-[425px]">
                                     <DialogHeader>
                                         <DialogTitle>Bewerk product</DialogTitle>
                                         <DialogDescription>
@@ -233,7 +229,7 @@ const deleteProduct = (id: number) => {
                                             </div>
                                         </div>
                                         <DialogFooter>
-                                                <Button type="submit"> Save changes </Button>
+                                            <Button type="submit"> Save changes</Button>
                                         </DialogFooter>
                                     </form>
                                 </DialogContent>

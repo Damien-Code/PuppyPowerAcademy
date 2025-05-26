@@ -137,14 +137,16 @@ const openModalCat = (trainingCategory: TrainingCategory) => {
 };
 
 const deleteCategory = (id: number) => {
-    router.delete(route('admin.training-categories.destroy', { id }), {
-        onSuccess: () => {
-            toast.success('Training categorie verwijderd');
-        },
-        onError: () => {
-            toast.error('Er is iets mis gegaan');
-        },
-    });
+    if(confirm("Weet je zeker dat je deze categorie wilt verwijderen, alle video's worden dan ook verwijderd.")) {
+        router.delete(route('admin.training-categories.destroy', { id }), {
+            onSuccess: () => {
+                toast.success('Training categorie verwijderd');
+            },
+            onError: () => {
+                toast.error('Er is iets mis gegaan');
+            },
+        });
+    }
 };
 
 const deleteTraining = (id: number) => {
