@@ -4,14 +4,14 @@ type Appearance = 'light';  // Modified to only allow light
 
 export function updateTheme() {
     if (typeof window === 'undefined') return;
-
+    
     // Always remove dark class
     document.documentElement.classList.remove('dark');
 }
 
 export function initializeTheme() {
     if (typeof window === 'undefined') return;
-
+    
     updateTheme();
 }
 
