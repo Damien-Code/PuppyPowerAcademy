@@ -135,7 +135,7 @@ const deleteProduct = (id: number) => {
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Admin Webshop" description="Update uw webshop of webshop items" />
-                <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                     <div class="px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
