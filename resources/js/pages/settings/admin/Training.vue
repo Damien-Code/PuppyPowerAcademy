@@ -240,15 +240,15 @@ defineProps<Props>();
                             <form @submit.prevent="submit">
                                 <div class="grid gap-4 py-4">
                                     <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label for="title" class="text-right"> Title </Label>
+                                        <Label for="title" class="text-right"> Titel </Label>
                                         <Input id="title" class="col-span-3" v-model="form.title" />
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label for="description" class="text-right"> Description </Label>
+                                        <Label for="description" class="text-right"> Beschrijving </Label>
                                         <Input id="description" class="col-span-3" v-model="form.description" />
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
-                                        <Label>Category</Label>
+                                        <Label>Categorie</Label>
                                         <Select v-model="form.training_category_id">
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Kies een categorie" />
@@ -285,7 +285,7 @@ defineProps<Props>();
                     <!--                        Opens the modal for category-->
                     <div class="flex justify-between">
                         <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
-                        <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
+                        <Button variant="destructive" @click="deleteCategory(category.id)">Verwijder</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
                         <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg  justify-between">
@@ -354,11 +354,11 @@ defineProps<Props>();
 
                     <form @submit.prevent="update(selectedItem.id, selectedItem)" :id="selectedItem.id">
                         <div class="flex flex-col justify-between gap-4">
-                            <Label for="title"> Title </Label>
+                            <Label for="title"> Titel </Label>
                             <Input id="title" v-model="selectedItem.title" />
-                            <Label for="description"> Description </Label>
+                            <Label for="description"> Beschrijving </Label>
                             <Input id="description" v-model="selectedItem.description" />
-                            <Label>Category</Label>
+                            <Label>Categorie</Label>
                             <Select v-model="selectedItem.training_category_id">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Kies een categorie" />
