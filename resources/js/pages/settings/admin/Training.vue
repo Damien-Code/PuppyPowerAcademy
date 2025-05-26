@@ -18,11 +18,6 @@ import YouTube from 'vue3-youtube';
 
 const youtubeRef = ref<InstanceType<typeof YouTube> | null>(null);
 
-const onReady = () => {
-    youtubeRef.value?.playVideo();
-};
-
-// This makes it able to submit the training form.
 const form = useForm({
     title: '',
     description: '',
@@ -278,62 +273,17 @@ defineProps<Props>();
                         </DialogContent>
                     </Dialog>
                 </div>
-
-                <!--                Display for training category and training-->
-                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
-                    <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
-                    <!--                        Opens the modal for category-->
-                    <div class="flex justify-between">
-                        <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
-                        <Button variant="destructive" @click="deleteCategory(category.id)">Verwijder</Button>
-                    </div>
-                    <div class="flex flex-col" v-if="category.trainings.length != 0">
-                        <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg  justify-between">
-                            <div class="p-4">
-                                <div class="flex flex-col justify-between md:flex-row">
-                                    <Heading :title="training.title" :description="training.description" />
-                                    <!--                                Opens the modal for training-->
-                                    <div class="mb-8 md:mb-0 gap-4">
-                                        <Button @click="openModal(training)" class="mr-4 sm:mb-0 md:mb-4 ">Bewerk</Button>
-                                        <Button @click="deleteTraining(training.id)" variant="destructive">Verwijder </Button>
-                                    </div>
-                                </div>
-                                <div class="invisible md:visible">
-                                    <YouTube
-                                        class="hidden md:inline"
-                                        :height="216"
-                                        :width="384"
-                                        ref="youtubeRef"
-                                        :src="training.link"
-                                        :vars="{ autoplay: 0 }"
-                                        @ready="onReady"
-                                    ></YouTube>
-                                </div>
-                                <a class="visible hover:underline md:invisible" :href="training.link">
-                                    <Button variant="outline"
-                                        >Bekijk training video
-                                        <svg
-                                            viewBox="0 0 256 180"
-                                            width="256"
-                                            height="180"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            preserveAspectRatio="xMidYMid"
-                                        >
-                                            <path
-                                                d="M250.346 28.075A32.18 32.18 0 0 0 227.69 5.418C207.824 0 127.87 0 127.87 0S47.912.164 28.046 5.582A32.18 32.18 0 0 0 5.39 28.24c-6.009 35.298-8.34 89.084.165 122.97a32.18 32.18 0 0 0 22.656 22.657c19.866 5.418 99.822 5.418 99.822 5.418s79.955 0 99.82-5.418a32.18 32.18 0 0 0 22.657-22.657c6.338-35.348 8.291-89.1-.164-123.134Z"
-                                                fill="red"
-                                            />
-                                            <path fill="#FFF" d="m102.421 128.06 66.328-38.418-66.328-38.418z" />
-                                        </svg>
-                                    </Button>
-                                </a>
-                                <div class="text-muted-foreground text-sm mt-8">
-                                    <p>Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
-                                    <p v-if="training.created_at != training.updated_at">
-                                        Laatst geüpdate op:
-                                        {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
-                                    </p>
-                                </div>
+                <div class="flex flex-col">
+                    <div v-for="training in trainings" :key="training.id" class="flex my-4 bg-white rounded-lg">
+                        <div class="w-1/2 flex flex-col p-4 relative">
+                            <Heading :title="training.title + ' (€' + training.price + ')'" :description="training.description"/>
+                            <p class="text-black mt-auto">Gecreeërd op: {{ formatDate(new Date(training.created_at), "DD-MM-YYYY HH:mm:ss") }}</p>
+                            <p class="text-black" v-if="training.created_at != training.updated_at">Laatst geüpdate op: {{ formatDate(new Date(training.updated_at), "DD-MM-YYYY HH:mm:ss") }}</p>
+                            <Button class="w-fit absolute right-4 bottom-4" @click="openModal(training)">Bewerk</Button>
+                        </div>
+                        <div class="w-1/2 flex flex-col">
+                            <div class="my-4 mx-auto h-fit w-fit">
+                                <YouTube :height="216" :width="384" ref="youtubeRef" :src="training.link" :vars="{ autoplay: 0 }" @ready="onReady"></YouTube>
                             </div>
                         </div>
                     </div>
@@ -353,27 +303,25 @@ defineProps<Props>();
                     </DialogHeader>
 
                     <form @submit.prevent="update(selectedItem.id, selectedItem)" :id="selectedItem.id">
-                        <div class="flex flex-col justify-between gap-4">
-                            <Label for="title"> Titel </Label>
-                            <Input id="title" v-model="selectedItem.title" />
-                            <Label for="description"> Beschrijving </Label>
-                            <Input id="description" v-model="selectedItem.description" />
-                            <Label>Categorie</Label>
-                            <Select v-model="selectedItem.training_category_id">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Kies een categorie" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Categorie</SelectLabel>
-                                        <SelectItem v-for="category in trainingCategories" :key="category.id" :value="category.id">
-                                            {{ category.name }}
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            <Label for="link"> YouTube Link </Label>
-                            <Input id="link" v-model="selectedItem.link" />
+                        <div class="grid gap-4 py-4">
+                            <div class="grid grid-cols-4 items-center gap-4">
+                                <Label for="title" class="text-right">
+                                    Title
+                                </Label>
+                                <Input id="title" class="col-span-3" v-model="selectedItem.title"/>
+                                <Label for="price" class="text-right">
+                                    Price
+                                </Label>
+                                <Input id="price" class="col-span-3" v-model="selectedItem.price"/>
+                                <Label for="description" class="text-right">
+                                    Description
+                                </Label>
+                                <Input id="description" class="col-span-3" v-model="selectedItem.description"/>
+                                <Label for="link" class="text-right">
+                                    YouTube Link
+                                </Label>
+                                <Input id="link" class="col-span-3" v-model="selectedItem.link"/>
+                            </div>
                         </div>
                         <DialogFooter>
                             <DialogTrigger>
@@ -383,34 +331,7 @@ defineProps<Props>();
                     </form>
                 </DialogContent>
             </Dialog>
-
-            <!--            Modal for the category-->
-            <!--            Chose to have the modal outside of the foreach because of faster load-->
-            <!--            Having it defined in the foreach makes it load an modal for every training category-->
-            <Dialog v-model:open="modalOpenCat">
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle> Bewerken</DialogTitle>
-                        <DialogDescription> Bewerk de training informatie</DialogDescription>
-                    </DialogHeader>
-
-                    <form @submit.prevent="updateCategory(selectedCat.id, selectedCat)" :id="selectedCat.id">
-                        <div class="flex flex-col justify-between gap-4">
-                            <Label for="title"> Naam </Label>
-                            <Input id="title" v-model="selectedCat.name" />
-                            <Label for="description"> Prijs </Label>
-                            <Input id="description" v-model="selectedCat.price" />
-                        </div>
-                        <DialogFooter>
-                            <DialogTrigger>
-                                <Button type="submit" class="cursor-pointer"> Toevoegen</Button>
-                            </DialogTrigger>
-                        </DialogFooter>
-                    </form>
-                </DialogContent>
-            </Dialog>
-            <!--            Toaster for displaying error or success messages-->
-            <Toaster />
+             <Toaster />
         </SettingsLayout>
     </AppLayout>
 </template>
