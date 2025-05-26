@@ -50,6 +50,10 @@ Route::get('about', function () {
 
 Route::resource('contact', ContactController::class);
 
+// If route does not exist, return to home
+Route::fallback(function () {
+    return redirect()->route('home');
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
