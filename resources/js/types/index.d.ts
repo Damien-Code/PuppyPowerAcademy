@@ -73,6 +73,33 @@ export interface Training {
     updated_at: string;
 }
 
+export interface Dog {
+    id: number;
+    name: string;
+    race: string;
+    user_id: User;
+    age: number;
+    been_to_daycare: boolean;
+    deleted_at: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface    DaycareRequest {
+    dog_id: number;
+    dog_name: string;
+    dog_race: string;
+    dog_user_id: User;
+    dog_age: number;
+    dog_been_to_daycare: boolean;
+    dog_deleted_at: string;
+    dog_created_at: string;
+    dog_updated_at: string;
+    daycare_date: string;
+    owner: string;
+    email: string;
+}
+
 export interface Product {
     id: number;
     name: string;

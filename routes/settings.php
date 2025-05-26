@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminContactMessageController;
 use App\Http\Controllers\Admin\AdminTrainingController;
 use App\Http\Controllers\Admin\AdminWebshopController;
+use App\Http\Controllers\Admin\AdminDaycareController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -33,16 +34,14 @@ Route::middleware('auth')->group(function () {
     // Defining these grouped routes will result in attempt to read role_id on null
     // This is because it isn't asking for auth
     Route::middleware('admin')->group(function () {
-        Route::get('settings/admin/dagopvang', function () {
-            return Inertia::render('settings/admin/Dagopvang');
-        })->name('admin.dagopvang');
-
+        
         Route::get('settings/admin/training', function () {
             return Inertia::render('settings/admin/Training');
         })->name('admin.training');
-
+        
         Route::resource('settings/admin/contact', AdminContactMessageController::class);
-
+        Route::resource('settings/admin/dagopvang', AdminDaycareController::class);
+        
         //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
         Route::name('admin.')->group(function () {
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
