@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('training_categories', function (Blueprint $table) {
             $table->id();
-//            $table->foreignId('training_id')->constrained(); // unique category
             $table->string('name');
             $table->double('price');
             $table->timestamps();
         });
 
+        // After the training_categories has been created, add the foreign id to training_categories
+        // because trainings is created before the training_categories
         Schema::table('trainings', function (Blueprint $table) {
             $table->foreignId('training_category_id')->constrained('training_categories')->cascadeOnDelete();
         });

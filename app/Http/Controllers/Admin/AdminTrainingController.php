@@ -35,6 +35,7 @@ class AdminTrainingController extends Controller
     }
 
     /**
+     * @author Damien-Code and Floris Hafkenscheid
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -68,6 +69,7 @@ class AdminTrainingController extends Controller
     }
 
     /**
+     * @author Damien-Code and Floris Hafkenscheid
      * Update the specified resource in storage.
      */
     public function update(Request $request, Training $training)
@@ -79,13 +81,13 @@ class AdminTrainingController extends Controller
             'training_category_id' => 'required|exists:training_categories,id'
         ]);
 
-
         $training->update($validatedRequest);
 
         return redirect()->route('admin.training.index');
     }
 
     /**
+     * @author Damien-Code
      * Remove the specified resource from storage.
      */
     public function destroy(Training $training)

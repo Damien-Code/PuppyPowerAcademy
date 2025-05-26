@@ -55,11 +55,14 @@ const form = useForm({
 const fileSelected = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
+    // max size for image upload
     const maxSize = 5 * 1024 * 1024;
-    // console.log(file?.size);
     if (!file || file?.size > maxSize) {
         toast.error('Bestand is te groot');
         target.value = '';
+        // resets the form for media because if you first upload a correct size and immediately upload an image too large
+        // the form would still upload the first image
+        form.media = '';
         return;
     }
     form.media = file;

@@ -26,6 +26,7 @@ class AdminTrainingCategoryController extends Controller
     }
 
     /**
+     * @author Damien-Code
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -56,6 +57,7 @@ class AdminTrainingCategoryController extends Controller
     }
 
     /**
+     * @author Damien-Code
      * Update the specified resource in storage.
      */
     public function update(Request $request, TrainingCategory $trainingCategory)
@@ -70,7 +72,9 @@ class AdminTrainingCategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @author Damien-Code
+     * Deletes the trainings belonging to category
+     * and deletes the categories
      */
     public function destroy(TrainingCategory $trainingCategory)
     {
