@@ -149,7 +149,7 @@ const openModalCat = (trainingCategory: TrainingCategory) => {
  * @param id
  */
 const deleteCategory = (id: number) => {
-    if(confirm("Weet je zeker dat je deze categorie wilt verwijderen, alle video's worden dan ook verwijderd.")) {
+    if (confirm("Weet je zeker dat je deze categorie wilt verwijderen, alle video's worden dan ook verwijderd.")) {
         router.delete(route('admin.training-categories.destroy', { id }), {
             onSuccess: () => {
                 toast.success('Training categorie verwijderd');
@@ -175,7 +175,7 @@ const deleteTraining = (id: number) => {
             toast.error('Er is iets mis gegaan');
         },
     });
-}
+};
 
 // Define the props for the training and training category
 interface Props {
@@ -196,7 +196,7 @@ defineProps<Props>();
                 <div class="md:justify-between lg:flex">
                     <Dialog>
                         <DialogTrigger as-child>
-                            <Button class="cursor-pointer"> Training categorie toevoegen</Button>
+                            <Button class="mr-4 mb-4 cursor-pointer lg:mb-0"> Training categorie toevoegen</Button>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -209,12 +209,12 @@ defineProps<Props>();
                                     <div class="grid grid-cols-4 items-center gap-4">
                                         <Label for="title"> Naam van de categorie </Label>
                                         <Input id="title" class="col-span-3" v-model="formCat.name" />
-                                        <InputError :message="formCat.errors.name" />
+                                        <InputError :message="formCat.errors.name" class="col-span-3" />
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
                                         <Label for="price"> Prijs </Label>
                                         <Input id="price" class="col-span-3" v-model="formCat.price" />
-                                        <InputError :message="formCat.errors.price" />
+                                        <InputError :message="formCat.errors.price" class="col-span-3" />
                                     </div>
                                 </div>
 
@@ -281,16 +281,16 @@ defineProps<Props>();
 
                 <!--                Display for training category and training-->
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
+                    <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
+                    <!--                        Opens the modal for category-->
                     <div class="flex justify-between">
-                        <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
-                        <!--                        Opens the modal for category-->
                         <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
                         <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
                         <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg">
                             <div class="p-4">
-                                <div class="flex justify-between">
+                                <div class="flex flex-col justify-between md:flex-row">
                                     <Heading :title="training.title" :description="training.description" />
                                     <!--                                Opens the modal for training-->
                                     <div>
@@ -298,19 +298,42 @@ defineProps<Props>();
                                         <Button @click="deleteTraining(training.id)" variant="destructive">Verwijder </Button>
                                     </div>
                                 </div>
-                                <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
-                                <p class="text-black" v-if="training.created_at != training.updated_at">
-                                    Laatst geüpdate op:
-                                    {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
-                                </p>
-                                <YouTube
-                                    :height="216"
-                                    :width="384"
-                                    ref="youtubeRef"
-                                    :src="training.link"
-                                    :vars="{ autoplay: 0 }"
-                                    @ready="onReady"
-                                ></YouTube>
+                                <div class="invisible md:visible">
+                                    <YouTube
+                                        class="hidden md:inline"
+                                        :height="216"
+                                        :width="384"
+                                        ref="youtubeRef"
+                                        :src="training.link"
+                                        :vars="{ autoplay: 0 }"
+                                        @ready="onReady"
+                                    ></YouTube>
+                                </div>
+                                <div class="text-muted-foreground">
+                                    <p>Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
+                                    <p v-if="training.created_at != training.updated_at">
+                                        Laatst geüpdate op:
+                                        {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
+                                    </p>
+                                </div>
+                                <a class="visible hover:underline md:invisible" :href="training.link">
+                                    <Button variant="outline"
+                                        >Bekijk training video
+                                        <svg
+                                            viewBox="0 0 256 180"
+                                            width="256"
+                                            height="180"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            preserveAspectRatio="xMidYMid"
+                                        >
+                                            <path
+                                                d="M250.346 28.075A32.18 32.18 0 0 0 227.69 5.418C207.824 0 127.87 0 127.87 0S47.912.164 28.046 5.582A32.18 32.18 0 0 0 5.39 28.24c-6.009 35.298-8.34 89.084.165 122.97a32.18 32.18 0 0 0 22.656 22.657c19.866 5.418 99.822 5.418 99.822 5.418s79.955 0 99.82-5.418a32.18 32.18 0 0 0 22.657-22.657c6.338-35.348 8.291-89.1-.164-123.134Z"
+                                                fill="red"
+                                            />
+                                            <path fill="#FFF" d="m102.421 128.06 66.328-38.418-66.328-38.418z" />
+                                        </svg>
+                                    </Button>
+                                </a>
                             </div>
                         </div>
                     </div>
