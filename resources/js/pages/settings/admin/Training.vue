@@ -51,8 +51,10 @@ const submit = () => {
         },
     });
 };
-
-// The function to submit the training category.
+/**
+ * @author Damien-Code
+ * The function to submit the training category.
+ */
 const submitCategory = () => {
     formCat.post(route('admin.training-categories.store'), {
         forceFormData: true,
@@ -88,7 +90,12 @@ const update = (trainingId: any, formData: any) => {
     );
 };
 
-// This makes it able to update an individual training category.
+/**
+ * @author Damien-Code
+ * This makes it able to update an individual training category.
+ * @param categoryId
+ * @param formData
+ */
 const updateCategory = (categoryId: any, formData: any) => {
     router.post(
         route('admin.training-categories.update', categoryId),
@@ -136,6 +143,11 @@ const openModalCat = (trainingCategory: TrainingCategory) => {
     modalOpenCat.value = true;
 };
 
+/**
+ * @author Damien-Code
+ * Function that deletes the training category
+ * @param id
+ */
 const deleteCategory = (id: number) => {
     if(confirm("Weet je zeker dat je deze categorie wilt verwijderen, alle video's worden dan ook verwijderd.")) {
         router.delete(route('admin.training-categories.destroy', { id }), {
@@ -149,6 +161,11 @@ const deleteCategory = (id: number) => {
     }
 };
 
+/**
+ * @author Damien-Code
+ * Function that deletes a single training from a category
+ * @param id
+ */
 const deleteTraining = (id: number) => {
     router.delete(route('admin.training.destroy', { id }), {
         onSuccess: () => {
