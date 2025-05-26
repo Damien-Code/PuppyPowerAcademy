@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -7,6 +7,16 @@ import { type BreadcrumbItem } from '@/types';
 import { useDateFormat } from '@vueuse/core';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { ref } from 'vue';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+import { Calendar } from '@/components/ui/calendar'
+import {
+    DateFormatter,
+    type DateValue,
+    getLocalTimeZone,
+} from '@internationalized/date'
+import { CalendarIcon } from 'lucide-vue-next'
+
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { DaycareRequest } from '@/types';
 import {
@@ -29,10 +39,16 @@ const breadcrumbItems: BreadcrumbItem[] = [
 interface Props {
     daycareRequests: DaycareRequest[];
 }
-
+// const form = useForm({
+//     name: ''
+//     date: null,
+// });
 const props = defineProps<Props>();
 const selectedItem = ref<DaycareRequest>(null!);
 const modalOpen = ref(false);
+const df = new DateFormatter('nl-NL', {
+    dateStyle: 'long',
+})
 
 const openModal = (request: DaycareRequest) => {
     selectedItem.value = request;
@@ -86,8 +102,7 @@ console.log(props.daycareRequests);
                             <!-- <TableCell>foto hond</TableCell> -->
                             <TableCell>{{ useDateFormat(request.daycare_date, 'DD-MM-YYYY') }}</TableCell>
                             <TableCell>
-                                <Button 
-                                    @click="openModal(request)">Bewerk</Button>
+                                <Button @click="openModal(request)">Bewerk</Button>
 
 
                             </TableCell>
@@ -117,13 +132,11 @@ console.log(props.daycareRequests);
                             <Label for="email" class="text-right">
                                 Email
                             </Label>
-                            <Input id="email" class="col-span-3 color: inherit" 
-                            disabled v-model="selectedItem.email"  />
+                            <Input id="email" class="col-span-3 color: inherit" disabled v-model="selectedItem.email" />
                             <Label for="name" class="text-right">
                                 Naam
                             </Label>
-                            <Input id="name" class="col-span-3 color: inherit" 
-                            disabled v-model="selectedItem.name"  />
+                            <Input id="name" class="col-span-3 color: inherit" disabled v-model="selectedItem.name" />
                         </div>
                         <div class="grid grid-cols-4 items-center gap-4">
                             <Label for="race" class="text-right">
@@ -141,11 +154,23 @@ console.log(props.daycareRequests);
                             <Label for="photo" class="text-right">
                                 Foto
                             </Label>
-                            <Input id="photo" class="col-span-3" disabled placeholder="photo TBA"/>
+                            <Input id="photo" class="col-span-3" disabled placeholder="photo TBA" />
+
                             <Label for="date" class="text-right">
                                 Datum
                             </Label>
-                            <Input id="date" class="col-span-3" v-model="selectedItem.daycare_date"/>
+                            <Popover>
+                                <PopoverTrigger as-child>
+                                    <Button variant="outline">
+                                        <CalendarIcon class="mr-2 h-4 w-4" />
+                                        <!-- {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Pick a date" }} -->
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent class="w-auto p-0">
+                                    <Calendar initial-focus />
+                                </PopoverContent>
+                            </Popover>
+                            <!-- <Input id="date" class="col-span-3" v-model="selectedItem.daycare_date"/> -->
                         </div>
                     </div>
 
