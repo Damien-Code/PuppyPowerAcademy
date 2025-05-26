@@ -288,12 +288,12 @@ defineProps<Props>();
                         <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
-                        <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg">
+                        <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg  justify-between">
                             <div class="p-4">
                                 <div class="flex flex-col justify-between md:flex-row">
                                     <Heading :title="training.title" :description="training.description" />
                                     <!--                                Opens the modal for training-->
-                                    <div>
+                                    <div class="mb-8 md:mb-0">
                                         <Button @click="openModal(training)" class="mr-4">Bewerk</Button>
                                         <Button @click="deleteTraining(training.id)" variant="destructive">Verwijder </Button>
                                     </div>
@@ -308,13 +308,6 @@ defineProps<Props>();
                                         :vars="{ autoplay: 0 }"
                                         @ready="onReady"
                                     ></YouTube>
-                                </div>
-                                <div class="text-muted-foreground">
-                                    <p>Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
-                                    <p v-if="training.created_at != training.updated_at">
-                                        Laatst geüpdate op:
-                                        {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
-                                    </p>
                                 </div>
                                 <a class="visible hover:underline md:invisible" :href="training.link">
                                     <Button variant="outline"
@@ -334,6 +327,13 @@ defineProps<Props>();
                                         </svg>
                                     </Button>
                                 </a>
+                                <div class="text-muted-foreground text-sm mt-8">
+                                    <p>Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
+                                    <p v-if="training.created_at != training.updated_at">
+                                        Laatst geüpdate op:
+                                        {{ formatDate(new Date(training.updated_at), 'DD-MM-YYYY HH:mm:ss') }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
