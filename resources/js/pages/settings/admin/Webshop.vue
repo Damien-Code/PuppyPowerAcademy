@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import { Head, router, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { type BreadcrumbItem, type Product } from '@/types';
+import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { type BreadcrumbItem, type Product } from '@/types';
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { toast, Toaster } from 'vue-sonner';
-import InputError from '@/components/InputError.vue';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -42,7 +35,7 @@ const modalOpen = ref(false);
 const openModal = (product: Product) => {
     selectedRow.value = product;
     modalOpen.value = true;
-}
+};
 
 const form = useForm({
     name: '',
@@ -62,8 +55,14 @@ const form = useForm({
 const fileSelected = (event: Event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
-
-    if (!file) {
+    // max size for image upload
+    const maxSize = 5 * 1024 * 1024;
+    if (!file || file?.size > maxSize) {
+        toast.error('Bestand is te groot');
+        target.value = '';
+        // resets the form for media because if you first upload a correct size and immediately upload an image too large
+        // the form would still upload the first image
+        form.media = '';
         return;
     }
     form.media = file;
@@ -136,7 +135,7 @@ const deleteProduct = (id: number) => {
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Admin Webshop" description="Update uw webshop of webshop items" />
-                <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                     <div class="px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
                             <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
@@ -167,7 +166,7 @@ const deleteProduct = (id: number) => {
                             >
                                 <div class="h-56 w-full">
                                     <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
-                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full"  alt=""/>
+                                        <img :src="product.mediaFile.original_url" class="mx-auto max-h-full" alt="" />
                                     </a>
                                 </div>
 
@@ -199,7 +198,7 @@ const deleteProduct = (id: number) => {
                             </div>
 
                             <Dialog v-model:open="modalOpen">
-                                <DialogContent class="sm:max-w-[425px] bg-white">
+                                <DialogContent class="bg-white sm:max-w-[425px]">
                                     <DialogHeader>
                                         <DialogTitle>Bewerk product</DialogTitle>
                                         <DialogDescription>
@@ -233,7 +232,7 @@ const deleteProduct = (id: number) => {
                                             </div>
                                         </div>
                                         <DialogFooter>
-                                                <Button type="submit"> Save changes </Button>
+                                            <Button type="submit"> Save changes</Button>
                                         </DialogFooter>
                                     </form>
                                 </DialogContent>

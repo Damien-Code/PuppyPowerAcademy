@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TrainingCategory;
 use App\Models\User;
 // use App\Models\Cart;
 use App\Models\Product;
@@ -44,10 +45,11 @@ class DatabaseSeeder extends Seeder
         Product::factory(10)->create();
         Order::factory(10)->create(); // CHECK THIS FACTORY
         Dog::factory(10)->create();
+        TrainingCategory::factory(10)->create();
         Training::factory(10)->create();
         Daycare::factory(10)->create();
         Contact::factory(10)->create();
-        
+
         Daycare_Dog::factory(10)->create();
         Dog_Training::factory(10)->create();
         Cart::factory(count(User::all()))->create();
@@ -55,7 +57,7 @@ class DatabaseSeeder extends Seeder
         Cart_Training::factory(count(User::all()))->create();
         Order_Product::factory(10)->create();
         Order_Training::factory(10)->create();
-        
-        
+
+
     }
 }

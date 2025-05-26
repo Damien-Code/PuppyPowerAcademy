@@ -13,14 +13,19 @@ class Training extends Model
 
     protected $fillable = [
         'title',
-        'price',
         'description',
-        'link'
+        'link',
+        'training_category_id',
     ];
 
-    public function cartTraining(){
-        return $this->hasMany(Cart::class);
+    public function trainingCategory(){
+        return $this->belongsTo(TrainingCategory::class);
     }
 
-    protected $table = 'trainings';
+
+
+//    public function cartTraining(){
+//        return $this->hasMany(Cart::class);
+//    }
+
 }

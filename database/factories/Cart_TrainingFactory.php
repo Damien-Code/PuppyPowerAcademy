@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Training;
+use App\Models\TrainingCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,7 @@ class Cart_TrainingFactory extends Factory
         static $user_id = 1;
         return [
             'cart_id' => $user_id++,
-            'training_id' => Training::inRandomOrder()->first(),
+            'category_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }

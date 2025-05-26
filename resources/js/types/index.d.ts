@@ -66,13 +66,23 @@ export interface Order {
 export interface Training {
     id: number;
     title: string;
-    price: number;
     description: string;
     link: string;
+    training_category: TrainingCategory;
+    training_category_id: number
     created_at: string;
     updated_at: string;
     deleted_at: string;
     amount:number;
+}
+
+export interface TrainingCategory {
+    id: number;
+    name: string;
+    price: number;
+    trainings: Training[];
+    created_at: string;
+    updated_at: string;
 }
 export interface Product {
     id: number;

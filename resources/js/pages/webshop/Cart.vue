@@ -19,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 interface Props {
   products: Product[]
-  trainings: Training[]
+  trainings: TrainingCategory[]
   subtotalPrice: number
   taxProduct: number
   taxTraining: number

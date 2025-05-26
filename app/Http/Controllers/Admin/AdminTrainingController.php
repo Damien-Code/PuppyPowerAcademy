@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Training;
+use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,7 +18,10 @@ class AdminTrainingController extends Controller
         return Inertia::render(
             'settings/admin/Training',
             [
-                'trainings' => Training::all(),
+//                'trainings' => Training::query()
+//                ->with('trainingCategory')->get(),
+                'trainings' => Training::with('trainingCategory')->get(),
+                'trainingCategories' => TrainingCategory::with('trainings')->get(),
             ]
         );
     }
@@ -31,15 +35,16 @@ class AdminTrainingController extends Controller
     }
 
     /**
+     * @author Damien-Code and Floris Hafkenscheid
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validatedRequest = $request->validate([
             'title' => 'required|string|max:255',
-            'price' => 'required|numeric|gt:0',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
+            'training_category_id' => 'required|int|exists:training_categories,id'
         ]);
 
         Training::create($validatedRequest);
@@ -64,15 +69,16 @@ class AdminTrainingController extends Controller
     }
 
     /**
+     * @author Damien-Code and Floris Hafkenscheid
      * Update the specified resource in storage.
      */
     public function update(Request $request, Training $training)
     {
         $validatedRequest = $request->validate([
             'title' => 'required|string|max:255',
-            'price' => 'required|numeric|gt:0',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
+            'training_category_id' => 'required|exists:training_categories,id'
         ]);
 
         $training->update($validatedRequest);
@@ -81,10 +87,13 @@ class AdminTrainingController extends Controller
     }
 
     /**
+     * @author Damien-Code
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Training $training)
     {
-        //
+        $training->delete();
+        return redirect()->route('admin.training.index');
+
     }
 }

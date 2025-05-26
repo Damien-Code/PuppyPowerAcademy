@@ -12,14 +12,14 @@ class Dog_Training extends Model
 
     protected $fillable = [
         'dog_id',
-        'training_id',
+        'category_id',
         'completed'
     ];
     public function dog(){
         return $this->belongsTo(Dog::class);
     }
     public function training(){
-        return $this->belongsTo(Training::class);
+        return $this->belongsTo(TrainingCategory::class);
     }
 
     protected $table = 'dog_trainings';

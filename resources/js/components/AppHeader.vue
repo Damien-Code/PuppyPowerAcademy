@@ -58,7 +58,7 @@ const mainNavItems: NavItem[] = [
 const rightNavItems: NavItem[] = [
     {
         title: 'Instagram',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        href: 'https://www.instagram.com/backtobalance.dogs/',
         icon: Instagram,
     },
 ];
