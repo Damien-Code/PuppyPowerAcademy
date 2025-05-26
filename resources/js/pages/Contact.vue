@@ -28,43 +28,6 @@ const getEmail = computed(() => {
     const user = page.props.auth.user;
     return user?.email || '';
 });
-import { computed } from 'vue';
-
-const page = usePage();
-
-const getFirstName = computed(() => {
-    const user = page.props.auth.user;
-    return user?.name ? user.name.split(' ')[0] : '';
-});
-
-const getLastName = computed(() => {
-    const user = page.props.auth.user;
-    return user?.name ? user.name.split(' ')[1] : '';
-});
-
-const getEmail = computed(() => {
-    const user = page.props.auth.user;
-    return user?.email || '';
-});
-
-import { computed } from 'vue';
-
-const page = usePage();
-
-const getFirstName = computed(() => {
-    const user = page.props.auth.user;
-    return user?.name ? user.name.split(' ')[0] : '';
-});
-
-const getLastName = computed(() => {
-    const user = page.props.auth.user;
-    return user?.name ? user.name.split(' ')[1] : '';
-});
-
-const getEmail = computed(() => {
-    const user = page.props.auth.user;
-    return user?.email || '';
-});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,9 +37,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const form = useForm({
-    first_name: getFirstName.value,
-    last_name: getLastName.value,
-    email: getEmail.value,
     first_name: getFirstName.value,
     last_name: getLastName.value,
     email: getEmail.value,
