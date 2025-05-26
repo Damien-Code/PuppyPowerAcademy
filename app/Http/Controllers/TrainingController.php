@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Training;
+use App\Models\Order;
+use App\Models\Order_Training;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TrainingController extends Controller
@@ -12,7 +16,24 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        return Inertia::render('settings/Training');
+        $user = Auth::user();
+        
+        // Get all order IDs belonging to the authenticated user
+        $userOrderIds = Order::where('user_id', $user->id)
+            ->pluck('id');
+            
+        // Get all training IDs from orders that belong to the user
+        $trainingIds = Order_Training::whereIn('order_id', $userOrderIds)
+            ->pluck('training_id')
+            ->unique();
+            
+        // Get the complete training details
+        $trainings = Training::whereIn('id', $trainingIds)
+            ->get();
+            
+        return Inertia::render('settings/Training', [
+            'trainings' => $trainings
+        ]);
     }
 
     /**

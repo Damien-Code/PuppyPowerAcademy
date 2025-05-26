@@ -24,10 +24,6 @@ import { toast, Toaster } from 'vue-sonner';
 
 const youtubeRef = ref<InstanceType<typeof YouTube> | null>(null);
 
-const onReady = () => {
-    youtubeRef.value?.playVideo();
-};
-
 const form = useForm({
     // title, price, description, link
     title: '',
