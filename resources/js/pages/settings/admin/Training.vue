@@ -143,8 +143,19 @@ const deleteCategory = (id: number) => {
         },
         onError: () => {
             toast.error('Er is iets mis gegaan');
-        }
-    })
+        },
+    });
+};
+
+const deleteTraining = (id: number) => {
+    router.delete(route('admin.training.destroy', { id }), {
+        onSuccess: () => {
+            toast.success('Training verwijderd');
+        },
+        onError: () => {
+            toast.error('Er is iets mis gegaan');
+        },
+    });
 }
 
 // Define the props for the training and training category
@@ -252,10 +263,10 @@ defineProps<Props>();
                 <!--                Display for training category and training-->
                 <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
                     <div class="flex justify-between">
-                            <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
-                            <!--                        Opens the modal for category-->
-                            <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
-                            <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
+                        <Heading :title="category.name" :description="'&euro;' + category.price.toString()" />
+                        <!--                        Opens the modal for category-->
+                        <Button variant="secondary" @click="openModalCat(category)">Bewerk categorie</Button>
+                        <Button variant="destructive" @click="deleteCategory(category.id)">Delete</Button>
                     </div>
                     <div class="flex flex-col" v-if="category.trainings.length != 0">
                         <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg">
@@ -263,7 +274,10 @@ defineProps<Props>();
                                 <div class="flex justify-between">
                                     <Heading :title="training.title" :description="training.description" />
                                     <!--                                Opens the modal for training-->
-                                    <Button @click="openModal(training)">Bewerk</Button>
+                                    <div>
+                                        <Button @click="openModal(training)" class="mr-4">Bewerk</Button>
+                                        <Button @click="deleteTraining(training.id)" variant="destructive">Verwijder </Button>
+                                    </div>
                                 </div>
                                 <p class="mt-auto text-black">Gecreeërd op: {{ formatDate(new Date(training.created_at), 'DD-MM-YYYY HH:mm:ss') }}</p>
                                 <p class="text-black" v-if="training.created_at != training.updated_at">
