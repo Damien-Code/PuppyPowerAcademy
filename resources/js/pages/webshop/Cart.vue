@@ -70,7 +70,7 @@ const deleteAllItems = () => {
   <Head title="Cart" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
-    <section class="bg-white md:rounded-lg w-fit m-auto antialiased p-4">
+    <section class="bg-white rounded-lg w-fit m-auto antialiased p-4">
     <div v-if="props.trainings.length > 0 || props.products.length > 0">
         <form @submit.prevent="deleteAllItems" class="pb-4">
           <Button variant="destructive" class="cursor-pointer flex mx-auto md:mr-auto md:ml-0">Leeg Winkelwagen</Button>
