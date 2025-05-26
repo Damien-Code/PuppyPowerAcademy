@@ -293,8 +293,8 @@ defineProps<Props>();
                                 <div class="flex flex-col justify-between md:flex-row">
                                     <Heading :title="training.title" :description="training.description" />
                                     <!--                                Opens the modal for training-->
-                                    <div class="mb-8 md:mb-0">
-                                        <Button @click="openModal(training)" class="mr-4">Bewerk</Button>
+                                    <div class="mb-8 md:mb-0 gap-4">
+                                        <Button @click="openModal(training)" class="mr-4 sm:mb-0 md:mb-4 ">Bewerk</Button>
                                         <Button @click="deleteTraining(training.id)" variant="destructive">Verwijder </Button>
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@ defineProps<Props>();
                             </div>
                         </div>
                     </div>
-                    <div v-else>
+                    <div v-else class="mt-4">
                         <HeadingSmall title="Geen trainingen toegevoegd" />
                     </div>
                 </div>
