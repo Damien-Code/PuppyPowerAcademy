@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Dog;
 use App\Models\Training;
+use App\Models\TrainingCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,7 @@ class Dog_TrainingFactory extends Factory
     {
         return [
             'dog_id' => Dog::inRandomOrder()->first(),
-            'training_id' => Training::inRandomOrder()->first(),
+            'category_id' => TrainingCategory::inRandomOrder()->first(),
             'completed' => $this->faker->boolean(50)
         ];
     }

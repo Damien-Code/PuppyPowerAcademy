@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Product, Training, type BreadcrumbItem } from '@/types';
+import { Product, Training, type BreadcrumbItem, TrainingCategory } from '@/types';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/ui/button/Button.vue';
@@ -23,7 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 interface Props {
   products: Product[]
-  trainings: Training[]
+  trainings: TrainingCategory[]
   subtotalPrice: number
   taxProduct: number
   taxTraining: number

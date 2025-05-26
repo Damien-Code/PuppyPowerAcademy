@@ -10,6 +10,7 @@ use App\Models\Training;
 use App\Models\Order;
 use App\Models\Order_Product;
 use App\Models\Order_Training;
+use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class CartController extends Controller
     {
         $productTaxPercentage  = 18;
         $trainingTaxPercentage = 18;
-        // get products      
+        // get products
         $products = DB::table("products")
         ->join("cart_products", function($join){
         	$join->on(['products.id' => 'cart_products.product_id']);
@@ -35,7 +36,7 @@ class CartController extends Controller
         ->select("products.*", "cart_products.amount as amount")
         ->where(['user_id'=>Auth::user()->id])
         ->get();
-        
+
         $subtotal = 0;
         $taxProduct = 0;
         $taxTraining = 0;
@@ -45,12 +46,12 @@ class CartController extends Controller
             $taxProduct += ($product->price * $product->amount * ($productTaxPercentage/100));
         }
         //get trainings
-        $trainings = Training::join("cart_trainings", function($join){
-        	$join->on("trainings.id", "=", "cart_trainings.training_id");
+        $trainings = TrainingCategory::join("cart_trainings", function($join){
+        	$join->on("training_categories.id", "=", "cart_trainings.category_id");
         })->join("carts", function($join){
         	$join->on("carts.user_id", "=", "cart_trainings.cart_id");
         })->where(['user_id'=>Auth::user()->id])->get();
-        
+
         foreach($trainings as $training){
             $subtotal += ($training->price);
             $taxTraining += ($training->price * ($trainingTaxPercentage/100));
@@ -82,7 +83,7 @@ class CartController extends Controller
         $request->totalPrice = number_format($request->totalPrice, 2, '.',"");
 
         //add user_id to request for query
-        $request->request->add(['user_id' => Auth::user()->id]); 
+        $request->request->add(['user_id' => Auth::user()->id]);
 
         //add to orders
         $validatedOrder = $request->validate([
@@ -94,10 +95,10 @@ class CartController extends Controller
             'house_number' => 'required|integer|gt:0',
             'total_price' => 'required|numeric|gt:0',
         ]);
-  
+
         //create order
         Order::create($validatedOrder);
-        
+
         //get latest order_id
         $order_id = Order::where(['user_id' => Auth::user()->id])->orderBy('id', 'desc')->first()->id;
 
@@ -119,7 +120,7 @@ class CartController extends Controller
 
         //remove products/trainings from cart
         $this->removeItemsFromCart();
-        
+
         return redirect()->route('webshop.index');
 
     }

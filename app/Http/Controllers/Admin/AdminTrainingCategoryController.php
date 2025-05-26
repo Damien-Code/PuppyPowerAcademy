@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Training;
 use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 
@@ -73,6 +74,8 @@ class AdminTrainingCategoryController extends Controller
      */
     public function destroy(TrainingCategory $trainingCategory)
     {
-        //
+        $trainingCategory->trainings()->delete();
+        $trainingCategory->delete();
+        return redirect()->route('admin.training.index');
     }
 }
