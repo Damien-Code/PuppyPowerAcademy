@@ -8,7 +8,6 @@ use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use App\Models\DogTraining; // Assuming you have a DogTraining model for the dog_trainings table
 
 class TrainingController extends Controller
 {
@@ -17,18 +16,55 @@ class TrainingController extends Controller
      */
     public function index()
     {
+        /** @var \App\Models\User $user */ // So dogs() isn't undefined, don't delete :)
         $user = Auth::user();
+        $dogIds = $user->dogs()->pluck('id');
+
+        $watchedTrainingIdsByDogs = collect();
+        if (!$dogIds->isEmpty()) {
+            $watchedTrainingIdsByDogs = Dog_Training::whereIn('dog_id', $dogIds)
+                ->whereNotNull('watched_at')
+                ->pluck('training_id')
+                ->unique();
+        }
 
         $categories = TrainingCategory::whereHas('orders', function($query) use ($user) {
             $query->where('orders.user_id', $user->id);
         })
-        ->with(['trainings' => function($query) {
-            $query->orderBy('created_at', 'desc');
-        }])
+        ->with(['trainings'])
         ->get();
 
+        $categoriesWithProgress = $categories->map(function ($category) use ($watchedTrainingIdsByDogs) {
+            $totalTrainings = $category->trainings->count();
+            $watchedTrainingsCount = 0;
+
+            if ($totalTrainings > 0) {
+                $watchedTrainingsCount = $category->trainings->filter(function ($training) use ($watchedTrainingIdsByDogs) {
+                    return $watchedTrainingIdsByDogs->contains($training->id);
+                })->count();
+            }
+
+            $progressPercentage = ($totalTrainings > 0) ? ($watchedTrainingsCount / $totalTrainings) * 100 : 0;
+
+            $trainingsData = $category->trainings->map(function($training) use ($watchedTrainingIdsByDogs) {
+                return array_merge($training->toArray(), [
+                    'watched_by_user_dog' => $watchedTrainingIdsByDogs->contains($training->id)
+                ]);
+            });
+
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'price' => $category->price,
+                'trainings' => $trainingsData,
+                'total_trainings' => $totalTrainings,
+                'watched_trainings_count' => $watchedTrainingsCount,
+                'progress_percentage' => round($progressPercentage),
+            ];
+        });
+
         return Inertia::render('settings/Training', [
-            'trainingCategories' => $categories
+            'trainingCategories' => $categoriesWithProgress
         ]);
     }
 
@@ -85,32 +121,23 @@ class TrainingController extends Controller
      */
     public function markWatched(Request $request, Training $training)
     {
-        $user = $request->user(); // Or Auth::user()
-
-        // Get IDs of dogs belonging to the authenticated user
+        $user = $request->user();
         $dogIds = $user->dogs()->pluck('id');
 
         if ($dogIds->isEmpty()) {
-            // Or handle as an error, or based on your application's logic
             return redirect()->back()->with('error', 'No dogs found for this user.');
         }
 
-        // Find and update the DogTraining records for the user's dogs and the specified training
-        // This will mark 'watched_at' for all of the user's dogs enrolled in this training.
-        // If a user can only have one dog in a specific training, this will target that one.
-        $updatedCount = Dog_Training::where('training_id', $training->id)
-            ->whereIn('dog_id', $dogIds)
-            ->update(['watched_at' => now()]);
-
-        dd($updatedCount, $user, $dogIds);
-
-        if ($updatedCount > 0) {
-            // Optionally, add a success message
-            return redirect()->back()->with('success', 'Training marked as watched!');
-        } else {
-            // No matching DogTraining record found, or it was already marked (if not re-setting)
-            // You might want to inform the user or log this.
-            return redirect()->back()->with('info', 'Training could not be marked as watched (no active enrollment found).');
+        foreach ($dogIds as $dogId) {
+            Dog_Training::updateOrCreate(
+                [
+                    'dog_id' => $dogId,
+                    'training_id' => $training->id
+                ],
+                ['watched_at' => now()]
+            );
         }
+
+        return redirect()->back()->with('success', 'Training marked as watched.');
     }
 }

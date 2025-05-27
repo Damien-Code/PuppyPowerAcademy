@@ -21,8 +21,7 @@ class Dog_TrainingFactory extends Factory
     {
         return [
             'dog_id' => Dog::inRandomOrder()->first(),
-            'trainingcategory_id' => TrainingCategory::inRandomOrder()->first(),
-            'completed' => $this->faker->boolean(50)
+            'training_id' => Training::inRandomOrder()->first(),
         ];
     }
 }

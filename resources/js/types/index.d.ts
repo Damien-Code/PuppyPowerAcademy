@@ -73,7 +73,7 @@ export interface Training {
     created_at: string;
     updated_at: string;
     deleted_at: string;
-    amount:number;
+    amount: number;
 }
 
 export interface TrainingCategory {
@@ -83,6 +83,9 @@ export interface TrainingCategory {
     trainings: Training[];
     created_at: string;
     updated_at: string;
+    total_trainings?: number;
+    watched_trainings_count?: number;
+    progress_percentage?: number;
 }
 export interface Product {
     id: number;

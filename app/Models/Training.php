@@ -21,11 +21,4 @@ class Training extends Model
     public function trainingCategory(){
         return $this->belongsTo(TrainingCategory::class);
     }
-
-
-
-//    public function cartTraining(){
-//        return $this->hasMany(Cart::class);
-//    }
-
 }
