@@ -15,7 +15,7 @@ class Training extends Model
         'title',
         'description',
         'link',
-        'training_category_id',
+        'trainingcategory_id',
     ];
 
     public function trainingCategory(){

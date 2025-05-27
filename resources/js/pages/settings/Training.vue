@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import { Training, type BreadcrumbItem } from '@/types';
+import { Training, TrainingCategory, type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
@@ -19,8 +19,15 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
+const handleVideoPlay = (training: Training) => {
+    router.post(route('trainings.markWatched', training.id), {}, {
+        preserveScroll: true,
+    })
+}
+
 interface Props {
-    trainings: Training[]
+    trainings: Training[];
+    trainingCategories: TrainingCategory[];
 }
 
 defineProps<Props>();
@@ -33,13 +40,24 @@ defineProps<Props>();
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Bekijk hier uw bestelde trainingen" />
-                <div v-for="training in trainings" :key="training.id" class="flex my-4 bg-white rounded-lg">
-                    <div class="w-1/2 flex flex-col p-4">
-                        <Heading :title="training.title" :description="training.description"/>
-                    </div>
-                    <div class="w-1/2 flex flex-col">
-                        <div class="my-4 mx-auto h-fit w-fit">
-                            <YouTube :height="216" :width="384" ref="youtubeRef" :src="training.link" :vars="{ autoplay: 0 }" @ready="onReady"></YouTube>
+                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
+                    <Heading :title="category.name"/>
+                    <div v-if="category.trainings.length != 0">
+                        <div v-for="training in category.trainings" :key="training.id" class="flex my-4 bg-white rounded-lg">
+                            <div class="w-1/2 flex flex-col p-4">
+                                <Heading :title="training.title" :description="training.description"/>
+                            </div>
+                            <div class="w-1/2 flex flex-col">
+                                <div class="my-4 mx-auto h-fit w-fit">
+                                    <YouTube 
+                                        :height="216" 
+                                        :width="384"  
+                                        :src="training.link" 
+                                        :vars="{ autoplay: 0 }"
+                                        @play="handleVideoPlay(training)"  
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

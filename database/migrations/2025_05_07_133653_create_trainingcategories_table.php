@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('training_categories', function (Blueprint $table) {
+        Schema::create('trainingcategories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->double('price');
@@ -21,7 +21,7 @@ return new class extends Migration
         // After the training_categories has been created, add the foreign id to training_categories
         // because trainings is created before the training_categories
         Schema::table('trainings', function (Blueprint $table) {
-            $table->foreignId('training_category_id')->constrained('training_categories')->cascadeOnDelete();
+            $table->foreignId('trainingcategory_id')->constrained('trainingcategories')->cascadeOnDelete();
         });
     }
 
@@ -31,9 +31,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('trainings', function (Blueprint $table) {
-            $table->dropForeign('training_category_id');
-            $table->dropColumn('training_category_id'); // <- moet deze nog?
+            $table->dropForeign('trainingcategory_id');
+            $table->dropColumn('trainingcategory_id'); // <- moet deze nog?
         });
-        Schema::dropIfExists('training_categories');
+        Schema::dropIfExists('trainingcategories');
     }
 };

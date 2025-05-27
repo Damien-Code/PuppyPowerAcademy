@@ -12,12 +12,18 @@ class TrainingCategory extends Model
         'name',
         'price'
     ];
+    protected $table = 'trainingcategories';
 
     public function cartTraining(){
         return $this->hasMany(Cart::class);
     }
 
     public function trainings(){
-        return $this->hasMany(Training::class);
+        return $this->hasMany(Training::class, 'trainingcategory_id');
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'category_order', 'trainingcategory_id', 'order_id');
     }
 }

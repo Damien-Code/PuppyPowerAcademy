@@ -44,7 +44,7 @@ class AdminTrainingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
-            'training_category_id' => 'required|int|exists:training_categories,id'
+            'trainingcategory_id' => 'required|int|exists:trainingcategories,id'
         ]);
 
         Training::create($validatedRequest);
@@ -78,7 +78,7 @@ class AdminTrainingController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'link' => 'required|string|max:255',
-            'training_category_id' => 'required|exists:training_categories,id'
+            'trainingcategory_id' => 'required|exists:trainingcategories,id'
         ]);
 
         $training->update($validatedRequest);

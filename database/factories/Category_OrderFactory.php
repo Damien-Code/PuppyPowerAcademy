@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order_Training>
  */
-class Order_TrainingFactory extends Factory
+class Category_OrderFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,7 +21,7 @@ class Order_TrainingFactory extends Factory
     {
         return [
             'order_id' => Order::inRandomOrder()->first(),
-            'category_id' => TrainingCategory::inRandomOrder()->first(),
+            'trainingcategory_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }

@@ -21,7 +21,7 @@ class TrainingFactory extends Factory
             'title' => $this->faker->words(2, true),
             'description' => $this->faker->paragraph(),
             'link' => "https://www.youtube.com/watch?v=7Lf0jEgz9BA",
-            'training_category_id' => TrainingCategory::inRandomOrder()->first(),
+            'trainingcategory_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }
