@@ -21,7 +21,7 @@ class Cart_TrainingFactory extends Factory
         static $user_id = 1;
         return [
             'cart_id' => $user_id++,
-            'category_id' => TrainingCategory::inRandomOrder()->first(),
+            'trainingcategory_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }

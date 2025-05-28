@@ -47,7 +47,7 @@ class CartController extends Controller
         }
         //get trainings
         $trainings = TrainingCategory::join("cart_trainings", function($join){
-        	$join->on("training_categories.id", "=", "cart_trainings.category_id");
+        	$join->on("trainingcategories.id", "=", "cart_trainings.category_id");
         })->join("carts", function($join){
         	$join->on("carts.user_id", "=", "cart_trainings.cart_id");
         })->where(['user_id'=>Auth::user()->id])->get();

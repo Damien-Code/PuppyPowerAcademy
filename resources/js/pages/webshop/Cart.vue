@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Product, Training, type BreadcrumbItem } from '@/types';
+import { Product, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/ui/button/Button.vue';

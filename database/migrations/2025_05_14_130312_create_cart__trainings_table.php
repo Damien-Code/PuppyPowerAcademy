@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cart_trainings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cart_id')->constrained('carts');
-            $table->foreignId('category_id')->constrained('training_categories')->cascadeOnDelete();
+            $table->foreignId('trainingcategory_id')->constrained('trainingcategories')->cascadeOnDelete();
             $table->timestamps();
         });
     }

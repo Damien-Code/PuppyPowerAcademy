@@ -26,7 +26,7 @@ const onReady = () => {
 const form = useForm({
     title: '',
     description: '',
-    training_category_id: 0,
+    trainingcategory_id: 0,
     link: '',
 });
 
@@ -249,7 +249,7 @@ defineProps<Props>();
                                     </div>
                                     <div class="grid grid-cols-4 items-center gap-4">
                                         <Label>Categorie</Label>
-                                        <Select v-model="form.training_category_id">
+                                        <Select v-model="form.trainingcategory_id">
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Kies een categorie" />
                                             </SelectTrigger>
@@ -359,7 +359,7 @@ defineProps<Props>();
                             <Label for="description"> Beschrijving </Label>
                             <Input id="description" v-model="selectedItem.description" />
                             <Label>Categorie</Label>
-                            <Select v-model="selectedItem.training_category_id">
+                            <Select v-model="selectedItem.trainingcategory_id">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Kies een categorie" />
                                 </SelectTrigger>

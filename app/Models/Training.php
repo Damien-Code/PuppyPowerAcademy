@@ -15,17 +15,10 @@ class Training extends Model
         'title',
         'description',
         'link',
-        'training_category_id',
+        'trainingcategory_id',
     ];
 
     public function trainingCategory(){
         return $this->belongsTo(TrainingCategory::class);
     }
-
-
-
-//    public function cartTraining(){
-//        return $this->hasMany(Cart::class);
-//    }
-
 }

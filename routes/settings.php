@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('settings/training', TrainingController::class);
 
+    Route::post('settings/trainings/{training}/mark-watched', [TrainingController::class, 'markWatched'])
+        ->name('trainings.markWatched');
+
     Route::resource('settings/order-history', OrderHistoryController::class);
 
     // Extra middleware grouping for admin
