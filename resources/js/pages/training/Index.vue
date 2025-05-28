@@ -59,7 +59,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 <span>Free updates: <span class="font-semibold">6 months</span></span>
                             </li>
                         </ul>
-                        <Button>Toevoegen aan winkelwagen</Button>
+                        <Button class="cursor-pointer">Toevoegen aan winkelwagen</Button>
                     </div>
                     <!-- Pricing Card -->
                     <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
