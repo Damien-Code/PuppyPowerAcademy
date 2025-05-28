@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 
+import Button from '@/components/ui/button/Button.vue';
 import { Progress } from '@/components/ui/progress'
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Training, TrainingCategory, type BreadcrumbItem } from '@/types';
@@ -56,27 +57,49 @@ defineProps<Props>();
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Bekijk hier uw bestelde trainingen" />
-                <div v-for="category in trainingCategories" :key="category.id">
-                    <div v-if="category.trainings && category.trainings.length > 0" class="bg-primary rounded-lg p-8">
-                        <Heading :title="category.name"/>
-                        <Progress v-model="category.progress_percentage" class="w-2/5 bg-white"/>
-                        
-                        <div v-for="training in category.trainings" :key="training.id" class="flex my-4 bg-white rounded-lg">
-                            <div class="w-1/2 flex flex-col p-4">
-                                <Heading :title="training.title" :description="training.description"/>
-                            </div>
-                            <div class="w-1/2 flex flex-col">
-                                <div class="my-4 mx-auto h-fit w-fit">
+                <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
+                    <Heading :title="category.name"/>
+                    <div v-if="category.trainings && category.trainings.length > 0">
+                        <Progress v-model="category.progress_percentage" class="w-2/5 -mt-4 bg-white"/>
+                        <div v-for="training in category.trainings" :key="training.id" class="bg-background my-4 flex flex-col rounded-lg justify-between">
+                            <div class="p-4">
+                                <div class="flex flex-col justify-between md:flex-row">
+                                    <Heading :title="training.title" :description="training.description" />
+                                </div>
+                                <div class="invisible md:visible">
                                     <YouTube
+                                        class="hidden md:inline"
                                         :height="216"
                                         :width="384"
+                                        ref="youtubeRef"
                                         :src="training.link"
-                                        :vars="{ autoplay: 0, modestbranding: 1, rel: 0 }"
+                                        :vars="{ autoplay: 0 }"
                                         @state-change="handleVideoPlayStateChange(training, $event)"
-                                    />
+                                    ></YouTube>
                                 </div>
+                                 <a class="visible hover:underline md:invisible" :href="training.link">
+                                    <Button variant="outline"
+                                    >Bekijk training video
+                                        <svg
+                                            viewBox="0 0 256 180"
+                                            width="256"
+                                            height="180"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            preserveAspectRatio="xMidYMid"
+                                        >
+                                            <path
+                                                d="M250.346 28.075A32.18 32.18 0 0 0 227.69 5.418C207.824 0 127.87 0 127.87 0S47.912.164 28.046 5.582A32.18 32.18 0 0 0 5.39 28.24c-6.009 35.298-8.34 89.084.165 122.97a32.18 32.18 0 0 0 22.656 22.657c19.866 5.418 99.822 5.418 99.822 5.418s79.955 0 99.82-5.418a32.18 32.18 0 0 0 22.657-22.657c6.338-35.348 8.291-89.1-.164-123.134Z"
+                                                fill="red"
+                                            />
+                                            <path fill="#FFF" d="m102.421 128.06 66.328-38.418-66.328-38.418z" />
+                                        </svg>
+                                    </Button>
+                                </a>
                             </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <p>Video's worden zo snel mogelijk toegevoegd aan dit trainings pakket.</p>
                     </div>
                 </div>
             </div>
