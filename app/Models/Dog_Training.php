@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dog_Training extends Model
 {
+    use HasFactory, SoftDeletes;
     protected $table = 'dog_trainings';
 
     /**

@@ -18,8 +18,6 @@ use App\Models\Training;
 use App\Models\Dog_Training;
 use App\Models\Order;
 use App\Models\Order_Product;
-use App\Models\Order_Training;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
