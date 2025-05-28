@@ -73,11 +73,6 @@ const submit = () => {
                         :placeholder="getFirstName ? '' : 'Voornaam'"
                     />
 
-                    <Input 
-                        v-model="form.first_name" 
-                        :placeholder="getFirstName ? '' : 'Voornaam'"
-                    />
-
                     <InputError :message="form.errors.first_name"/>
                     <Label for="last_name">Achternaam</Label>
                     <Input 
@@ -85,18 +80,8 @@ const submit = () => {
                         :placeholder="getLastName ? '' : 'Achternaam'"
                     />
 
-                    <Input 
-                        v-model="form.last_name" 
-                        :placeholder="getLastName ? '' : 'Achternaam'"
-                    />
-
                     <InputError :message="form.errors.last_name"/>
                     <Label for="last_name">Email</Label>
-                    <Input 
-                        v-model="form.email" 
-                        :placeholder="getEmail ? '' : 'Email'"
-                    />
-
                     <Input 
                         v-model="form.email" 
                         :placeholder="getEmail ? '' : 'Email'"
