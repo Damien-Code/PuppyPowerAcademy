@@ -73,7 +73,7 @@ class AdminDaycareController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd("test");
     }
 
     /**

@@ -16,7 +16,7 @@ import {
     getLocalTimeZone,
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
-
+import { toast, Toaster } from 'vue-sonner';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { DaycareRequest } from '@/types';
 import {
@@ -39,10 +39,13 @@ const breadcrumbItems: BreadcrumbItem[] = [
 interface Props {
     daycareRequests: DaycareRequest[];
 }
-// const form = useForm({
-//     name: ''
-//     date: null,
-// });
+const form = useForm({
+    name: '',
+    race: '',
+    age: '',
+    been_to_daycare: false,
+    date: null,
+});
 const props = defineProps<Props>();
 const selectedItem = ref<DaycareRequest>(null!);
 const modalOpen = ref(false);
@@ -54,14 +57,33 @@ const openModal = (request: DaycareRequest) => {
     selectedItem.value = request;
     modalOpen.value = true
 }
-console.log(props.daycareRequests);
+const submit = (requestId: any, formData: any) => {
+    console.log("test");
+    
+    form.transform((data) => ({
+        ...data,
+        date: data.date ? data.date.toDate().toLocaleString('nl-NL') : null,
+    })).post(route('admin.dagopvang.update',requestId), {
+        forceFormData: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            modalOpen.value = false;
+            toast.success('Succesvol gewijzigd!');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan');
+        },
+    });
+}
+// console.log(props.daycareRequests);
 
 </script>
 
 <template>
+    <Head title="Admin Dagopvang" />
     <AppLayout :breadcrumbs="breadcrumbItems">
-
-        <Head title="Admin Dagopvang" />
+        <Toaster/>
 
         <SettingsLayout>
             <div class="space-y-6">
@@ -111,12 +133,14 @@ console.log(props.daycareRequests);
                 </Table>
             </div>
             <Dialog v-model:open="modalOpen">
+                
                 <DialogTrigger as-child class="ml-auto mt-auto">
                     <Button class="cursor-pointer">
                         Meer info
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
+                    <form @submit.prevent="submit(selectedItem.id, selectedItem)" class=" flex flex-col">
                     <DialogHeader>
                         <DialogTitle>
                             Afspraak info
@@ -125,7 +149,7 @@ console.log(props.daycareRequests);
                             Hier is meer informatie over de hond van de afspraak
                         </DialogDescription>
                     </DialogHeader>
-
+                    
                     <!-- <form @submit.prevent="submit"> -->
                     <div class="grid gap-4 py-4">
                         <div class="grid grid-cols-4 items-center gap-4">
@@ -143,45 +167,53 @@ console.log(props.daycareRequests);
                                 Ras
                             </Label>
                             <Input id="race" class="col-span-3 color: inherit" disabled v-model="selectedItem.race" />
-                            <Label for="gender" class="text-right">
+                    <!-- gender to be added -->
+                    <!-- <Label for="gender" class="text-right">
                                 Geslacht
                             </Label>
-                            <Input id="gender" class="col-span-3 text-black" disabled placeholder="gender TBA" />
-                            <Label for="birthdate" class="text-right">
+                            <Input id="gender" class="col-span-3 text-black" disabled placeholder="gender TBA" /> -->
+                           
+                    <!-- date of birth to be added, currently have Age in its place -->
+                            <!-- <Label for="birthdate" class="text-right">
                                 Geboortedatum
                             </Label>
-                            <Input id="birthdate" class="col-span-3 text-black" disabled placeholder="birthdate TBA" />
-                            <Label for="photo" class="text-right">
+                            <Input id="birthdate" class="col-span-3 text-black" disabled placeholder="birthdate TBA" /> -->
+                           
+                    <!-- photo to be added -->
+                    <!-- <Label for="photo" class="text-right">
                                 Foto
                             </Label>
-                            <Input id="photo" class="col-span-3" disabled placeholder="photo TBA" />
+                            <Input id="photo" class="col-span-3" disabled placeholder="photo TBA" /> -->
 
                             <Label for="date" class="text-right">
                                 Datum
                             </Label>
                             <Popover>
                                 <PopoverTrigger as-child>
-                                    <Button variant="outline">
-                                        <CalendarIcon class="mr-2 h-4 w-4" />
-                                        <!-- {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Pick a date" }} -->
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent class="w-auto p-0">
-                                    <Calendar initial-focus />
-                                </PopoverContent>
-                            </Popover>
+                        <Button
+                            variant="outline"
+                        >
+                        <CalendarIcon class="mr-2 h-4 w-4" />
+                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : useDateFormat(selectedItem.daycare_date, 'DD-MM-YYYY') }}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent class="w-auto p-0">
+                        <Calendar v-model="form.date" initial-focus />
+                    </PopoverContent>
+                </Popover>
                             <!-- <Input id="date" class="col-span-3" v-model="selectedItem.daycare_date"/> -->
                         </div>
                     </div>
-
+                    <Button class="mt-12">Wijzig</Button>
                     <DialogFooter>
                         <!-- <DialogTrigger>
-                                                    <Button type="submit" class="cursor-pointer">
+                            <Button type="submit" class="cursor-pointer">
                                                         Toevoegen
                                                     </Button>
                                                 </DialogTrigger> -->
                     </DialogFooter>
-                    <!-- </form> -->
+                <!-- </form> -->
+            </form>
                 </DialogContent>
             </Dialog>
         </SettingsLayout>
