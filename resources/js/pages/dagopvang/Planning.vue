@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import {
     DateFormatter,
     getLocalTimeZone,
+    today
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
 import { toast, Toaster } from 'vue-sonner';
@@ -53,15 +54,7 @@ const submit = () => {
     });
 }
 
-// Use this if time is added to planning for daycare
-
-// import { ref } from 'vue';
-// import VueDatePicker from '@vuepic/vue-datepicker';
-// import '@vuepic/vue-datepicker/dist/main.css'
-//
-// const date = ref();
-
-// import { cn } from '@/utils'
+const minDate = today(getLocalTimeZone())
 </script>
 
 <template>
@@ -93,7 +86,7 @@ const submit = () => {
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent class="w-auto p-0">
-                        <Calendar v-model="form.date" initial-focus />
+                        <Calendar v-model="form.date" initial-focus :min-value="minDate"/>
                     </PopoverContent>
                 </Popover>
                 <InputError :message="form.errors.date"/>
