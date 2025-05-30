@@ -11,15 +11,16 @@ use Inertia\Inertia;
 class AdminTrainingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @author Damien-Code and Floris Hafkenscheid
+     * Get all trainings with relation to a trainingcategory
+     * and get all trainingcategories with relation to a training.
+     * Because a trainingCategory can have several trainings, where as training belongs to a trainingCategory.
      */
     public function index()
     {
         return Inertia::render(
             'settings/admin/Training',
             [
-//                'trainings' => Training::query()
-//                ->with('trainingCategory')->get(),
                 'trainings' => Training::with('trainingCategory')->get(),
                 'trainingCategories' => TrainingCategory::with('trainings')->get(),
             ]

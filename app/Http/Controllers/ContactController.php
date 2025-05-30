@@ -10,6 +10,7 @@ use Inertia\Inertia;
 class ContactController extends Controller
 {
     /**
+     * @author Damien-Code
      * Display a listing of the resource.
      */
     public function index()
@@ -26,11 +27,12 @@ class ContactController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @author Damien-Code
+     * Store the validated request of a contact message.
      */
     public function store(Request $request)
     {
-        
+
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
