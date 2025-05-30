@@ -8,7 +8,7 @@ import { useDateFormat } from '@vueuse/core';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { ref } from 'vue';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-
+import moment from 'moment';
 import { Calendar } from '@/components/ui/calendar'
 import {
     DateFormatter,
@@ -40,11 +40,13 @@ interface Props {
     daycareRequests: DaycareRequest[];
 }
 const form = useForm({
+    id:'',
     name: '',
     race: '',
     age: '',
     been_to_daycare: false,
     date: null,
+    oldDate: ''
 });
 const props = defineProps<Props>();
 const selectedItem = ref<DaycareRequest>(null!);
@@ -57,13 +59,22 @@ const openModal = (request: DaycareRequest) => {
     selectedItem.value = request;
     modalOpen.value = true
 }
-const submit = (requestId: any, formData: any) => {
-    console.log("test");
+const submit = (formData: any) => {
+    form.id = formData.id;
+    form.oldDate = formData.daycare_date;
+    // console.log(formData.daycare_date);
+    
+    // form.oldDate = df.format(form.date.toDate(getLocalTimeZone())); //here
+    console.log(form.id);
+    console.log(formData),
     
     form.transform((data) => ({
         ...data,
-        date: data.date ? data.date.toDate().toLocaleString('nl-NL') : null,
-    })).post(route('admin.dagopvang.update',requestId), {
+        
+        date: data.date ? (moment(data.date.toDate()).format("YYYY-MM-DD HH:mm:ss")) : null
+    })
+    
+).post(route('admin.dagopvang.store'), {
         forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
@@ -140,7 +151,7 @@ const submit = (requestId: any, formData: any) => {
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <form @submit.prevent="submit(selectedItem.id, selectedItem)" class=" flex flex-col">
+                    <form @submit.prevent="submit(selectedItem)" class=" flex flex-col">
                     <DialogHeader>
                         <DialogTitle>
                             Afspraak info
@@ -184,21 +195,20 @@ const submit = (requestId: any, formData: any) => {
                                 Foto
                             </Label>
                             <Input id="photo" class="col-span-3" disabled placeholder="photo TBA" /> -->
-
+                            <input v-model="form.id" hidden>
+                            <input v-model="form.oldDate" hidden>
                             <Label for="date" class="text-right">
                                 Datum
                             </Label>
                             <Popover>
                                 <PopoverTrigger as-child>
-                        <Button
-                            variant="outline"
-                        >
+                        <Button variant="outline">
                         <CalendarIcon class="mr-2 h-4 w-4" />
                             {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : useDateFormat(selectedItem.daycare_date, 'DD-MM-YYYY') }}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent class="w-auto p-0">
-                        <Calendar v-model="form.date" initial-focus />
+                        <Calendar v-model="form.date" initial-focus  />
                     </PopoverContent>
                 </Popover>
                             <!-- <Input id="date" class="col-span-3" v-model="selectedItem.daycare_date"/> -->

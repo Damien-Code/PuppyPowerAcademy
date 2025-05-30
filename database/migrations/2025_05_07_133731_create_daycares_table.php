@@ -16,8 +16,9 @@ return new class extends Migration
             $table->dateTime('date');
             $table->timestamps();
         });
-
+        
         Schema::create('daycare_dogs', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('dog_id')->constrained('dogs');
             $table->foreignId('daycare_id')->constrained('daycares');
             $table->timestamps();
