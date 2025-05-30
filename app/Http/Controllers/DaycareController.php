@@ -37,7 +37,7 @@ class DaycareController extends Controller
             'been_to_daycare' => 'boolean',
         ]);
         $validatedDaycare = $request->validate([
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
         ]);
         $validatedDaycare['date'] = Carbon::parse($validatedDaycare['date']);
 

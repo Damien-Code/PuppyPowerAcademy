@@ -82,7 +82,7 @@ const minDate = today(getLocalTimeZone())
                             variant="outline"
                         >
                             <CalendarIcon class="mr-2 h-4 w-4" />
-                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Pick a date" }}
+                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Kies een datum" }}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent class="w-auto p-0">
@@ -90,7 +90,6 @@ const minDate = today(getLocalTimeZone())
                     </PopoverContent>
                 </Popover>
                 <InputError :message="form.errors.date"/>
-<!--                <VueDatePicker/>-->
                 <input v-model="form.been_to_daycare" hidden>
                 <Button class="mt-12">Plan</Button>
             </form>
