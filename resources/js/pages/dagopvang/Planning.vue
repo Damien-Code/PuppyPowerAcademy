@@ -35,9 +35,11 @@ const form = useForm({
     been_to_daycare: false,
     date: null,
 });
-
+/**
+ * @author Damien-Code
+ * Function that submits the form for daycare
+ */
 const submit = () => {
-    // console.log(form.data().date.toDate().toLocaleString('nl-NL'))
     form.transform((data) => ({
         ...data,
         date: data.date ? data.date.toDate().toLocaleString('nl-NL') : null,
@@ -53,7 +55,7 @@ const submit = () => {
         },
     });
 }
-
+// minDate so user cannot register for daycare when date has passed
 const minDate = today(getLocalTimeZone())
 </script>
 
