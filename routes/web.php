@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DaycareController;
+use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\WebshopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,9 +32,7 @@ Route::resource('dagopvang', DaycareController::class)->except(['index'])->middl
 
 Route::get('dagopvang', [DaycareController::class, 'index'])->name('dagopvang.index');
 
-Route::get('training', function () {
-    return Inertia::render('training/Index');
-})->name('training/Index');
+Route::resource('training', TrainingController::class);
 
 
 Route::get('dagopvang/planning', function () {

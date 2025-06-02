@@ -43,9 +43,45 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create(['role_id' => 2]);
         // Cart::factory(10)->create();
         Product::factory(10)->create();
-        Order::factory(10)->create(); // CHECK THIS FACTORY
+        Order::factory(10)->create();
         Dog::factory(10)->create();
-        TrainingCategory::factory(10)->create();
+
+        TrainingCategory::factory()->create([
+            'name' => 'Puppy',
+            'price' => '29',
+            'descriptors' => json_encode([
+            "Basis Commando's",
+            "Socialisatie Vaardigheden",
+            "Zindelijkheidstraining",
+            "Bijtremming",
+            "Aan de Lijn Lopen"
+            ])
+        ]);
+
+        TrainingCategory::factory()->create([
+            'name' => 'Vuurwerk',
+            'price' => '99',
+            'descriptors' => json_encode([
+            "Angstreductie Technieken",
+            "Geluid Gewenning",
+            "Stressvrije Omgeving",
+            "Gedragstherapie",
+            "Kalmeringstechnieken"
+            ])
+        ]);
+
+        TrainingCategory::factory()->create([
+            'name' => 'Gedrag',
+            'price' => '499',
+            'descriptors' => json_encode([
+            "Probleemgedrag Aanpak",
+            "Gedragsverandering Technieken",
+            "Sociale Vaardigheden", 
+            "Stress Management",
+            "Vertrouwen Opbouwen"
+            ])
+        ]);
+
         Training::factory(10)->create();
         Daycare::factory(10)->create();
         Contact::factory(10)->create();
@@ -57,7 +93,5 @@ class DatabaseSeeder extends Seeder
         Cart_Training::factory(count(User::all()))->create();
         Order_Product::factory(10)->create();
         Category_Order::factory(10)->create();
-
-
     }
 }

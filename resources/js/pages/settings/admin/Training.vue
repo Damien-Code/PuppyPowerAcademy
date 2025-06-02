@@ -7,6 +7,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import Input from '@/components/ui/input/Input.vue';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import TagsInput from '@/components/ui/tags-input/TagsInput.vue';
+import TagsInputInput from '@/components/ui/tags-input/TagsInputInput.vue';
+import TagsInputItem from '@/components/ui/tags-input/TagsInputItem.vue';
+import TagsInputItemDelete from '@/components/ui/tags-input/TagsInputItemDelete.vue';
+import TagsInputItemText from '@/components/ui/tags-input/TagsInputItemText.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Training, TrainingCategory, type BreadcrumbItem } from '@/types';
@@ -34,6 +39,7 @@ const form = useForm({
 const formCat = useForm({
     name: '',
     price: '',
+    descriptors: [] as string[],
 });
 
 // This makes it able to submit the training.
@@ -139,7 +145,13 @@ const openModal = (training: Training) => {
 
 // Opens the dialog/modal for training category.
 const openModalCat = (trainingCategory: TrainingCategory) => {
-    selectedCat.value = trainingCategory;
+    selectedCat.value = {...trainingCategory};
+    // Ensure descriptors is parsed as an array
+    selectedCat.value.descriptors = Array.isArray(trainingCategory.descriptors) 
+        ? [...trainingCategory.descriptors] 
+        : (typeof trainingCategory.descriptors === 'string' 
+            ? JSON.parse(trainingCategory.descriptors || '[]') 
+            : []);
     modalOpenCat.value = true;
 };
 
@@ -176,6 +188,13 @@ const deleteTraining = (id: number) => {
         },
     });
 };
+
+// Make sure the TagsInput component has the correct type
+declare module '@/components/ui/tags-input/TagsInput.vue' {
+    interface TagsInputProps {
+        modelValue: string[]
+    }
+}
 
 // Define the props for the training and training category
 interface Props {
@@ -215,6 +234,18 @@ defineProps<Props>();
                                         <Label for="price"> Prijs </Label>
                                         <Input id="price" class="col-span-3" v-model="formCat.price" />
                                         <InputError :message="formCat.errors.price" class="col-span-3" />
+                                    </div>
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <Label> Beschrijvingen </Label>
+                                        <TagsInput class="col-span-3 border-primary bg-white" v-model="formCat.descriptors">
+                                            <TagsInputItem v-for="descriptor in formCat.descriptors" :key="descriptor" :value="descriptor">
+                                                <TagsInputItemText />
+                                                <TagsInputItemDelete />
+                                            </TagsInputItem>
+
+                                            <TagsInputInput placeholder="Beschrijvingen..."/>
+                                        </TagsInput>
+                                        <InputError :message="formCat.errors.descriptors" class="col-span-3" />
                                     </div>
                                 </div>
 
@@ -396,10 +427,22 @@ defineProps<Props>();
 
                     <form @submit.prevent="updateCategory(selectedCat.id, selectedCat)" :id="selectedCat.id">
                         <div class="flex flex-col justify-between gap-4">
-                            <Label for="title"> Naam </Label>
-                            <Input id="title" v-model="selectedCat.name" />
-                            <Label for="description"> Prijs </Label>
-                            <Input id="description" v-model="selectedCat.price" />
+                            <Label for="name"> Naam </Label>
+                            <Input id="name" v-model="selectedCat.name" :placeholder="selectedCat.name"/>
+                            <Label for="price"> Prijs </Label>
+                            <Input id="price" v-model="selectedCat.price" :placeholder="selectedCat.price"/>
+                            <Label for="descriptors"> Beschrijvingen </Label>
+                            <TagsInput class="col-span-3 border-primary bg-white" v-model="selectedCat.descriptors">
+                                <TagsInputItem 
+                                    v-for="descriptor in selectedCat.descriptors" 
+                                    :key="descriptor" 
+                                    :value="descriptor">
+                                    <TagsInputItemText />
+                                    <TagsInputItemDelete />
+                                </TagsInputItem>
+
+                                <TagsInputInput placeholder="Beschrijvingen..."/>
+                            </TagsInput>
                         </div>
                         <DialogFooter>
                             <DialogTrigger>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dog_Training extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'dog_trainings';
 
     /**
