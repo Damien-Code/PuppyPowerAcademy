@@ -145,7 +145,13 @@ const openModal = (training: Training) => {
 
 // Opens the dialog/modal for training category.
 const openModalCat = (trainingCategory: TrainingCategory) => {
-    selectedCat.value = trainingCategory;
+    selectedCat.value = {...trainingCategory};
+    // Ensure descriptors is parsed as an array
+    selectedCat.value.descriptors = Array.isArray(trainingCategory.descriptors) 
+        ? [...trainingCategory.descriptors] 
+        : (typeof trainingCategory.descriptors === 'string' 
+            ? JSON.parse(trainingCategory.descriptors || '[]') 
+            : []);
     modalOpenCat.value = true;
 };
 
@@ -182,6 +188,13 @@ const deleteTraining = (id: number) => {
         },
     });
 };
+
+// Make sure the TagsInput component has the correct type
+declare module '@/components/ui/tags-input/TagsInput.vue' {
+    interface TagsInputProps {
+        modelValue: string[]
+    }
+}
 
 // Define the props for the training and training category
 interface Props {
@@ -414,10 +427,22 @@ defineProps<Props>();
 
                     <form @submit.prevent="updateCategory(selectedCat.id, selectedCat)" :id="selectedCat.id">
                         <div class="flex flex-col justify-between gap-4">
-                            <Label for="title"> Naam </Label>
-                            <Input id="title" v-model="selectedCat.name" />
-                            <Label for="description"> Prijs </Label>
-                            <Input id="description" v-model="selectedCat.price" />
+                            <Label for="name"> Naam </Label>
+                            <Input id="name" v-model="selectedCat.name" :placeholder="selectedCat.name"/>
+                            <Label for="price"> Prijs </Label>
+                            <Input id="price" v-model="selectedCat.price" :placeholder="selectedCat.price"/>
+                            <Label for="descriptors"> Beschrijvingen </Label>
+                            <TagsInput class="col-span-3 border-primary bg-white" v-model="selectedCat.descriptors">
+                                <TagsInputItem 
+                                    v-for="descriptor in selectedCat.descriptors" 
+                                    :key="descriptor" 
+                                    :value="descriptor">
+                                    <TagsInputItemText />
+                                    <TagsInputItemDelete />
+                                </TagsInputItem>
+
+                                <TagsInputInput placeholder="Beschrijvingen..."/>
+                            </TagsInput>
                         </div>
                         <DialogFooter>
                             <DialogTrigger>
