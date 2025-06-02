@@ -76,10 +76,10 @@ class AdminTrainingController extends Controller
     public function update(Request $request, Training $training)
     {
         $validatedRequest = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'link' => 'required|string|max:255',
-            'trainingcategory_id' => 'required|exists:trainingcategories,id'
+            'title' => 'string|max:255',
+            'description' => 'string',
+            'link' => 'string|max:255',
+            'trainingcategory_id' => 'exists:trainingcategories,id'
         ]);
 
         $training->update($validatedRequest);
@@ -95,6 +95,5 @@ class AdminTrainingController extends Controller
     {
         $training->delete();
         return redirect()->route('admin.training.index');
-
     }
 }
