@@ -10,6 +10,7 @@ use Inertia\Inertia;
 class DaycareController extends Controller
 {
     /**
+     * @author Damien-Code
      * Display a listing of the resource.
      */
     public function index()
@@ -18,6 +19,7 @@ class DaycareController extends Controller
     }
 
     /**
+     * @author Damien-Code
      * Show the form for creating a new resource.
      */
     public function create()
@@ -26,7 +28,11 @@ class DaycareController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @author Damien-Code
+     * Store the validated subscription for daycare.
+     * This method first validates the dog values and then validates the datevalue.
+     * If a dog already has been registered, it uses the already stored data, else it creates a new dog
+     * The same happens to the date. If the new date is already in the database, it uses the already stored date, else it creates a new date.
      */
     public function store(Request $request)
     {
@@ -37,7 +43,7 @@ class DaycareController extends Controller
             'been_to_daycare' => 'boolean',
         ]);
         $validatedDaycare = $request->validate([
-            'date' => 'required|date',
+            'date' => 'required|date|after_or_equal:today',
         ]);
         $validatedDaycare['date'] = Carbon::parse($validatedDaycare['date']);
 
