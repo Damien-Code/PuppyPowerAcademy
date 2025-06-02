@@ -61,8 +61,6 @@ const openModal = (request: DaycareRequest) => {
 const submit = (formData: any) => {
     form.id = formData.id;
     form.oldDate = formData.daycare_date;
-    console.log(form.id);
-    console.log(formData),
 
         form.transform((data) => ({
             ...data,
