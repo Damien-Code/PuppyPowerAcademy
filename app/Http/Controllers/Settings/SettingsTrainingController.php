@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class TrainingController extends Controller
+class SettingsTrainingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -82,7 +82,7 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

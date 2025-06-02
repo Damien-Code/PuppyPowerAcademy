@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
-use App\Http\Controllers\Settings\TrainingController;
+use App\Http\Controllers\Settings\SettingsTrainingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,9 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::resource('settings/training', TrainingController::class);
+    Route::resource('settings/training', SettingsTrainingController::class);
 
-    Route::post('settings/trainings/{training}/mark-watched', [TrainingController::class, 'markWatched'])
+    Route::post('settings/trainings/{training}/mark-watched', [SettingsTrainingController::class, 'markWatched'])
         ->name('trainings.markWatched');
 
     Route::resource('settings/order-history', OrderHistoryController::class);
