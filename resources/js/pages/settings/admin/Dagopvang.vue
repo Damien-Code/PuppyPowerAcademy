@@ -39,7 +39,7 @@ interface Props {
     daycareRequests: DaycareRequest[];
 }
 const form = useForm({
-    id:'',
+    id: '',
     name: '',
     race: '',
     age: '',
@@ -61,39 +61,36 @@ const openModal = (request: DaycareRequest) => {
 const submit = (formData: any) => {
     form.id = formData.id;
     form.oldDate = formData.daycare_date;
-    // console.log(formData.daycare_date);
-    
-    // form.oldDate = df.format(form.date.toDate(getLocalTimeZone())); //here
     console.log(form.id);
     console.log(formData),
-    
-    form.transform((data) => ({
-        ...data,
-        
-        date: data.date ? (moment(data.date.toDate()).format("YYYY-MM-DD HH:mm:ss")) : null
-    })
-    
-).post(route('admin.dagopvang.store'), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-            modalOpen.value = false;
-            toast.success('Succesvol gewijzigd!');
-        },
-        onError: () => {
-            toast.error('Er is iets misgegaan');
-        },
-    });
+
+        form.transform((data) => ({
+            ...data,
+
+            date: data.date ? (moment(data.date.toDate()).format("YYYY-MM-DD HH:mm:ss")) : null
+        })
+
+        ).post(route('admin.dagopvang.store'), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                form.reset();
+                modalOpen.value = false;
+                toast.success('Succesvol gewijzigd!');
+            },
+            onError: () => {
+                toast.error('Er is iets misgegaan');
+            },
+        });
 }
-// console.log(props.daycareRequests);
 
 </script>
 
 <template>
+
     <Head title="Admin Dagopvang" />
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Toaster/>
+        <Toaster />
 
         <SettingsLayout>
             <div class="space-y-6">
@@ -102,12 +99,7 @@ const submit = (formData: any) => {
                     <TableHeader>
                         <TableRow>
                             <TableHead class="text-left w-1/12">Naam eigenaar</TableHead>
-                            <!-- <TableHead class="text-left w-1/12">Email eigenaar</TableHead> -->
                             <TableHead>Naam hond</TableHead>
-                            <!-- <TableHead>Ras hond</TableHead>
-                            <TableHead>Geslacht</TableHead>
-                            <TableHead>Geboortedatum</TableHead>
-                            <TableHead>Foto hond</TableHead> -->
                             <TableHead>ingeplande datum</TableHead>
                             <TableHead>Meer info</TableHead>
                         </TableRow>
@@ -115,23 +107,9 @@ const submit = (formData: any) => {
                     <TableBody>
 
                         <TableRow v-for="request in props.daycareRequests" :key="request.id" class="">
-                            <!-- <TableCell class="flex">
-                                <form>
-                                    <Switch
-                                        class="mr-auto"
-                                        id="is-read"
-                                        v-model="request.is_completed"
-                                        @update:modelValue="submitForm(request)"
-                                    />
-                                </form>
-                            </TableCell> -->
+                          
                             <TableCell>{{ request.owner }}</TableCell>
-                            <!-- <TableCell>{{ request.email }}</TableCell> -->
                             <TableCell>{{ request.name }}</TableCell>
-                            <!-- <TableCell>{{ request.race }}</TableCell> -->
-                            <!-- <TableCell>geslacht to be added</TableCell> -->
-                            <!-- <TableCell>Geboortedatum to be added</TableCell> -->
-                            <!-- <TableCell>foto hond</TableCell> -->
                             <TableCell>{{ useDateFormat(request.daycare_date, 'DD-MM-YYYY') }}</TableCell>
                             <TableCell>
                                 <Button @click="openModal(request)">Bewerk</Button>
@@ -143,7 +121,7 @@ const submit = (formData: any) => {
                 </Table>
             </div>
             <Dialog v-model:open="modalOpen">
-                
+
                 <DialogTrigger as-child class="ml-auto mt-auto">
                     <Button class="cursor-pointer">
                         Meer info
@@ -151,78 +129,57 @@ const submit = (formData: any) => {
                 </DialogTrigger>
                 <DialogContent>
                     <form @submit.prevent="submit(selectedItem)" class=" flex flex-col">
-                    <DialogHeader>
-                        <DialogTitle>
-                            Afspraak info
-                        </DialogTitle>
-                        <DialogDescription>
-                            Hier is meer informatie over de hond van de afspraak
-                        </DialogDescription>
-                    </DialogHeader>
-                    
-                    <!-- <form @submit.prevent="submit"> -->
-                    <div class="grid gap-4 py-4">
-                        <div class="grid grid-cols-4 items-center gap-4">
-                            <Label for="email" class="text-right">
-                                Email
-                            </Label>
-                            <Input id="email" class="col-span-3 color: inherit" disabled v-model="selectedItem.email" />
-                            <Label for="name" class="text-right">
-                                Naam
-                            </Label>
-                            <Input id="name" class="col-span-3 color: inherit" disabled v-model="selectedItem.name" />
+                        <DialogHeader>
+                            <DialogTitle>
+                                Afspraak info
+                            </DialogTitle>
+                            <DialogDescription>
+                                Hier is meer informatie over de hond van de afspraak
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        <div class="grid gap-4 py-4">
+                            <div class="grid grid-cols-4 items-center gap-4">
+                                <Label for="email" class="text-right">
+                                    Email
+                                </Label>
+                                <Input id="email" class="col-span-3 color: inherit" disabled
+                                    v-model="selectedItem.email" />
+                                <Label for="name" class="text-right">
+                                    Naam
+                                </Label>
+                                <Input id="name" class="col-span-3 color: inherit" disabled
+                                    v-model="selectedItem.name" />
+                            </div>
+                            <div class="grid grid-cols-4 items-center gap-4">
+                                <Label for="race" class="text-right">
+                                    Ras
+                                </Label>
+                                <Input id="race" class="col-span-3 color: inherit" disabled
+                                    v-model="selectedItem.race" />
+                                <input v-model="form.id" hidden>
+                                <input v-model="form.oldDate" hidden>
+                                <Label for="date" class="text-right">
+                                    Datum
+                                </Label>
+                                <Popover>
+                                    <PopoverTrigger as-child>
+                                        <Button variant="outline">
+                                            <CalendarIcon class="mr-2 h-4 w-4" />
+                                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) :
+                                                useDateFormat(selectedItem.daycare_date, 'DD-MM-YYYY') }}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent class="w-auto p-0">
+                                        <Calendar v-model="form.date" initial-focus />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-4 items-center gap-4">
-                            <Label for="race" class="text-right">
-                                Ras
-                            </Label>
-                            <Input id="race" class="col-span-3 color: inherit" disabled v-model="selectedItem.race" />
-                    <!-- gender to be added -->
-                    <!-- <Label for="gender" class="text-right">
-                                Geslacht
-                            </Label>
-                            <Input id="gender" class="col-span-3 text-black" disabled placeholder="gender TBA" /> -->
-                           
-                    <!-- date of birth to be added, currently have Age in its place -->
-                            <!-- <Label for="birthdate" class="text-right">
-                                Geboortedatum
-                            </Label>
-                            <Input id="birthdate" class="col-span-3 text-black" disabled placeholder="birthdate TBA" /> -->
-                           
-                    <!-- photo to be added -->
-                    <!-- <Label for="photo" class="text-right">
-                                Foto
-                            </Label>
-                            <Input id="photo" class="col-span-3" disabled placeholder="photo TBA" /> -->
-                            <input v-model="form.id" hidden>
-                            <input v-model="form.oldDate" hidden>
-                            <Label for="date" class="text-right">
-                                Datum
-                            </Label>
-                            <Popover>
-                                <PopoverTrigger as-child>
-                        <Button variant="outline">
-                        <CalendarIcon class="mr-2 h-4 w-4" />
-                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : useDateFormat(selectedItem.daycare_date, 'DD-MM-YYYY') }}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent class="w-auto p-0">
-                        <Calendar v-model="form.date" initial-focus  />
-                    </PopoverContent>
-                </Popover>
-                            <!-- <Input id="date" class="col-span-3" v-model="selectedItem.daycare_date"/> -->
-                        </div>
-                    </div>
-                    <Button class="mt-12">Wijzig</Button>
-                    <DialogFooter>
-                        <!-- <DialogTrigger>
-                            <Button type="submit" class="cursor-pointer">
-                                                        Toevoegen
-                                                    </Button>
-                                                </DialogTrigger> -->
-                    </DialogFooter>
-                <!-- </form> -->
-            </form>
+                        <Button class="mt-12">Wijzig</Button>
+                        <DialogFooter>
+                        </DialogFooter>
+                    </form>
                 </DialogContent>
             </Dialog>
         </SettingsLayout>
