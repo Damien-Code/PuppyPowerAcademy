@@ -8,6 +8,7 @@ use Tests\TestCase;
 class ContactTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * @author  Damien-Code
      * Test that a user can send a contact message.
@@ -26,6 +27,7 @@ class ContactTest extends TestCase
         $response = $this->post('/contact', $data);
         // Assert that the response is a redirect
         $response->assertStatus(302);
+        // Assert that the message was stored in the database
         $this->assertDatabasehas('contacts', $data);
     }
 }

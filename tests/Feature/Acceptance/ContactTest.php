@@ -30,7 +30,6 @@ class ContactTest extends TestCase
         $user = User::factory()->create();
         // Send a GET request to the contact route while logged in
         $response = $this->actingAs($user)->get('/contact');
-
         // Assert that the response is a success
         $response->assertStatus(200);
         // Assert that the view contains the user's name
