@@ -20,6 +20,7 @@ class TrainingCategoryFactory extends Factory
             //
             'name' => $this->faker->words(1, true),
             'price' => $this->faker->numberBetween(2.5,12.5),
+            'descriptors' => json_encode($this->faker->words()),
         ];
     }
 }

@@ -31,10 +31,11 @@ class AdminTrainingCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request['descriptors'] = json_encode($request['descriptors']);
         $validatedRequest = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|gt:0',
-            'training_id' => 'nullable',
+            'descriptors' => 'required|json',
         ]);
         TrainingCategory::create($validatedRequest);
         return redirect()->route('admin.training.index');
@@ -65,7 +66,6 @@ class AdminTrainingCategoryController extends Controller
         $validatedRequest = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|gt:0',
-            'training_id' => 'nullable',
         ]);
         $trainingCategory->update($validatedRequest);
         return redirect()->route('admin.training.index');

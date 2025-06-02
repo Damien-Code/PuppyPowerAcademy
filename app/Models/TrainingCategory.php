@@ -10,7 +10,8 @@ class TrainingCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'price'
+        'price',
+        'descriptors',
     ];
     protected $table = 'trainingcategories';
 
