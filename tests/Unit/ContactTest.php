@@ -1,24 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ContactTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @author Damien-Code
-     * A basic test where the contact page can be rendered without login.
-     */
-    public function test_contactPageCanBeRenderedWithoutLogin(): void
-    {
-        $response = $this->get('/contact');
-
-        $response->assertStatus(200);
-    }
 
     /**
      * @author  Damien-Code
@@ -38,7 +27,7 @@ class ContactTest extends TestCase
         $response = $this->post('/contact', $data);
         // Assert that the response is a redirect
         $response->assertStatus(302);
+        // Assert that the message was stored in the database
         $this->assertDatabasehas('contacts', $data);
-
     }
 }

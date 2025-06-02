@@ -66,12 +66,16 @@ export interface Order {
 export interface Training {
     id: number;
     title: string;
-    price: number;
     description: string;
     link: string;
+    training_category: TrainingCategory;
+    trainingcategory_id: number
     created_at: string;
     updated_at: string;
+    deleted_at: string;
+    amount: number;
 }
+
 
 export interface Dog {
     id: number;
@@ -100,6 +104,20 @@ export interface    DaycareRequest {
     email: string;
 }
 
+
+export interface TrainingCategory {
+    id: number;
+    name: string;
+    price: number;
+    trainings: Training[];
+    created_at: string;
+    updated_at: string;
+    total_trainings?: number;
+    watched_trainings_count?: number;
+    progress_percentage?: number;
+    descriptors: string;
+}
+
 export interface Product {
     id: number;
     name: string;
@@ -110,8 +128,19 @@ export interface Product {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+    amount:number;
 }
-
+export interface Training {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    link: string;
+    mediaFile?: MediaFile;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}
 
 export interface Message {
     id: number;
@@ -119,7 +148,7 @@ export interface Message {
     last_name: string;
     email: string;
     message: string;
-    is_completed: boolean;
+    completed_at: boolean;
     created_at: string;
 }
 

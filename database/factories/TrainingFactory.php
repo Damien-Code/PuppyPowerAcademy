@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TrainingCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +19,9 @@ class TrainingFactory extends Factory
     {
         return [
             'title' => $this->faker->words(2, true),
-            'price' => $this->faker->numberBetween(2.5,12.5),
             'description' => $this->faker->paragraph(),
-            'link' => "https://www.youtube.com/watch?v=7Lf0jEgz9BA"
+            'link' => "https://www.youtube.com/watch?v=7Lf0jEgz9BA",
+            'trainingcategory_id' => TrainingCategory::inRandomOrder()->first(),
         ];
     }
 }

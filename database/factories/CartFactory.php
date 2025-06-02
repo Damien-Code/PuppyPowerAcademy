@@ -21,8 +21,7 @@ class CartFactory extends Factory
         static $user_id = 1;
         return [
             'user_id' => $user_id++,
-            'product_id' => Product::inRandomOrder()->first(),
-            'amount' => $this->faker->numberBetween(1,5),
+            
         ];
     }
 }

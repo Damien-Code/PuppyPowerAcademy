@@ -15,10 +15,6 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/password',
     },
     {
-        title: 'Appearance',
-        href: '/settings/appearance',
-    },
-    {
         title: 'Training',
         href: '/settings/training',
     },
@@ -31,7 +27,7 @@ const sidebarNavItems: NavItem[] = [
 const adminNavItems: NavItem[] = [
     {
         title: 'Webshop',
-        href: '/settings/admin/webshop ',
+        href: '/settings/admin/webshop',
     },
     {
         title: 'Training',
@@ -74,9 +70,9 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                         <p class="px-4 pb-2 pt-4 font-bold">Admin</p>
                         <Button
                             v-for="adminItem in adminNavItems"
-                            :key="adminItem.href"
+                            :key="adminItem.title"
                             variant="ghost"
-                            :class="['w-full justify-start', { 'bg-muted': currentPath === adminItem.href }]"
+                            :class="['w-full justify-start', { 'bg-muted': currentPath === adminItem.href}]"
                             as-child
                         >
                             <Link :href="adminItem.href">
@@ -94,7 +90,8 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                     :class="[
                         'max-w-xl space-y-12',
                         {
-                            'lg:min-w-4xl':
+                            'lg:min-w-2xl':
+                                currentPath === '/settings/training' ||
                                 currentPath === '/settings/order-history' ||
                                 currentPath === '/settings/admin/webshop' ||
                                 currentPath === '/settings/admin/training' ||

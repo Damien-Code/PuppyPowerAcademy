@@ -9,11 +9,10 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
     DateFormatter,
-    type DateValue,
     getLocalTimeZone,
+    today
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
 import { toast, Toaster } from 'vue-sonner';
 import InputError from '@/components/InputError.vue';
 import Heading from '@/components/Heading.vue';
@@ -29,17 +28,17 @@ const df = new DateFormatter('nl-NL', {
     dateStyle: 'long',
 })
 
-const value = ref<DateValue>()
-
 const form = useForm({
     name: '',
     race: '',
     age: '',
     date: null,
 });
-
+/**
+ * @author Damien-Code
+ * Function that submits the form for daycare
+ */
 const submit = () => {
-    // console.log(form.data().date.toDate().toLocaleString('nl-NL'))
     form.transform((data) => ({
         ...data,
         date: data.date ? data.date.toDate().toLocaleString('nl-NL') : null,
@@ -55,16 +54,8 @@ const submit = () => {
         },
     });
 }
-
-// Use this if time is added to planning for daycare
-
-// import { ref } from 'vue';
-// import VueDatePicker from '@vuepic/vue-datepicker';
-// import '@vuepic/vue-datepicker/dist/main.css'
-//
-// const date = ref();
-
-// import { cn } from '@/utils'
+// minDate so user cannot register for daycare when date has passed
+const minDate = today(getLocalTimeZone())
 </script>
 
 <template>
@@ -92,15 +83,14 @@ const submit = () => {
                             variant="outline"
                         >
                             <CalendarIcon class="mr-2 h-4 w-4" />
-                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Pick a date" }}
+                            {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) : "Kies een datum" }}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent class="w-auto p-0">
-                        <Calendar v-model="form.date" initial-focus />
+                        <Calendar v-model="form.date" initial-focus :min-value="minDate"/>
                     </PopoverContent>
                 </Popover>
                 <InputError :message="form.errors.date"/>
-<!--                <VueDatePicker/>-->
                 <input v-model="form.been_to_daycare" hidden>
                 <Button class="mt-12">Plan</Button>
             </form>

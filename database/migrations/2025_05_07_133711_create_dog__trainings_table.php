@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('dog_trainings', function (Blueprint $table) {
             $table->foreignId('dog_id')->constrained('dogs');
-            $table->foreignId('training_id')->constrained('trainings');
-            $table->boolean('completed');
+            $table->foreignId('training_id')->constrained('trainings')->cascadeOnDelete();
+            $table->timestamp('watched_at')->nullable();
             $table->timestamps();
         });
     }

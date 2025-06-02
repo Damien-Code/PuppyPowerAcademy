@@ -58,7 +58,7 @@ const mainNavItems: NavItem[] = [
 const rightNavItems: NavItem[] = [
     {
         title: 'Instagram',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        href: 'https://www.instagram.com/backtobalance.dogs/',
         icon: Instagram,
     },
 ];
@@ -112,7 +112,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="route('home')" class="flex items-center gap-x-2">
+                <Link :href="route('home')" class="flex items-center gap-x-2 mt-auto pb-1">
                     <AppLogo />
                 </Link>
 
@@ -120,12 +120,11 @@ const rightNavItems: NavItem[] = [
                 <div class="hidden h-full lg:flex lg:flex-1">
                     <NavigationMenu class="ml-10 flex h-full items-stretch">
                         <NavigationMenuList class="flex h-full items-stretch space-x-2">
-                            <NavigationMenuItem v-for="(item, index) in mainNavItems" :key="index" class="relative flex h-full items-center">
-                                <Link :href="item.href">
+                            <NavigationMenuItem v-for="(item, index) in mainNavItems" :key="index" class="relative flex h-full my-auto items-center">
+                                <Link :href="item.href" class="mt-auto pb-1">
                                     <NavigationMenuLink
-                                        :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
+                                        :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-fit cursor-pointer px-3']"
                                     >
-                                        <component v-if="item.icon" :is="item.icon" class="mr-2 h-4 w-4" />
                                         {{ item.title }}
                                     </NavigationMenuLink>
                                 </Link>
@@ -141,7 +140,7 @@ const rightNavItems: NavItem[] = [
                 <div class="ml-auto flex items-center space-x-2">
                     <div class="relative flex items-center space-x-1">
                         <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
-                            <a :href="route('webshop.cart')"><ShoppingCart class="size-5 opacity-80 group-hover:opacity-100" /></a>
+                            <a :href="route('cart.index')"><ShoppingCart class="size-5 opacity-80 group-hover:opacity-100" /></a>
                         </Button>
                     </div>
 
