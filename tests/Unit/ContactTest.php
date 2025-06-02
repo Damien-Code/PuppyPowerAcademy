@@ -42,6 +42,5 @@ class ContactTest extends TestCase
         ];
         // Send a POST request to the store route
         $response = $this->post('/contact', $data);
-        $
     }
 }

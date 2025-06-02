@@ -36,7 +36,8 @@ class TrainingTest extends TestCase
      */
     public function test_training_soft_deletes(): void
     {
-        $training = Training::factory()->create();
+        $category = TrainingCategory::factory()->create();
+        $training = Training::factory()->create(['trainingcategory_id' => $category->id]);
 
         $training->delete();
 
