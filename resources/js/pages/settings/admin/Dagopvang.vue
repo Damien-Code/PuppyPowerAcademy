@@ -12,7 +12,6 @@ import moment from 'moment';
 import { Calendar } from '@/components/ui/calendar'
 import {
     DateFormatter,
-    type DateValue,
     getLocalTimeZone,
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'

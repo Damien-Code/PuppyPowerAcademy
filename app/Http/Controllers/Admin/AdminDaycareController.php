@@ -30,7 +30,6 @@ class AdminDaycareController extends Controller
         ->select("dogs.*", "date as daycare_date", "users.name as owner", "users.email")
             ->orderBy('daycare_date','asc')
             ->get();
-            // dd($query);
             
         return Inertia::render(
             'settings/admin/Dagopvang',
@@ -53,8 +52,6 @@ class AdminDaycareController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-
         //if dates are the same, validate an impossible scenario for error
         if($request->date == $request->oldDate || Carbon::parse($request->date)->isPast()){$request->validate(['date'=> 'required|integer']);}
 
@@ -73,9 +70,7 @@ class AdminDaycareController extends Controller
         }
 
         //link dog to new daycare date
-        // dd($request->id, $oldDaycareId);
         $daycare_dog = Daycare_Dog::where(['dog_id'=>(int)$request->id,'daycare_id'=>$oldDaycareId])->first();
-        // dd($daycare_dog);
         $daycare_dog->update(['daycare_id'=>$daycare->id]);
         
         
