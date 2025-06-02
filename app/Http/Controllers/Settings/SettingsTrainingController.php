@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart_Training;
 use App\Models\Dog_Training;
 use App\Models\Training;
 use App\Models\TrainingCategory;
@@ -82,7 +83,30 @@ class SettingsTrainingController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // $user = Auth::user();
+
+        if($request->user() == null){return redirect()->route('login');}
+
+        $request->request->add(['cart_id' => $request->user()->id]);
+        $request->request->add(['trainingcategory_id' => $request->category_id]);
+
+        $validatedRequest = $request->validate([
+            'cart_id'    => 'int|required|gt:0',
+            'trainingcategory_id' => 'int|required|gt:0',
+        ]);
+        // dd($validatedRequest['category_id']);
+        $trainingInCart = Cart_Training::
+        where(['cart_id' => $validatedRequest['cart_id'],
+               'trainingcategory_id' => $validatedRequest['trainingcategory_id']
+              ])
+        ->first();
+        // dd($trainingInCart);
+        if($trainingInCart == null){
+            // dd($validatedRequest);
+            Cart_Training::create($validatedRequest);
+        }
+        return Inertia::render('home');
+     
     }
 
     /**
