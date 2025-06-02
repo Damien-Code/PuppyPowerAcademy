@@ -86,6 +86,7 @@ export interface TrainingCategory {
     total_trainings?: number;
     watched_trainings_count?: number;
     progress_percentage?: number;
+    descriptors: string;
 }
 export interface Product {
     id: number;

@@ -49,16 +49,37 @@ class DatabaseSeeder extends Seeder
         TrainingCategory::factory()->create([
             'name' => 'Puppy',
             'price' => '29',
+            'descriptors' => json_encode([
+            "Basis Commando's",
+            "Socialisatie Vaardigheden",
+            "Zindelijkheidstraining",
+            "Bijtremming",
+            "Aan de Lijn Lopen"
+            ])
         ]);
 
         TrainingCategory::factory()->create([
             'name' => 'Vuurwerk',
             'price' => '99',
+            'descriptors' => json_encode([
+            "Angstreductie Technieken",
+            "Geluid Gewenning",
+            "Stressvrije Omgeving",
+            "Gedragstherapie",
+            "Kalmeringstechnieken"
+            ])
         ]);
 
         TrainingCategory::factory()->create([
             'name' => 'Gedrag',
             'price' => '499',
+            'descriptors' => json_encode([
+            "Probleemgedrag Aanpak",
+            "Gedragsverandering Technieken",
+            "Sociale Vaardigheden", 
+            "Stress Management",
+            "Vertrouwen Opbouwen"
+            ])
         ]);
 
         Training::factory(10)->create();

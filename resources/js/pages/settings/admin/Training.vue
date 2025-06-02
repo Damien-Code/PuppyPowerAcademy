@@ -7,6 +7,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import Input from '@/components/ui/input/Input.vue';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import TagsInput from '@/components/ui/tags-input/TagsInput.vue';
+import TagsInputInput from '@/components/ui/tags-input/TagsInputInput.vue';
+import TagsInputItem from '@/components/ui/tags-input/TagsInputItem.vue';
+import TagsInputItemDelete from '@/components/ui/tags-input/TagsInputItemDelete.vue';
+import TagsInputItemText from '@/components/ui/tags-input/TagsInputItemText.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Training, TrainingCategory, type BreadcrumbItem } from '@/types';
@@ -34,6 +39,7 @@ const form = useForm({
 const formCat = useForm({
     name: '',
     price: '',
+    descriptors: [] as string[],
 });
 
 // This makes it able to submit the training.
@@ -215,6 +221,18 @@ defineProps<Props>();
                                         <Label for="price"> Prijs </Label>
                                         <Input id="price" class="col-span-3" v-model="formCat.price" />
                                         <InputError :message="formCat.errors.price" class="col-span-3" />
+                                    </div>
+                                    <div class="grid grid-cols-4 items-center gap-4">
+                                        <Label> Beschrijvingen </Label>
+                                        <TagsInput class="col-span-3 border-primary bg-white" v-model="formCat.descriptors">
+                                            <TagsInputItem v-for="descriptor in formCat.descriptors" :key="descriptor" :value="descriptor">
+                                                <TagsInputItemText />
+                                                <TagsInputItemDelete />
+                                            </TagsInputItem>
+
+                                            <TagsInputInput placeholder="Beschrijvingen..."/>
+                                        </TagsInput>
+                                        <InputError :message="formCat.errors.descriptors" class="col-span-3" />
                                     </div>
                                 </div>
 
