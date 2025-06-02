@@ -10,7 +10,6 @@ use Illuminate\Support\Carbon;
 use App\Models\Dog;
 use Inertia\Inertia;
 
-use function Laravel\Prompts\error;
 
 class AdminDaycareController extends Controller
 {
