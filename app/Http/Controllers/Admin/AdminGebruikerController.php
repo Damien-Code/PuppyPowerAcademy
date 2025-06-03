@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
-use App\Models\Training;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class AdminContactMessageController extends Controller
+class AdminGebruikerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +16,9 @@ class AdminContactMessageController extends Controller
     public function index()
     {
         return Inertia::render(
-            'settings/admin/Contact',
+            'settings/admin/Gebruikers',
             [
-                'messages' => Contact::where(
-                    'completed_at', '>', date('Y.m.d', strtotime("-1 week"))
-                )
-                ->orWhereNull('completed_at')
-                ->orderBy('created_at', 'desc')
-                ->withCasts([
-                    'completed_at' => 'boolean'
-                ])
-                ->get(),
+                'users' => User::all(),
             ]
         );
     }
@@ -66,14 +58,14 @@ class AdminContactMessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, User $gebruiker)
     {
-        $validatedContact = $request->validate([
-            'completed_at' => 'nullable|date_format:Y-m-d H:i:s'
+        $validatedRequest = $request->validate([
+            'role_id' => 'required|integer|min:1|max:2'
         ]);
-
-        $contact->update([
-            'completed_at' => $validatedContact['completed_at'],
+        
+        $gebruiker->update([
+            'role_id' => $validatedRequest['role_id']
         ]);
 
         return redirect()->back();

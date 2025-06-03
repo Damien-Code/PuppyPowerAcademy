@@ -26,6 +26,10 @@ const sidebarNavItems: NavItem[] = [
 
 const adminNavItems: NavItem[] = [
     {
+        title: 'Gebruikers',
+        href: '/settings/admin/gebruikers',
+    },
+    {
         title: 'Webshop',
         href: '/settings/admin/webshop',
     },
