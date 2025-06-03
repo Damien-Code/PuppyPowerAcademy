@@ -58,6 +58,7 @@ const submitForm = (user: User) => {
                                     class="mr-auto"
                                     :model-value="user.role_id === 1"
                                     @update:modelValue="submitForm(user)"
+                                    :disabled="$page.props.auth.user.id === user.id"
                                 />
                             </TableCell>
                             <TableCell>{{ user.name }}</TableCell>
