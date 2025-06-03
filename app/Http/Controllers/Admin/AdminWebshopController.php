@@ -28,6 +28,7 @@ class AdminWebshopController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
