@@ -4,6 +4,7 @@ namespace Feature\Acceptance;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class ContactTest extends TestCase
@@ -32,7 +33,10 @@ class ContactTest extends TestCase
         $response = $this->actingAs($user)->get('/contact');
         // Assert that the response is a success
         $response->assertStatus(200);
-        // Assert that the view contains the user's name
-        $response->assertSee($user->name);
+        // Assert that the component contains the authorized username
+        $response->assertInertia(fn (AssertableInertia $page) =>
+        $page->component('Contact')
+            ->where('auth.user.name', $user->name)
+        );
     }
 }
