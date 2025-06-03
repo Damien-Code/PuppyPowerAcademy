@@ -61,7 +61,9 @@ class AdminGebruikerController extends Controller
     public function update(Request $request, User $gebruiker)
     {
         $validatedRequest = $request->validate([
-            'role_id' => 'required|integer|min:1|max:2'
+            'name' => 'string|max:255',
+            'email' => 'string|max:255',
+            'role_id' => 'integer|min:1|max:2',
         ]);
         
         $gebruiker->update([
