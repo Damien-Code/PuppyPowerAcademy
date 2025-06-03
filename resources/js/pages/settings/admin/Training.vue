@@ -51,8 +51,7 @@ const submit = () => {
             form.reset();
             toast.success('Training toegevoegd!');
         },
-        onError: (error: any) => {
-            console.log(error);
+        onError: () => {
             toast.error('Er is iets mis gegaan.');
         },
     });

@@ -23,13 +23,8 @@ const form = useForm({
 
 const submitTraining = (categoryId:number) => {
     form.category_id = categoryId;
-    console.log(categoryId);
     
-    form.post(route('training.store'), {
-        onSuccess: (data) => console.log('data', data),
-        onError: (error) => console.error('error', error)
-    })
-    console.log(form.errors)
+    form.post(route('training.store'))
 }
 
 </script>

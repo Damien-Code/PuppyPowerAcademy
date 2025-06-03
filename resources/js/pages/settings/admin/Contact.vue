@@ -25,8 +25,6 @@ interface Props {
 defineProps<Props>();
 
 const submitForm = (message: Message) => {
-    console.log(message.completed_at);
-    console.log(message.completed_at ? new Date().toISOString().slice(0, 19).replace('T', ' ') : null);
     router.post(
         route('admin.contact.update', message.id),
         {

@@ -25,18 +25,9 @@ interface PlayerStateChangeEvent {
 
 const handleVideoPlayStateChange = (training: Training, event: PlayerStateChangeEvent) => {
     // YT.PlayerState.PLAYING is 1
-    // YT.PlayerState.ENDED is 0
-    // etc.
     if (event.data === 1) {
-        console.log('Video PLAYING for training:', training.id);
         router.post(route('trainings.markWatched', training.id), {}, {
             preserveScroll: true,
-            onSuccess: () => {
-                console.log(`Training ${training.id} marked as watched successfully.`);
-            },
-            onError: (errors) => {
-                console.error('Failed to mark training as watched:', errors);
-            },
         });
     }
 };
