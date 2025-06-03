@@ -12,7 +12,7 @@ class Category_Order extends Model
 
     protected $fillable = [
         'order_id',
-        'category_id',
+        'trainingcategory_id',
     ];
     public function order(){
         return $this->belongsTo(Order::class);
