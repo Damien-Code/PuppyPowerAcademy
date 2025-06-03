@@ -17,6 +17,7 @@ use Inertia\Inertia;
 Route::resource('webshop', WebshopController::class, ['parameters' => [
     'webshop' => 'product'
 ]]);
+Route::resource('training', TrainingController::class);
 
 Route::delete('cart/deleteAllItems', [CartController::class, 'destroy'])
 ->middleware('auth')->name('cart.destroy');
@@ -32,7 +33,6 @@ Route::resource('dagopvang', DaycareController::class)->except(['index'])->middl
 
 Route::get('dagopvang', [DaycareController::class, 'index'])->name('dagopvang.index');
 
-Route::resource('training', TrainingController::class);
 
 
 Route::get('dagopvang/planning', function () {

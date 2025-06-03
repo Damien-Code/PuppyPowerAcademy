@@ -12,13 +12,13 @@ class Cart_Training extends Model
 
     protected $fillable = [
         'cart_id',
-        'training_id',
+        'trainingcategory_id',
     ];
     public function cart(){
         return $this->belongsTo(Cart::class);
     }
-    public function training(){
-        return $this->belongsTo(Training::class);
+    public function trainingcategory(){
+        return $this->belongsTo(TrainingCategory::class);
     }
 
     protected $table = 'cart_trainings';

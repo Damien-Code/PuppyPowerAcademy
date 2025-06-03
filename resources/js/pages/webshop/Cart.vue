@@ -124,7 +124,7 @@ const deleteAllItems = () => {
                             alt="imac image" />
                         </a>
                         <!-- title   -->
-                        <a href="#" class="hover:underline"><u><b>{{ training.title }}</b></u></a>
+                        <a href="/training" class="hover:underline"><u><b>{{ training.name }}</b></u></a>
                       </div>
                     </td>
 

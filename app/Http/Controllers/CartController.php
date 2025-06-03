@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Cart_Product;
 use App\Models\Cart_Training;
+use App\Models\Category_Order;
 use App\Models\Product;
 use App\Models\Training;
 use App\Models\Order;
@@ -47,7 +48,7 @@ class CartController extends Controller
         }
         //get trainings
         $trainings = TrainingCategory::join("cart_trainings", function($join){
-        	$join->on("trainingcategories.id", "=", "cart_trainings.category_id");
+        	$join->on("trainingcategories.id", "=", "cart_trainings.trainingcategory_id");
         })->join("carts", function($join){
         	$join->on("carts.user_id", "=", "cart_trainings.cart_id");
         })->where(['user_id'=>Auth::user()->id])->get();
@@ -114,7 +115,8 @@ class CartController extends Controller
         //insert into order_trainings
         if(count($request->trainings)>0){
             foreach ($request->trainings as $training) {
-                Order_Training::create(['order_id' => $order_id, 'training_id' => $training['id']]);
+                // dd( $training['trainingcategory_id']);
+                Category_Order::create(['order_id' => $order_id, 'trainingcategory_id' => $training['trainingcategory_id']]);
             }
         }
 

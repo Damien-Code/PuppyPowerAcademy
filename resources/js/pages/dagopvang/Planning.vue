@@ -32,7 +32,6 @@ const form = useForm({
     name: '',
     race: '',
     age: '',
-    been_to_daycare: false,
     date: null,
 });
 /**

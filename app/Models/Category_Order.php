@@ -17,7 +17,7 @@ class Category_Order extends Model
     public function order(){
         return $this->belongsTo(Order::class);
     }
-    public function category(){
+    public function trainingcategory(){
         return $this->belongsTo(TrainingCategory::class);
     }
 

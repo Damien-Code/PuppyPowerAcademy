@@ -27,20 +27,7 @@ class ContactTest extends TestCase
         $response = $this->post('/contact', $data);
         // Assert that the response is a redirect
         $response->assertStatus(302);
+        // Assert that the message was stored in the database
         $this->assertDatabasehas('contacts', $data);
-    }
-
-    public function test_user_can_send_contact_message_and_admin_can_complete_message(): void
-    {
-        // Data to be sent to the store method
-        $data = [
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'email' => 'test@example.com',
-            'message' => 'Test Message',
-            'completed_at' => null,
-        ];
-        // Send a POST request to the store route
-        $response = $this->post('/contact', $data);
     }
 }
