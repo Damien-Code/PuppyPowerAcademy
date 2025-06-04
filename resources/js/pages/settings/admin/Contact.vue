@@ -54,7 +54,7 @@ const submitForm = (message: Message) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="message in messages" :key="message.id" class="">
+                        <TableRow v-for="message in messages" :key="message.id">
                             <TableCell class="flex">
                                 <form>
                                     <Switch

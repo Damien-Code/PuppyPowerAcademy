@@ -41,6 +41,8 @@ class User extends Authenticatable
         'role_id'
     ];
 
+    protected $guarded = []; // Stopped me from updating role_id..
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminTrainingCategoryController;
 use App\Http\Controllers\Admin\AdminTrainingController;
 use App\Http\Controllers\Admin\AdminWebshopController;
 use App\Http\Controllers\Admin\AdminDaycareController;
+use App\Http\Controllers\Admin\AdminGebruikerController;
 use App\Http\Controllers\Settings\OrderHistoryController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -41,9 +42,9 @@ Route::middleware('auth')->group(function () {
 
         //Group for admin because it would interfere with webshop routes from webshop and admin_webshop
         Route::name('admin.')->group(function () {
+            Route::resource('settings/admin/gebruikers', AdminGebruikerController::class);
             Route::resource('settings/admin/contact', AdminContactMessageController::class);
             Route::resource('settings/admin/dagopvang', AdminDaycareController::class);
-
             Route::resource('settings/admin/webshop', AdminWebshopController::class)->parameters(['webshop' => 'product']);
             Route::resource('settings/admin/training', AdminTrainingController::class);
             Route::resource('settings/admin/training-categories', AdminTrainingCategoryController::class);
