@@ -4,6 +4,7 @@ import { TrainingCategory, type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import { toast, Toaster } from 'vue-sonner';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Training.vue',
@@ -23,7 +24,16 @@ const form = useForm({
 
 const submitTraining = (categoryId:number) => {
     form.category_id = categoryId;
-    form.post(route('training.store'))
+
+    form.post(route('training.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.success('Training toegevoegd aan winkelmand');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan');
+        },
+    })
 }
 
 </script>
@@ -32,6 +42,7 @@ const submitTraining = (categoryId:number) => {
     <Head title="Training" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <Toaster/>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">

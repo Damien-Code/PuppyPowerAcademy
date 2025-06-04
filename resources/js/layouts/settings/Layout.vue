@@ -7,7 +7,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 
 const sidebarNavItems: NavItem[] = [
     {
-        title: 'Profile',
+        title: 'Profiel',
         href: '/settings/profile',
     },
     {
@@ -25,6 +25,10 @@ const sidebarNavItems: NavItem[] = [
 ];
 
 const adminNavItems: NavItem[] = [
+    {
+        title: 'Gebruikers',
+        href: '/settings/admin/gebruikers',
+    },
     {
         title: 'Webshop',
         href: '/settings/admin/webshop',
@@ -50,7 +54,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
 
 <template>
     <div class="px-4 py-6">
-        <Heading title="Settings" description="Manage your profile and account settings" />
+        <Heading title="Instellingen" description="Beheer je profiel- en accountinstellingen" />
 
         <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-y-0 lg:space-x-12">
             <aside class="w-full max-w-xl lg:w-48">

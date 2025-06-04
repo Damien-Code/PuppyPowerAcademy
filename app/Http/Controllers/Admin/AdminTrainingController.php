@@ -95,6 +95,5 @@ class AdminTrainingController extends Controller
     {
         $training->delete();
         return redirect()->route('admin.training.index');
-
     }
 }

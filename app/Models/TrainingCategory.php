@@ -15,6 +15,13 @@ class TrainingCategory extends Model
     ];
     protected $table = 'trainingcategories';
 
+    protected function casts(): array
+    {
+        return [
+            'descriptors' => 'array',
+        ];
+    }
+
     public function cartTraining(){
         return $this->hasMany(Cart::class);
     }

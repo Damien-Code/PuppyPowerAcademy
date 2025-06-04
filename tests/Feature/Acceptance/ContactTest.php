@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Acceptance;
+namespace Tests\Feature\Acceptance;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,7 @@ class ContactTest extends TestCase
      * @author Damien-Code
      * A basic test where the contact page can be rendered without login.
      */
-    public function test_contactPageCanBeRenderedWithoutLogin(): void
+    public function test_contact_page_can_be_rendered_without_login(): void
     {
         $response = $this->get('/contact');
 
@@ -35,8 +35,8 @@ class ContactTest extends TestCase
         $response->assertStatus(200);
         // Assert that the component contains the authorized username
         $response->assertInertia(fn (AssertableInertia $page) =>
-        $page->component('Contact')
-            ->where('auth.user.name', $user->name)
+            $page->component('Contact')
+                ->where('auth.user.name', $user->name)
         );
     }
 }
