@@ -81,7 +81,7 @@ class TrainingProgressTest extends TestCase
         Dog_Training::create(['dog_id' => $dog->id, 'training_id' => $trainings[0]->id, 'watched_at' => now()]);
         Dog_Training::create(['dog_id' => $dog->id, 'training_id' => $trainings[1]->id, 'watched_at' => now()]);
 
-        $response = $this->actingAs($user)->get(route('training.index'));
+        $response = $this->actingAs($user)->get('/settings/training');
         
         // Test that progress calculation shows 50% (2 out of 4)
         $response->assertStatus(200)

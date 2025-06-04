@@ -35,8 +35,8 @@ class ContactTest extends TestCase
         $response->assertStatus(200);
         // Assert that the component contains the authorized username
         $response->assertInertia(fn (AssertableInertia $page) =>
-        $page->component('Contact')
-            ->where('auth.user.name', $user->name)
+            $page->component('Contact')
+                ->where('auth.user.name', $user->name)
         );
     }
 }
