@@ -20,7 +20,7 @@ class OrderHistoryController extends Controller
      */
     public function index() : \Inertia\Response
     {
-        $orders = Order::with('orderProducts')->where('user_id', auth()->id())->get();
+        $orders = Order::with(['orderProducts', 'categoryOrder.trainingcategory'])->where('user_id', auth()->id())->get();
         return Inertia::render('settings/OrderHistory',[
             'orders' => $orders,
         ]);
