@@ -65,7 +65,8 @@ const openMessageDialog = (message: Message) => {
                     </TableHeader>
                     <TableBody>
                         <TableRow v-for="message in messages" :key="message.id" class="group">
-                            <TableCell class="flex">
+                            <!-- Switch Cell - NOT clickable -->
+                            <TableCell class="flex" @click.stop>
                                 <form>
                                     <Switch
                                         class="mr-auto"
@@ -75,12 +76,43 @@ const openMessageDialog = (message: Message) => {
                                     />
                                 </form>
                             </TableCell>
-                            <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
-                            <TableCell>{{ message.email }}</TableCell>
-                            <TableCell>{{ useDateFormat(message.created_at, 'DD-MM-YYYY') }}</TableCell>
+                            
+                            <!-- Name Cell - Clickable with connected hover -->
                             <TableCell 
-                                class="cursor-pointer hover:bg-muted/50 transition-colors max-w-xs"
+                                class="cursor-pointer hover:bg-muted/50 transition-colors group-hover:bg-muted/50"
                                 @click="openMessageDialog(message)"
+                                @mouseenter="$event.target.closest('tr').classList.add('hover-active')"
+                                @mouseleave="$event.target.closest('tr').classList.remove('hover-active')"
+                            >
+                                {{ message.first_name + " " + message.last_name }}
+                            </TableCell>
+                            
+                            <!-- Email Cell - Clickable with connected hover -->
+                            <TableCell 
+                                class="cursor-pointer hover:bg-muted/50 transition-colors group-hover:bg-muted/50"
+                                @click="openMessageDialog(message)"
+                                @mouseenter="$event.target.closest('tr').classList.add('hover-active')"
+                                @mouseleave="$event.target.closest('tr').classList.remove('hover-active')"
+                            >
+                                {{ message.email }}
+                            </TableCell>
+                            
+                            <!-- Date Cell - Clickable with connected hover -->
+                            <TableCell 
+                                class="cursor-pointer hover:bg-muted/50 transition-colors group-hover:bg-muted/50"
+                                @click="openMessageDialog(message)"
+                                @mouseenter="$event.target.closest('tr').classList.add('hover-active')"
+                                @mouseleave="$event.target.closest('tr').classList.remove('hover-active')"
+                            >
+                                {{ useDateFormat(message.created_at, 'DD-MM-YYYY') }}
+                            </TableCell>
+                            
+                            <!-- Message Cell - Clickable with connected hover -->
+                            <TableCell 
+                                class="cursor-pointer hover:bg-muted/50 transition-colors group-hover:bg-muted/50 max-w-xs"
+                                @click="openMessageDialog(message)"
+                                @mouseenter="$event.target.closest('tr').classList.add('hover-active')"
+                                @mouseleave="$event.target.closest('tr').classList.remove('hover-active')"
                             >
                                 <div class="truncate">
                                     {{ message.message }}
