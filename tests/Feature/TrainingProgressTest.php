@@ -28,7 +28,7 @@ class TrainingProgressTest extends TestCase
         $training = Training::factory()->create(['trainingcategory_id' => $category->id]);
 
         $response = $this->actingAs($user)
-            ->post(route('trainings.markWatched', $training));
+            ->post(route('settings.training.markWatched', $training));
 
         $response->assertRedirect();
         $this->assertDatabaseHas('dog_trainings', [
@@ -48,7 +48,7 @@ class TrainingProgressTest extends TestCase
         $training = Training::factory()->create(['trainingcategory_id' => $category->id]);
 
         $response = $this->actingAs($user)
-            ->post(route('trainings.markWatched', $training));
+            ->post(route('settings.training.markWatched', $training));
 
         $response->assertRedirect()
             ->assertSessionHas('error');
