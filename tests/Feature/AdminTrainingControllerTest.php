@@ -84,6 +84,8 @@ class AdminTrainingControllerTest extends TestCase
         $updateData = [
             'title' => 'Geüpdatet Training',
             'description' => 'blaaaaaaaaa, lorem ipsum dolor sit amet.....!!',
+            'link' => 'https://youtube.com/example',
+            'trainingcategory_id' => 1,
         ];
 
         $response = $this->actingAs($this->superuser)->patch(route('admin.training.update', $training), $updateData);
