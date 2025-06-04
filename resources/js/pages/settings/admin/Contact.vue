@@ -52,7 +52,7 @@ const openMessageDialog = (message: Message) => {
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Contact" description="View your unread contact messages"/>
+                <HeadingSmall title="Contact" description="Bekijk je ongelezen contactberichten"/>
                 <Table>
                     <TableHeader>
                         <TableRow>

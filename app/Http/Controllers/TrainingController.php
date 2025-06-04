@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart_Training;
 use App\Models\TrainingCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +34,28 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->user() == null) // Early return
+            return redirect()->route('login');
+
+        $request->request->add(['cart_id' => $request->user()->id]);
+        $request->request->add(['trainingcategory_id' => $request->category_id]);
+
+        $validatedRequest = $request->validate([
+            'cart_id'    => 'int|required|gt:0',
+            'trainingcategory_id' => 'int|required|gt:0',
+        ]);
+
+        $trainingInCart = Cart_Training::
+        where(['cart_id' => $validatedRequest['cart_id'],
+               'trainingcategory_id' => $validatedRequest['trainingcategory_id']
+              ])
+        ->first();
+
+        if($trainingInCart == null){
+            Cart_Training::create($validatedRequest);
+        }
+
+        return redirect()->back();
     }
 
     /**

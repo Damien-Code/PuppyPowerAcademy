@@ -12,6 +12,7 @@ import {
   NumberFieldIncrement,
   NumberFieldInput,
 } from '@/components/ui/number-field/index';
+import { toast } from 'vue-sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,6 +37,13 @@ const submit = () => {
     form.product_id = product.id;
     form.amount = form.amount;
     form.post(route('webshop.store'), {
+        onSuccess: () => {
+            form.reset();
+            toast.success('Succesvol toegevoegd!');
+        },
+        onError: () => {
+            toast.error('Er is iets misgegaan');
+        },
     })
 }
 
