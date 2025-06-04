@@ -34,7 +34,6 @@ const handleVideoPlayStateChange = (training: Training, event: PlayerStateChange
 
 interface Props {
     trainingCategories: TrainingCategory[];
-    hasActiveDogs: boolean;
 }
 
 defineProps<Props>();
@@ -48,23 +47,8 @@ defineProps<Props>();
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Bekijk hier uw bestelde trainingen" />
                 
-                <!-- No dogs message -->
-                <div v-if="!hasActiveDogs" class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                    <div class="flex items-center">
-                        <svg class="w-6 h-6 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>
-                            <h3 class="text-lg font-medium text-yellow-800">Geen hond geregistreerd</h3>
-                            <p class="text-yellow-700 mt-1">
-                                Om trainingsvoortgang bij te houden moet u eerst een hond registreren.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Training categories (only show if user has dogs) -->
-                <div v-else>
+                <!-- Training categories (always show) -->
+                <div>
                     <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
                         <Heading :title="category.name"/>
                         <div v-if="category.trainings && category.trainings.length > 0">
@@ -77,9 +61,9 @@ defineProps<Props>();
                                     <div class="invisible md:visible">
                                         <YouTube
                                             class="hidden md:inline"
+                                            :key="`youtube-${training.id}`"
                                             :height="216"
                                             :width="384"
-                                            ref="youtubeRef"
                                             :src="training.link"
                                             :vars="{ autoplay: 0 }"
                                             @state-change="handleVideoPlayStateChange(training, $event)"

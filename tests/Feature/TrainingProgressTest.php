@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Dog;
 use App\Models\Training;
 use App\Models\TrainingCategory;
-use App\Models\Dog_Training;
+use App\Models\UserTraining;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -23,7 +23,6 @@ class TrainingProgressTest extends TestCase
     public function test_user_can_mark_training_as_watched()
     {
         $user = User::factory()->create();
-        $dog = Dog::factory()->create(['user_id' => $user->id]);
         $category = TrainingCategory::factory()->create();
         $training = Training::factory()->create(['trainingcategory_id' => $category->id]);
 
@@ -31,27 +30,10 @@ class TrainingProgressTest extends TestCase
             ->post(route('settings.training.markWatched', $training));
 
         $response->assertRedirect();
-        $this->assertDatabaseHas('dog_trainings', [
-            'dog_id' => $dog->id,
+        $this->assertDatabaseHas('user_trainings', [
+            'user_id' => $user->id,
             'training_id' => $training->id,
         ]);
-    }
-
-    /** 
-     * @author florishafkenscheid
-     * Test that a user without any dogs can't mark a training as watched
-     */
-    public function test_user_without_dogs_cannot_mark_training_as_watched()
-    {
-        $user = User::factory()->create();
-        $category = TrainingCategory::factory()->create();
-        $training = Training::factory()->create(['trainingcategory_id' => $category->id]);
-
-        $response = $this->actingAs($user)
-            ->post(route('settings.training.markWatched', $training));
-
-        $response->assertRedirect()
-            ->assertSessionHas('error');
     }
 
     /** 
@@ -61,7 +43,6 @@ class TrainingProgressTest extends TestCase
     public function test_progress_is_calculated_correctly()
     {
         $user = User::factory()->create();
-        $dog = Dog::factory()->create(['user_id' => $user->id]);
         $category = TrainingCategory::factory()->create(['name' => 'Test Category']);
         
         // Create an order so the user has access to this category
@@ -77,9 +58,9 @@ class TrainingProgressTest extends TestCase
         // Create 4 trainings in the category
         $trainings = Training::factory()->count(4)->create(['trainingcategory_id' => $category->id]);
         
-        // Mark 2 as watched
-        Dog_Training::create(['dog_id' => $dog->id, 'training_id' => $trainings[0]->id, 'watched_at' => now()]);
-        Dog_Training::create(['dog_id' => $dog->id, 'training_id' => $trainings[1]->id, 'watched_at' => now()]);
+        // Mark 2 as watched using UserTraining instead of Dog_Training
+        UserTraining::create(['user_id' => $user->id, 'training_id' => $trainings[0]->id, 'watched_at' => now()]);
+        UserTraining::create(['user_id' => $user->id, 'training_id' => $trainings[1]->id, 'watched_at' => now()]);
 
         $response = $this->actingAs($user)->get('/settings/training');
         
