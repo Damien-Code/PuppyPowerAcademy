@@ -17,10 +17,9 @@ class TrainingCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
             'name' => $this->faker->words(1, true),
             'price' => $this->faker->numberBetween(2.5,12.5),
-            'descriptors' => json_encode($this->faker->words()),
+            'descriptors' => json_encode($this->faker->words(3, false)),
         ];
     }
 }
