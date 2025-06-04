@@ -138,7 +138,11 @@ const openMessageDialog = (message: Message) => {
                                     </div>
                                     <div>
                                         <span class="font-medium text-muted-foreground">E-mail:</span>
-                                        <p class="font-medium">{{ selectedMessage.email }}</p>
+                                        <p class="font-medium">
+                                            <a :href="`mailto:${selectedMessage.email}`" class="hover:underline hover:text-blue-500">
+                                                {{ selectedMessage.email }}
+                                            </a>
+                                        </p>
                                     </div>
                                     <div>
                                         <span class="font-medium text-muted-foreground">Datum:</span>
