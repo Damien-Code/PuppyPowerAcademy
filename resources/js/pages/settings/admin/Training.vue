@@ -209,7 +209,7 @@ defineProps<Props>();
         <Head title="Admin Training" />
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Training" description="Edit the available training programs" />
+                <HeadingSmall title="Training" description="Bewerk de beschikbare training categorieën en trainingen" />
                 <!--Modal for training category-->
                 <div class="md:justify-between lg:flex">
                     <Dialog>
