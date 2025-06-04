@@ -20,6 +20,7 @@ class SettingsTrainingController extends Controller
         /** @var \App\Models\User $user */ // So dogs() isn't undefined, don't delete :)
         $user = Auth::user();
         $dogIds = $user->dogs()->pluck('id');
+        $hasActiveDogs = !$dogIds->isEmpty();
 
         $watchedTrainingIdsByDogs = collect();
         if (!$dogIds->isEmpty()) {
@@ -65,7 +66,8 @@ class SettingsTrainingController extends Controller
         });
 
         return Inertia::render('settings/Training', [
-            'trainingCategories' => $categoriesWithProgress
+            'trainingCategories' => $categoriesWithProgress,
+            'hasActiveDogs' => $hasActiveDogs
         ]);
     }
 
@@ -139,6 +141,6 @@ class SettingsTrainingController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', 'Training marked as watched.');
+        return redirect()->back();
     }
 }

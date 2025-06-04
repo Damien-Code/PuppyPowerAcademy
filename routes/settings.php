@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
         ->names('settings.training');
 
     Route::post('settings/trainings/{training}/mark-watched', [SettingsTrainingController::class, 'markWatched'])
-        ->name('trainings.markWatched');
+        ->name('settings.training.markWatched');
 
     Route::resource('settings/order-history', OrderHistoryController::class);
 
