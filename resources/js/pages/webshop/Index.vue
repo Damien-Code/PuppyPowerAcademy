@@ -4,6 +4,7 @@ import { type BreadcrumbItem, type Product } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import { Button } from '@/components/ui/button';
+import { Toaster } from 'vue-sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,6 +24,7 @@ const props = defineProps<Props>();
     <Head title="Webshop" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <Toaster/>
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
                 <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
