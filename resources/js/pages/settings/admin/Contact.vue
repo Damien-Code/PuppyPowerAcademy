@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Switch } from '@/components/ui/switch'
+import { Switch } from '@/components/ui/switch';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Message, type BreadcrumbItem } from '@/types';
@@ -24,6 +27,9 @@ interface Props {
 
 defineProps<Props>();
 
+const selectedMessage = ref<Message | null>(null);
+const isDialogOpen = ref(false);
+
 const submitForm = (message: Message) => {
     router.post(
         route('admin.contact.update', message.id),
@@ -34,6 +40,10 @@ const submitForm = (message: Message) => {
     )
 }
 
+const openMessageDialog = (message: Message) => {
+    selectedMessage.value = message;
+    isDialogOpen.value = true;
+}
 </script>
 
 <template>
@@ -54,7 +64,7 @@ const submitForm = (message: Message) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="message in messages" :key="message.id">
+                        <TableRow v-for="message in messages" :key="message.id" class="group">
                             <TableCell class="flex">
                                 <form>
                                     <Switch
@@ -68,10 +78,66 @@ const submitForm = (message: Message) => {
                             <TableCell>{{ message.first_name + " " + message.last_name }}</TableCell>
                             <TableCell>{{ message.email }}</TableCell>
                             <TableCell>{{ useDateFormat(message.created_at, 'DD-MM-YYYY') }}</TableCell>
-                            <TableCell class="max-w-1/2 overflow-scroll">{{ message.message }}</TableCell>
+                            <TableCell 
+                                class="cursor-pointer hover:bg-muted/50 transition-colors max-w-xs"
+                                @click="openMessageDialog(message)"
+                            >
+                                <div class="truncate">
+                                    {{ message.message }}
+                                </div>
+                            </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
+
+                <!-- Message Dialog -->
+                <Dialog v-model:open="isDialogOpen">
+                    <DialogContent class="sm:max-w-[600px]">
+                        <DialogHeader>
+                            <DialogTitle>Contact Bericht</DialogTitle>
+                        </DialogHeader>
+                        <div class="space-y-4" v-if="selectedMessage">
+                            <!-- Contact Details -->
+                            <div class="bg-muted/50 p-4 rounded-lg">
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="font-medium text-muted-foreground">Naam:</span>
+                                        <p class="font-medium">{{ selectedMessage.first_name }} {{ selectedMessage.last_name }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium text-muted-foreground">E-mail:</span>
+                                        <p class="font-medium">{{ selectedMessage.email }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium text-muted-foreground">Datum:</span>
+                                        <p class="font-medium">{{ useDateFormat(selectedMessage.created_at, 'DD-MM-YYYY HH:mm') }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium text-muted-foreground">Status:</span>
+                                        <p class="font-medium" :class="selectedMessage.completed_at ? 'text-green-600' : 'text-orange-600'">
+                                            {{ selectedMessage.completed_at ? 'Afgerond' : 'Open' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Message Content -->
+                            <div>
+                                <h4 class="font-medium text-muted-foreground mb-2">Bericht:</h4>
+                                <div class="bg-background border rounded-lg p-4 max-h-96 overflow-y-auto">
+                                    <p class="whitespace-pre-wrap leading-relaxed">{{ selectedMessage.message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex justify-between pt-4">
+                            <Button @click="isDialogOpen = false">
+                                Sluiten
+                            </Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </div>
         </SettingsLayout>
     </AppLayout>
