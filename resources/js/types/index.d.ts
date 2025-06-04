@@ -48,6 +48,15 @@ export interface OrderProducts {
     amount: number;
 }
 
+export interface CategoryOrder {
+    id: number;
+    order_id: number;
+    trainingcategory_id: number;
+    created_at: string;
+    updated_at: string;
+    trainingcategory: TrainingCategory
+}
+
 export interface Order {
     id: number;
     user_id: number;
@@ -61,6 +70,7 @@ export interface Order {
     deleted_at: string;
     totalPrice: number;
     order_products: OrderProducts[];
+    category_order: CategoryOrder[];
 }
 
 export interface Training {
