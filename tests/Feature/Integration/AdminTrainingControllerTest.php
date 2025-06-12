@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration;
 
 use App\Models\Training;
 use App\Models\TrainingCategory;

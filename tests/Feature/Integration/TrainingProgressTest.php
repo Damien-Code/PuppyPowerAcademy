@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration;
 
 use App\Models\Category_Order;
 use App\Models\User;
-use App\Models\Dog;
 use App\Models\Training;
 use App\Models\TrainingCategory;
 use App\Models\UserTraining;
