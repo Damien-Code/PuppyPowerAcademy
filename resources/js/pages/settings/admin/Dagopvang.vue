@@ -120,11 +120,7 @@ const submit = (formData: any) => {
             </div>
             <Dialog v-model:open="modalOpen">
 
-                <DialogTrigger as-child class="ml-auto mt-auto">
-                    <Button class="cursor-pointer">
-                        Meer info
-                    </Button>
-                </DialogTrigger>
+                
                 <DialogContent>
                     <form @submit.prevent="submit(selectedItem)" class=" flex flex-col">
                         <DialogHeader>

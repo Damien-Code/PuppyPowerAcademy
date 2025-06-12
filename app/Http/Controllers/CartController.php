@@ -122,7 +122,6 @@ class CartController extends Controller
         //insert into order_trainings
         if(count($request->trainings)>0){
             foreach ($request->trainings as $training) {
-                // dd( $training['trainingcategory_id']);
                 Category_Order::create(['order_id' => $order_id, 'trainingcategory_id' => $training['trainingcategory_id']]);
             }
         }
