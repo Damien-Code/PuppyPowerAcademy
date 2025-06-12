@@ -44,9 +44,16 @@ defineProps<Props>();
                         <TableRow v-for="order in orders" :key="order.id">
                             <TableCell>{{ order.id }}</TableCell>
                             <TableCell>{{ useDateFormat(order.created_at, 'YYYY-MM-DD') }}</TableCell>
-                            <TableCell>{{ order.totalPrice.toLocaleString('nl-NL', {currency:'EUR', style:'currency'}) }}</TableCell>
+                            <TableCell
+                                >{{
+                                    (order.totalPrice * 1.18 + 4.95).toLocaleString('nl-NL', {
+                                        currency: 'EUR',
+                                        style: 'currency',
+                                    })
+                                }}
+                            </TableCell>
                             <TableCell>
-<!--                                Modal to open on a specific order-->
+                                <!--                                Modal to open on a specific order-->
                                 <Dialog>
                                     <DialogTrigger as-child>
                                         <Button> Details</Button>
@@ -60,8 +67,8 @@ defineProps<Props>();
                                             <div>
                                                 <HeadingSmall title="Order ID" :description="order.id.toString()" />
                                             </div>
-<!--                                            Display if there are orders-->
-                                            <div v-if="order.order_products.length != 0">
+                                            <!--                                            Display if there are orders-->
+                                            <div v-if="order.order_products.length != 0 || order.category_order.length != 0">
                                                 <div v-for="orderProducts in order.order_products" :key="orderProducts.product.id" class="pt-8">
                                                     <div class="pb-2">
                                                         <HeadingSmall title="Product" :description="orderProducts.product.name" />
@@ -73,12 +80,32 @@ defineProps<Props>();
                                                         <HeadingSmall title="Hoeveelheid" :description="orderProducts.amount.toString()" />
                                                     </div>
                                                     <div class="pb-8">
-                                                        <HeadingSmall title="Artikel prijs" :description="orderProducts.product.price.toLocaleString('nl-NL', {currency:'EUR', style:'currency'})" />
+                                                        <HeadingSmall
+                                                            title="Artikel prijs"
+                                                            :description="
+                                                                orderProducts.product.price.toLocaleString('nl-NL', {
+                                                                    currency: 'EUR',
+                                                                    style: 'currency',
+                                                                })
+                                                            "
+                                                        />
                                                     </div>
-                                                    <hr>
+                                                    <hr />
+                                                </div>
+                                                <hr />
+                                                <div v-for="orderCategory in order.category_order" :key="orderCategory.id" class="pt-8">
+                                                    <div class="pb-2">
+                                                        <HeadingSmall title="Training" :description="orderCategory.trainingcategory.name" />
+                                                    </div>
+                                                    <div class="pb-2">
+                                                        <HeadingSmall title="Hoeveelheid" :description="orderCategory.trainingcategory.price.toLocaleString('nl-NL', {
+                                                                    currency: 'EUR',
+                                                                    style: 'currency',
+                                                                })" />
+                                                    </div>
                                                 </div>
                                             </div>
-<!--                                            Display if there are orders without any products-->
+                                            <!--                                            Display if there are orders without any products-->
                                             <div v-else>
                                                 <HeadingSmall title="Geen artikelen gevonden" description="Deze order heeft geen artikelen" />
                                             </div>

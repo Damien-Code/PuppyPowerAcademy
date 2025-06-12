@@ -67,12 +67,13 @@ class WebshopController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @author Mischa Sasse and Damien-Code
      */
     public function show(Product $product)
     {
         return Inertia::render('webshop/Show', [
-            'product' => $product,
+            // return the product with relation to media to also return the belonging image
+            'product' => Product::with('media')->find($product->id),
         ]);
     }
 
