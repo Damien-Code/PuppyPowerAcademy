@@ -17,18 +17,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
+/**
+ * @author MischaSasse
+ * 
+ */
 class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @author MischaSasse
+     * 
+     * gets all trainings and products from users cart, adds the tax (which is currently a hardcoded percentage) and returns it for the viewer to see
      */
     public function index()
     {
         $productTaxPercentage  = 18;
         $trainingTaxPercentage = 18;
         // get products
-        $products = DB::table("products")
-        ->join("cart_products", function($join){
+        $products = Product::join("cart_products", function($join){
         	$join->on(['products.id' => 'cart_products.product_id']);
         })
         ->join("carts", function($join){
@@ -76,7 +81,9 @@ class CartController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @author MischaSasse
+     * 
+     * Creates an order for the user after they hit order on the cart page
      */
     public function store(Request $request)
     {
@@ -152,14 +159,21 @@ class CartController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @author MischaSasse
+     * 
+     * calls remove method and returns user to webshop
      */
     public function destroy()
     {
         $this->removeItemsFromCart();
         return redirect()->route('webshop.index');
     }
-
+    
+    /**
+     * @author MischaSasse
+     * 
+     * removes all items from cart
+     */
     private function removeItemsFromCart()
     {
         Cart_Product::where(['cart_id' => Auth::user()->id])->delete();

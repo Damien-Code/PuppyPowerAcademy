@@ -182,7 +182,13 @@ const deleteAllItems = () => {
         </div>
       </form>
       <div class="flex justify-between pt-4 sm:items-center">
-        <Button v-on:click="route('webshop.index')" class="cursor-pointer">Terug naar webshop</Button> <!-- fix this route -->
+        
+        <a :href="route('webshop.index')">
+
+          <Button class="cursor-pointer">  
+            Terug naar webshop
+          </Button> <!-- fix this route -->
+        </a>
         <div v-if="props.trainings.length > 0 || props.products.length > 0">
 
           <!-- modal -->
