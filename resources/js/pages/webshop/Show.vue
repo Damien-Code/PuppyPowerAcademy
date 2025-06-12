@@ -57,7 +57,7 @@ const submit = () => {
             <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
                     <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                        <div class="mb-4 h-72 w-full mt-12">
+                        <div class="mb-4 h-72 w-full mt-12 p-6 bg-white rounded-lg">
                             <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
                                 <img :src="product.mediaFile.original_url" class="mx-auto h-full"  alt=""/>
                             </a>
