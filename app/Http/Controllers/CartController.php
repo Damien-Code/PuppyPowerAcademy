@@ -107,10 +107,31 @@ class CartController extends Controller
 
             foreach ($request->products as $product){
                 $currrentProduct = Product::find($product['id']);
-                if($currrentProduct->stock < $product['amount']){ $request->validate([
-                    'user_id' => 'required|string|max:0']);}
+
+                if($currrentProduct->stock < $product['amount']){ 
+                    //added a validate which is never true to return with error
+                    $request->validate(['user_id' => 'required|string|max:0']);
                 }
             }
+        }
+        
+        //check if user already has this training
+        if($request->trainings != null){
+            foreach ($request->trainings as $training) {
+                $currrentTraining = TrainingCategory::find($training['trainingcategory_id']);
+                
+                //check if current training has already been ordered by person
+                $trainingExists = Category_Order::join("orders", function($join){
+                    $join->on("orders.id", "=", "category_order.order_id");
+                })->join("users", function($join){
+                    $join->on("orders.user_id", "=", "users.id");
+                })->where(["trainingcategory_id"=>$currrentTraining->id,"user_id"=>Auth::user()->id])->first();
+                
+                if($trainingExists != null){
+                    $request->validate(['user_id' => 'required|string|max:0']);
+                }
+            }
+        }  
         //create order
         Order::create($validatedOrder);
 
