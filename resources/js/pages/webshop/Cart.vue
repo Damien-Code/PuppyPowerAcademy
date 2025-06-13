@@ -8,6 +8,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle
 } from '@/components/ui/dialog';
 import { ref } from 'vue';
+import { toast, Toaster } from 'vue-sonner';
 import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/InputError.vue';
@@ -55,9 +56,18 @@ const submit = () => {
   form.total_price = total;
   modalOpen.value = false;
   form.post(route('cart.store'), {
-
-  })
-};
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                form.reset();
+                modalOpen.value = false;
+                toast.success('Uw bestelling is geplaatst');
+            },
+            onError: () => {
+                toast.error('Er is iets misgegaan, verwijder aub alle producten en probeer het opnieuw');
+            },
+        });
+}
 
 const deleteAllItems = () => {
   form.delete(route('cart.destroy'))
@@ -70,6 +80,7 @@ const deleteAllItems = () => {
   <Head title="Cart" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
+    <Toaster />
     <section class="bg-white rounded-lg w-fit m-auto antialiased p-4">
     <div v-if="props.trainings.length > 0 || props.products.length > 0">
         <form @submit.prevent="deleteAllItems" class="pb-4">

@@ -103,7 +103,14 @@ class CartController extends Controller
             'house_number' => 'required|integer|gt:0',
             'total_price' => 'required|numeric|gt:0',
         ]);
+        if($request->products != null){
 
+            foreach ($request->products as $product){
+                $currrentProduct = Product::find($product['id']);
+                if($currrentProduct->stock < $product['amount']){ $request->validate([
+                    'user_id' => 'required|string|max:0']);}
+                }
+            }
         //create order
         Order::create($validatedOrder);
 
@@ -111,16 +118,17 @@ class CartController extends Controller
         $order_id = Order::where(['user_id' => Auth::user()->id])->orderBy('id', 'desc')->first()->id;
 
         //insert into order_products
-        if(count($request->products)>0){
+        if($request->products != null){
             foreach ($request->products as $product) {
                 $currrentProduct = Product::find($product['id']);
                 $currrentProduct->stock = $currrentProduct->stock - $product['amount'];
+                $currrentProduct->update();
                 Order_Product::create(['order_id' => $order_id, 'product_id' => $product['id'], 'amount' => $product['amount']]);
             }
         }
 
         //insert into order_trainings
-        if(count($request->trainings)>0){
+        if($request->trainings != null){
             foreach ($request->trainings as $training) {
                 Category_Order::create(['order_id' => $order_id, 'trainingcategory_id' => $training['trainingcategory_id']]);
             }
