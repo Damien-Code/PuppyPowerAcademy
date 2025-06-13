@@ -1,5 +1,5 @@
 # Overview
-This project is a web application to order tickets for buses to festivals through FestivalTravelSystem. This webapp ensures that the users have a comfortable experience buying bus-tickets.  
+This project is a web application for PuppyPowerAcademy. This webapp ensures that the users have a comfortable experience buying products, ordering and viewing trainings and planning their dogs for the daycare.  
 
 # Installation guide:
 - Clone the repo
