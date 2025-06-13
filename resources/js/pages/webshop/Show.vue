@@ -57,8 +57,8 @@ const submit = () => {
             <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
                     <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                        <div class="mb-4 h-72 w-full mt-12 p-6 bg-white rounded-lg">
-                            <a v-if="product.mediaFile" :href="product.mediaFile.original_url" target="_blank">
+                        <div v-if="product.mediaFile" class="mb-4 h-72 w-full mt-12 p-6 bg-white rounded-lg">
+                            <a :href="product.mediaFile.original_url" target="_blank">
                                 <img :src="product.mediaFile.original_url" class="mx-auto h-full"  alt=""/>
                             </a>
                         </div>
@@ -96,16 +96,11 @@ const submit = () => {
                             </p>
 
                        </div>
-                        <!-- <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8"> -->
 
                            <Button class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8 cursor-pointer"
                            >
                            <input type="hidden" name="product_id" value="{{product.id }}" v-model="form.product_id">
                                 <!-- <Input/> -->
-                                <a
-                                class="mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
-                               role="button"
-                               >
                                <svg
                                class="w-5 h-5 -ms-2 me-2"
                                aria-hidden="true"
@@ -125,12 +120,11 @@ const submit = () => {
                             </svg>
 
                             Add to cart
-                        </a>
                     </Button>
                         </form>
                         <!-- </div> -->
 
-                        <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
+                        <hr class="my-6 md:my-8 border-input" />
 
                         <p class="mb-6 text-gray-500 dark:text-gray-400">
                          {{ product.description }}

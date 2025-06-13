@@ -90,19 +90,20 @@ defineProps<Props>();
                                                             "
                                                         />
                                                     </div>
-                                                    <hr />
+                                                    <hr class="border-input"/>
                                                 </div>
-                                                <hr />
+                                                <hr class="border-input"/>
                                                 <div v-for="orderCategory in order.category_order" :key="orderCategory.id" class="pt-8">
                                                     <div class="pb-2">
                                                         <HeadingSmall title="Training" :description="orderCategory.trainingcategory.name" />
                                                     </div>
-                                                    <div class="pb-2">
+                                                    <div class="pb-8">
                                                         <HeadingSmall title="Hoeveelheid" :description="orderCategory.trainingcategory.price.toLocaleString('nl-NL', {
                                                                     currency: 'EUR',
                                                                     style: 'currency',
                                                                 })" />
                                                     </div>
+                                                    <hr class="border-input"/>
                                                 </div>
                                             </div>
                                             <!--                                            Display if there are orders without any products-->
