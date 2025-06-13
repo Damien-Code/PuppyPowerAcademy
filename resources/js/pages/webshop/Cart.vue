@@ -182,7 +182,15 @@ const deleteAllItems = () => {
         </div>
       </form>
       <div class="flex justify-between pt-4 sm:items-center">
-        <Button @click="$inertia.visit(route('webshop.index'))" class="cursor-pointer">Terug naar webshop</Button>
+
+        
+        <a :href="route('webshop.index')">
+
+          <Button class="cursor-pointer">  
+            Terug naar webshop
+          </Button> 
+        </a>
+
         <div v-if="props.trainings.length > 0 || props.products.length > 0">
 
           <!-- modal -->

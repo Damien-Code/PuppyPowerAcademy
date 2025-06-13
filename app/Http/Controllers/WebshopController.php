@@ -31,7 +31,7 @@ class WebshopController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @author MischaSasse
      */
     public function store(Request $request)
     {
@@ -50,20 +50,19 @@ class WebshopController extends Controller
                'product_id' => $validatedRequest['product_id']
               ])
         ->first();
-        // dd($itemInCart);
         //check if $itemInCart is already in cart, if so update, else create
         if($itemInCart == null){
-
             Cart_Product::create($validatedRequest);
-
         }
         else{
+            $product = Product::where(['id' => $validatedRequest['product_id']])->get()[0];
             //update
             $currentAmount = $itemInCart->amount;
-            $selectedAmount = $validatedRequest['amount'];
-            $newAmount = $currentAmount + $selectedAmount;
+            $selectedAmount = (int)$validatedRequest['amount'];
+            $newAmount = ($currentAmount + $selectedAmount);
+            if($newAmount > $product->stock){$newAmount = $product->stock;}; 
             $itemInCart->update(['amount' => $newAmount]);
-            }
+        }
         return redirect()->route('webshop.index');
     }
 
