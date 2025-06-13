@@ -42,13 +42,13 @@ defineProps<Props>();
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
         <Head title="Training" />
-        
+
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall title="Training" description="Bekijk hier uw bestelde trainingen" />
-                
+
                 <div v-if="trainingCategories && trainingCategories.length > 0">
-                    <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8">
+                    <div v-for="category in trainingCategories" :key="category.id" class="bg-primary rounded-lg p-8 mb-6">
                         <Heading :title="category.name"/>
                         <div v-if="category.trainings && category.trainings.length > 0">
                             <Progress v-model="category.progress_percentage" class="w-2/5 -mt-4 bg-white"/>
