@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\TrainingCategory;
 use App\Models\User;
 // use App\Models\Cart;
+use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Cart_Product;
@@ -83,7 +84,23 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Training::factory(10)->create();
-        Daycare::factory(10)->create();
+        
+
+        $startDate = Carbon::now();
+        $dates = [];
+        // Generate 10 unique dates
+        for ($i = 0; $i < 10; $i++) {
+            $dates[] = $startDate->copy()->addDays($i)->format('Y-m-d');
+        }
+        shuffle($dates); // Randomize the order
+        foreach ($dates as $date) {
+            Daycare::factory()->create([
+                'date' => $date,
+            ]);
+        }
+    
+        // Daycare::factory(10)->create();
+
         Contact::factory(10)->create();
 
         Daycare_Dog::factory(10)->create();

@@ -18,7 +18,7 @@ class DaycareFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->dateTimeBetween('now', '+7 days')->format('Y-m-d'),
+            'date' => now()->format('Y-m-d'),
         ];
     }
 }

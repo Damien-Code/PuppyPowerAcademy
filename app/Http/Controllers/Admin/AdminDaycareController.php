@@ -67,8 +67,7 @@ class AdminDaycareController extends Controller
         $validatedDaycare = $request->validate([
             'date' => 'required|date',
         ]);
-        $oldDaycareId = Daycare::where(['date' => $request->oldDate])->first()->id;
-        
+        $oldDaycare = Daycare::where(['date' => $request->oldDate])->first();
         //get new daycare if exists 
         function getDaycare($validatedDaycare){
             return Daycare::where(['date' => $validatedDaycare['date']])->first();
@@ -77,11 +76,12 @@ class AdminDaycareController extends Controller
         if($daycare == null){
             //create new daycare
             $daycare = Daycare::create($validatedDaycare);
+            
         }
         
        
         //link dog to new daycare date
-        $daycare_dog = Daycare_Dog::where(['dog_id'=>(int)$request->id,'daycare_id'=>$oldDaycareId])->first();
+        $daycare_dog = Daycare_Dog::where(['dog_id'=>(int)$request->id,'daycare_id'=>$oldDaycare->id])->first();
         $daycare_dog->update(['daycare_id'=>$daycare->id]);
      
         
