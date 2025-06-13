@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('daycares', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date');
+            $table->dateTime('date')->unique();
             $table->timestamps();
         });
         
