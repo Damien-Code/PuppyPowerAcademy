@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Integration;
 
 use App\Models\Dog;
 use App\Models\Training;
