@@ -23,10 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::resource('settings/training', SettingsTrainingController::class);
+    Route::resource('settings/training', SettingsTrainingController::class)
+        ->names('settings.training');
 
     Route::post('settings/trainings/{training}/mark-watched', [SettingsTrainingController::class, 'markWatched'])
-        ->name('trainings.markWatched');
+        ->name('settings.training.markWatched');
 
     Route::resource('settings/order-history', OrderHistoryController::class);
 

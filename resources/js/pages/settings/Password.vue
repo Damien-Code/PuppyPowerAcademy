@@ -56,7 +56,7 @@ const updatePassword = () => {
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+                <HeadingSmall title="Wachtwoord wijzigen" description="Zorg ervoor dat je account een lang, willekeurig wachtwoord gebruikt om veilig te blijven" />
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
                     <div class="grid gap-2">

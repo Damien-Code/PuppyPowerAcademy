@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Product, type BreadcrumbItem } from '@/types';
+import { Product, type BreadcrumbItem, TrainingCategory } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/ui/button/Button.vue';
@@ -182,13 +182,15 @@ const deleteAllItems = () => {
         </div>
       </form>
       <div class="flex justify-between pt-4 sm:items-center">
+
         
         <a :href="route('webshop.index')">
 
           <Button class="cursor-pointer">  
             Terug naar webshop
-          </Button> <!-- fix this route -->
+          </Button> 
         </a>
+
         <div v-if="props.trainings.length > 0 || props.products.length > 0">
 
           <!-- modal -->

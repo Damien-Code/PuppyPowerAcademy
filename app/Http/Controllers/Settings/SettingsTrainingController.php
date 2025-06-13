@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cart_Training;
 use App\Models\Dog_Training;
 use App\Models\Training;
 use App\Models\TrainingCategory;
+use App\Models\UserTraining;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -20,15 +20,28 @@ class SettingsTrainingController extends Controller
     {
         /** @var \App\Models\User $user */ // So dogs() isn't undefined, don't delete :)
         $user = Auth::user();
+        
+        // Get watched training IDs for this user (both from user_trainings and dog_trainings)
+        $watchedTrainingIds = collect();
+        
+        // User's direct training progress
+        $userWatchedTrainings = UserTraining::where('user_id', $user->id)
+            ->whereNotNull('watched_at')
+            ->pluck('training_id');
+        
+        $watchedTrainingIds = $watchedTrainingIds->merge($userWatchedTrainings);
+        
+        // Dog training progress (if user has dogs)
         $dogIds = $user->dogs()->pluck('id');
-
-        $watchedTrainingIdsByDogs = collect();
         if (!$dogIds->isEmpty()) {
-            $watchedTrainingIdsByDogs = Dog_Training::whereIn('dog_id', $dogIds)
+            $dogWatchedTrainings = Dog_Training::whereIn('dog_id', $dogIds)
                 ->whereNotNull('watched_at')
-                ->pluck('training_id')
-                ->unique();
+                ->pluck('training_id');
+            
+            $watchedTrainingIds = $watchedTrainingIds->merge($dogWatchedTrainings);
         }
+        
+        $watchedTrainingIds = $watchedTrainingIds->unique();
 
         $categories = TrainingCategory::whereHas('orders', function($query) use ($user) {
             $query->where('orders.user_id', $user->id);
@@ -36,21 +49,21 @@ class SettingsTrainingController extends Controller
         ->with(['trainings'])
         ->get();
 
-        $categoriesWithProgress = $categories->map(function ($category) use ($watchedTrainingIdsByDogs) {
+        $categoriesWithProgress = $categories->map(function ($category) use ($watchedTrainingIds) {
             $totalTrainings = $category->trainings->count();
             $watchedTrainingsCount = 0;
 
             if ($totalTrainings > 0) {
-                $watchedTrainingsCount = $category->trainings->filter(function ($training) use ($watchedTrainingIdsByDogs) {
-                    return $watchedTrainingIdsByDogs->contains($training->id);
+                $watchedTrainingsCount = $category->trainings->filter(function ($training) use ($watchedTrainingIds) {
+                    return $watchedTrainingIds->contains($training->id);
                 })->count();
             }
 
             $progressPercentage = ($totalTrainings > 0) ? ($watchedTrainingsCount / $totalTrainings) * 100 : 0;
 
-            $trainingsData = $category->trainings->map(function($training) use ($watchedTrainingIdsByDogs) {
+            $trainingsData = $category->trainings->map(function($training) use ($watchedTrainingIds) {
                 return array_merge($training->toArray(), [
-                    'watched_by_user_dog' => $watchedTrainingIdsByDogs->contains($training->id)
+                    'watched_by_user' => $watchedTrainingIds->contains($training->id)
                 ]);
             });
 
@@ -66,7 +79,7 @@ class SettingsTrainingController extends Controller
         });
 
         return Inertia::render('settings/Training', [
-            'trainingCategories' => $categoriesWithProgress
+            'trainingCategories' => $categoriesWithProgress,
         ]);
     }
 
@@ -83,30 +96,7 @@ class SettingsTrainingController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = Auth::user();
-
-        if($request->user() == null){return redirect()->route('login');}
-
-        $request->request->add(['cart_id' => $request->user()->id]);
-        $request->request->add(['trainingcategory_id' => $request->category_id]);
-
-        $validatedRequest = $request->validate([
-            'cart_id'    => 'int|required|gt:0',
-            'trainingcategory_id' => 'int|required|gt:0',
-        ]);
-        // dd($validatedRequest['category_id']);
-        $trainingInCart = Cart_Training::
-        where(['cart_id' => $validatedRequest['cart_id'],
-               'trainingcategory_id' => $validatedRequest['trainingcategory_id']
-              ])
-        ->first();
-        // dd($trainingInCart);
-        if($trainingInCart == null){
-            // dd($validatedRequest);
-            Cart_Training::create($validatedRequest);
-        }
-        return Inertia::render('home');
-     
+        //
     }
 
     /**
@@ -147,22 +137,30 @@ class SettingsTrainingController extends Controller
     public function markWatched(Request $request, Training $training)
     {
         $user = $request->user();
+        
+        // Mark as watched for the user directly
+        UserTraining::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'training_id' => $training->id
+            ],
+            ['watched_at' => now()]
+        );
+        
+        // Also mark for dogs if they exist (for backward compatibility)
         $dogIds = $user->dogs()->pluck('id');
-
-        if ($dogIds->isEmpty()) {
-            return redirect()->back()->with('error', 'No dogs found for this user.');
+        if (!$dogIds->isEmpty()) {
+            foreach ($dogIds as $dogId) {
+                Dog_Training::updateOrCreate(
+                    [
+                        'dog_id' => $dogId,
+                        'training_id' => $training->id
+                    ],
+                    ['watched_at' => now()]
+                );
+            }
         }
 
-        foreach ($dogIds as $dogId) {
-            Dog_Training::updateOrCreate(
-                [
-                    'dog_id' => $dogId,
-                    'training_id' => $training->id
-                ],
-                ['watched_at' => now()]
-            );
-        }
-
-        return redirect()->back()->with('success', 'Training marked as watched.');
+        return redirect()->back();
     }
 }

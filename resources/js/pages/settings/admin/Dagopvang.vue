@@ -13,6 +13,7 @@ import { Calendar } from '@/components/ui/calendar'
 import {
     DateFormatter,
     getLocalTimeZone,
+    today
 } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
 import { toast, Toaster } from 'vue-sonner';
@@ -53,6 +54,7 @@ const modalOpen = ref(false);
 const df = new DateFormatter('nl-NL', {
     dateStyle: 'long',
 })
+const minDate = today(getLocalTimeZone())
 
 const openModal = (request: DaycareRequest) => {
     selectedItem.value = request;
@@ -105,7 +107,7 @@ const submit = (formData: any) => {
                     <TableBody>
 
                         <TableRow v-for="request in props.daycareRequests" :key="request.id" class="">
-                          
+
                             <TableCell>{{ request.owner }}</TableCell>
                             <TableCell>{{ request.name }}</TableCell>
                             <TableCell>{{ useDateFormat(request.daycare_date, 'DD-MM-YYYY') }}</TableCell>
@@ -158,14 +160,14 @@ const submit = (formData: any) => {
                                 </Label>
                                 <Popover>
                                     <PopoverTrigger as-child>
-                                        <Button variant="outline">
+                                        <Button variant="outline" class="w-fit">
                                             <CalendarIcon class="mr-2 h-4 w-4" />
                                             {{ form.date ? df.format(form.date.toDate(getLocalTimeZone())) :
                                                 useDateFormat(selectedItem.daycare_date, 'DD-MM-YYYY') }}
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent class="w-auto p-0">
-                                        <Calendar v-model="form.date" initial-focus />
+                                        <Calendar v-model="form.date" :min-value="minDate" initial-focus />
                                     </PopoverContent>
                                 </Popover>
                             </div>

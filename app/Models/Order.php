@@ -27,6 +27,12 @@ class Order extends Model
         return $this->hasMany(Order_Product::class);
     }
 
+    public function categoryOrder()
+    {
+        return $this->hasMany(Category_Order::class);
+    }
+
+
 //msNote: maybe dat deze ook hernoemd moet worden (idk)
     protected $appends = ['totalPrice'];
     /**
@@ -35,9 +41,13 @@ class Order extends Model
      * Returns the total price of the order
      */
     public function getTotalPriceAttribute(){
-        return $this->orderProducts->sum(function($orderProduct){
+        $products = $this->orderProducts->sum(function($orderProduct){
             return $orderProduct->product->price * $orderProduct->amount;
         });
+        $trainings = $this->categoryOrder->sum(function($categoryOrder){
+            return $categoryOrder->trainingcategory->price;
+        });
+        return $products + $trainings;
     }
 
     protected $table = 'orders';

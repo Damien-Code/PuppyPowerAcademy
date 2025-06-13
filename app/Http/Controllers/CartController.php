@@ -165,7 +165,7 @@ class CartController extends Controller
     public function destroy()
     {
         $this->removeItemsFromCart();
-        return redirect()->route('webshop.index');
+        return redirect()->back();
     }
     
     /**

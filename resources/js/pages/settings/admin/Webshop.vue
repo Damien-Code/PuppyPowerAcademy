@@ -14,7 +14,7 @@ import { toast, Toaster } from 'vue-sonner';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Admin webshop',
+        title: 'Webshop beheer',
         href: '/admin/webshop',
     },
 ];
@@ -130,11 +130,11 @@ const deleteProduct = (id: number) => {
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Admin Webshop" />
+        <Head title="Webshop" />
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Admin Webshop" description="Update uw webshop of webshop items" />
+                <HeadingSmall title="Webshop" description="Update uw webshop of webshop items" />
                 <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
                     <div class="px-4 2xl:px-0">
                         <div class="mb-4 grid gap-4 sm:grid-cols-2">
