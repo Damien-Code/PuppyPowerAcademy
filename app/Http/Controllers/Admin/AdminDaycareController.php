@@ -12,14 +12,14 @@ use Inertia\Inertia;
 
 /**
  * @author MischaSasse
- * 
- * 
+ *
+ *
  */
 class AdminDaycareController extends Controller
 {
     /**
      * @author MischaSasse
-     * 
+     *
      * gets the current dogs and the daycares they're linked with
      */
     public function index()
@@ -36,7 +36,7 @@ class AdminDaycareController extends Controller
         ->select("dogs.*", "date as daycare_date", "users.name as owner", "users.email")
             ->orderBy('daycare_date','asc')
             ->get();
-            
+
         return Inertia::render(
             'settings/admin/Dagopvang',
             [
@@ -55,7 +55,7 @@ class AdminDaycareController extends Controller
 
     /**
      * @author MischaSasse
-     * 
+     *
      * gets the new date, if there isnt a daycare with that date, create new daycare with that date
      * afterwards, link daycare_dogs with the new daycare
      */
@@ -63,13 +63,13 @@ class AdminDaycareController extends Controller
     {
         //if dates are the same, validate an impossible scenario for error
         if($request->date == $request->oldDate || Carbon::parse($request->date)->isPast()){$request->validate(['date'=> 'required|integer']);}
-        
+
         $validatedDaycare = $request->validate([
             'date' => 'required|date',
         ]);
         $oldDaycareId = Daycare::where(['date' => $request->oldDate])->first()->id;
-        
-        //get new daycare if exists 
+
+        //get new daycare if exists
         function getDaycare($validatedDaycare){
             return Daycare::where(['date' => $validatedDaycare['date']])->first();
         }
@@ -78,13 +78,13 @@ class AdminDaycareController extends Controller
             //create new daycare
             $daycare = Daycare::create($validatedDaycare);
         }
-        
-       
+
+
         //link dog to new daycare date
         $daycare_dog = Daycare_Dog::where(['dog_id'=>(int)$request->id,'daycare_id'=>$oldDaycareId])->first();
         $daycare_dog->update(['daycare_id'=>$daycare->id]);
-     
-        
+
+
     }
 
     /**

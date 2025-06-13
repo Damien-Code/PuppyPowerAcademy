@@ -12,6 +12,8 @@ import { toast, Toaster } from 'vue-sonner';
 import DialogTrigger from '@/components/ui/dialog/DialogTrigger.vue';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/InputError.vue';
+import { route } from 'ziggy-js';
+
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Cart',
@@ -100,14 +102,6 @@ const deleteAllItems = () => {
                   <tr v-for="product in props.products" :key="product.id">
                     <td class="whitespace-nowrap py-4 md:w-[384px]">
                       <div class="flex items-center gap-4">
-                        <a href="#" class="flex items-center aspect-square w-10 h-10 shrink-0">
-                          <img class="h-auto w-full max-h-full"
-                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
-                          <!-- image -->
-                          <img class="hidden h-auto w-full max-h-full"
-                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                            alt="imac image" />
-                        </a>
                         <!-- name -->
                         <a :href="route('webshop.show', product.id)" class="hover:underline">{{ product.name }}</a>
                       </div>
@@ -126,16 +120,8 @@ const deleteAllItems = () => {
 
                     <td class="whitespace-nowrap py-4 md:w-[384px]">
                       <div class="flex items-center gap-4">
-                        <a href="#" class="flex items-center aspect-square w-10 h-10 shrink-0">
-                          <img class="h-auto w-full max-h-full"
-                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="imac image" />
-                          <!-- image -->
-                          <img class="hidden h-auto w-full max-h-full"
-                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                            alt="imac image" />
-                        </a>
                         <!-- title   -->
-                        <a href="/training" class="hover:underline"><u><b>{{ training.name }}</b></u></a>
+                        <a :href="route('training.index')" class="hover:underline">{{ training.name }}</a>
                       </div>
                     </td>
 
@@ -194,12 +180,12 @@ const deleteAllItems = () => {
       </form>
       <div class="flex justify-between pt-4 sm:items-center">
 
-        
+
         <a :href="route('webshop.index')">
 
-          <Button class="cursor-pointer">  
+          <Button class="cursor-pointer">
             Terug naar webshop
-          </Button> 
+          </Button>
         </a>
 
         <div v-if="props.trainings.length > 0 || props.products.length > 0">
